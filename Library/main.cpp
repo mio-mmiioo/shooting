@@ -4,15 +4,7 @@
 /// </summary>
 /// <author>N.Hanai</author>
 /// 
-#define _CRTDBG_MAP_ALLOC
-#include <crtdbg.h>
-#ifdef _DEBUG
-#define DBG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__);
-#else
-#define DBG_NEW new
-#endif
 
-#define IMGUI 1
 #include <DxLib.h>
 #include "App.h"
 #include "../Source/Screen.h"
@@ -42,12 +34,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	SetUseZBuffer3D(TRUE);
 	SetWriteZBuffer3D(TRUE);
 
-	//SetHookWinProc([](HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) -> LRESULT /*CALLBACK*/
-	//{
-	//	// DxLibとImGuiのウィンドウプロシージャを両立させる
-	//	SetUseHookWinProcReturnValue(FALSE);
-	//	return ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam);
-	//});
 	AppInit();
 
 	while (true) {
@@ -68,9 +54,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	AppRelease();
 
 	DxLib_End();				// ＤＸライブラリ使用の終了処理
-#ifdef _DEBUG
-	_CrtSetReportMode(_CRT_WARN, _CRTDBG_MODE_DEBUG);
-	_CrtDumpMemoryLeaks();
-#endif
+
 	return 0;				// ソフトの終了 
 }

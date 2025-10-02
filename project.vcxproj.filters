@@ -32,6 +32,9 @@
     <ClCompile Include="Source\PlayScene\PlayScene.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Player\Player.cpp">
+      <Filter>PlayScene\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -72,6 +75,9 @@
     <ClInclude Include="Source\PlayScene\PlayScene.h">
       <Filter>PlayScene</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PlayScene\Player\Player.h">
+      <Filter>PlayScene\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">
@@ -85,6 +91,15 @@
     </Filter>
     <Filter Include="PlayScene">
       <UniqueIdentifier>{8123ada4-16d1-40da-a8f3-3f9e93aafb30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Map">
+      <UniqueIdentifier>{4e7a4392-3f03-48af-8e16-a640bc311a52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Enemy">
+      <UniqueIdentifier>{cfe94efb-d98d-4653-a5ee-563cf54bfb3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Player">
+      <UniqueIdentifier>{f51f801b-8e12-43f0-af93-e44b602ed436}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

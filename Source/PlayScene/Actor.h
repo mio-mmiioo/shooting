@@ -4,7 +4,8 @@
 class Actor : public Object3D
 {
 public:
-	Actor(VECTOR3 position, int hModel, int hp);
+	Actor() {};
+	Actor(const VECTOR3& position, float ang, int hModel, int hp);
 	virtual ~Actor();
 	virtual void Update() override;
 	virtual void Draw() override;

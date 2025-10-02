@@ -4,14 +4,14 @@
 class Transform {
 public:
 	// positionなどは他のファイルでも参照できるようにしたいからここに書いてる
-	VECTOR3 position; // 位置
-	VECTOR3 rotation; // 回転
-	VECTOR3 scale;	  // 軸ごとの拡縮
+	VECTOR3 position_; // 位置
+	VECTOR3 rotation_; // 回転
+	VECTOR3 scale_;	  // 軸ごとの拡縮
 	
 	Transform() {
-		position = VECTOR3(0, 0, 0);
-		rotation = VECTOR3(0, 0, 0);
-		scale = VECTOR3(1, 1, 1);
+		position_ = VECTOR3(0, 0, 0);
+		rotation_ = VECTOR3(0, 0, 0);
+		scale_ = VECTOR3(1, 1, 1);
 		rotMatrix_ = MGetIdent();
 		localMatrix_ = MGetIdent();
 	}
@@ -20,11 +20,11 @@ public:
 
 	// 位置・回転・拡縮を使用した行列の計算結果を求める
 	const MATRIX& MakeLocalMatrix() {
-		MATRIX ms = MGetScale(scale);
-		MATRIX mrx = MGetRotX(rotation.x);
-		MATRIX mry = MGetRotY(rotation.y);
-		MATRIX mrz = MGetRotZ(rotation.z);
-		MATRIX mt = MGetTranslate(position);
+		MATRIX ms = MGetScale(scale_);
+		MATRIX mrx = MGetRotX(rotation_.x);
+		MATRIX mry = MGetRotY(rotation_.y);
+		MATRIX mrz = MGetRotZ(rotation_.z);
+		MATRIX mt = MGetTranslate(position_);
 		rotMatrix_ = ms * mrz * mrx * mry;
 		localMatrix_ = rotMatrix_ * mt;
 		return localMatrix_;

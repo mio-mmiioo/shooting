@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "BootScene.h"
 #include "TitleScene.h"
-#include "PlayScene.h"
+#include "PlayScene/PlayScene.h"
 
 SceneBase* SceneFactory::CreateFirst()
 {

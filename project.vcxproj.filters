@@ -14,9 +14,6 @@
     <ClCompile Include="Source\TitleScene.cpp">
       <Filter>TitleScene</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayScene.cpp">
-      <Filter>PlayScene</Filter>
-    </ClCompile>
     <ClCompile Include="Library\ObjectManager.cpp">
       <Filter>Library</Filter>
     </ClCompile>
@@ -28,6 +25,12 @@
     </ClCompile>
     <ClCompile Include="Library\Object3D.cpp">
       <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\Actor.cpp">
+      <Filter>PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\PlayScene.cpp">
+      <Filter>PlayScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -48,9 +51,6 @@
     <ClInclude Include="Source\TitleScene.h">
       <Filter>TitleScene</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PlayScene.h">
-      <Filter>PlayScene</Filter>
-    </ClInclude>
     <ClInclude Include="Library\ObjectManager.h">
       <Filter>Library</Filter>
     </ClInclude>
@@ -65,6 +65,12 @@
     </ClInclude>
     <ClInclude Include="Library\Object3D.h">
       <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Actor.h">
+      <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\PlayScene.h">
+      <Filter>PlayScene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

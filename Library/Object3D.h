@@ -15,6 +15,7 @@ public:
 		rotMatrix_ = MGetIdent();
 		localMatrix_ = MGetIdent();
 	}
+
 	~Transform() {};
 
 	// 位置・回転・拡縮を使用した行列の計算結果を求める
@@ -45,7 +46,7 @@ class Object3D : public GameObject
 public:
 	Object3D();
 	virtual ~Object3D();
-	virtual void Update() override;
+	virtual void Update() override; // ここで重力をかけていきたい
 	virtual void Draw() override;
 	Transform GetTransform() { return transform_; }
 	virtual void SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed); // 移動したい場所, 回転スピード, 動くスピード

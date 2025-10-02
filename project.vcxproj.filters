@@ -35,6 +35,9 @@
     <ClCompile Include="Source\PlayScene\Player\Player.cpp">
       <Filter>PlayScene\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Player\Camera.cpp">
+      <Filter>PlayScene\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -76,6 +79,9 @@
       <Filter>PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Player\Player.h">
+      <Filter>PlayScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Player\Camera.h">
       <Filter>PlayScene\Player</Filter>
     </ClInclude>
   </ItemGroup>

@@ -49,8 +49,9 @@ public:
 	virtual void Update() override; // ここで重力をかけていきたい
 	virtual void Draw() override;
 	Transform GetTransform() { return transform_; }
-	virtual void SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed); // 移動したい場所, 回転スピード, 動くスピード
+	void SetParent(Object3D* _parent) { parent_ = _parent; }
 protected:
 	int hModel_;
 	Transform transform_;
+	Object3D* parent_;
 };

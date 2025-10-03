@@ -44,8 +44,8 @@
     <ClCompile Include="Source\PlayScene\Map\StageObject.cpp">
       <Filter>PlayScene\Map</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayScene\Map\StageOld.cpp">
-      <Filter>PlayScene\Map</Filter>
+    <ClCompile Include="Library\csvReader.cpp">
+      <Filter>Library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +98,9 @@
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Map\StageObject.h">
       <Filter>PlayScene\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\CsvReader.h">
+      <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

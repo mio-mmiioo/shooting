@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "Camera.h"
 
 Player::Player(const VECTOR3& position, float ang, int hp)
 {
@@ -43,12 +44,14 @@ void Player::Update()
 	//velocity→進行方向
 	transform_.position_ += velocity;
 
-	VECTOR3 cameraPosition;
-	VECTOR3 cameraTarget;
+	camera_->SetPlayerPosition(transform_.position_);
 
-	cameraPosition = VECTOR3(0, 300, -300) * MGetRotY(transform_.rotation_.y) + transform_.position_;
-	cameraTarget = transform_.position_ + VECTOR3(0, 150, 0);//150足してるのは、カメラの中心をキャラの足元よりも高くするため
-	SetCameraPositionAndTarget_UpVecY(cameraPosition, cameraTarget);
+	//VECTOR3 cameraPosition;
+	//VECTOR3 cameraTarget;
+
+	//cameraPosition = VECTOR3(0, 300, -300) * MGetRotY(transform_.rotation_.y) + transform_.position_;
+	//cameraTarget = transform_.position_ + VECTOR3(0, 150, 0);//150足してるのは、カメラの中心をキャラの足元よりも高くするため
+	//SetCameraPositionAndTarget_UpVecY(cameraPosition, cameraTarget);
 }
 
 void Player::Draw()

@@ -11,6 +11,7 @@ public:
 	virtual void Draw() override;
 	virtual void Attack() {}; // 攻撃をする
 	virtual void addHp(int num) { hp_ += num; } // 体力の増減はこれで管理
+	virtual void SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed); // 移動したい場所, 回転スピード, 動くスピード
 
 private:
 	int hp_; // 体力

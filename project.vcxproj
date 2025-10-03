@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Library\App.h" />
+    <ClInclude Include="Library\CsvReader.h" />
     <ClInclude Include="Library\GameObject.h" />
     <ClInclude Include="Library\myDxLib.h" />
     <ClInclude Include="Library\Object3D.h" />
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Library\App.cpp" />
+    <ClCompile Include="Library\csvReader.cpp" />
     <ClCompile Include="Library\main.cpp" />
     <ClCompile Include="Library\Object3D.cpp" />
     <ClCompile Include="Library\ObjectManager.cpp" />
@@ -165,7 +167,6 @@
     <ClCompile Include="Source\PlayScene\Actor.cpp" />
     <ClCompile Include="Source\PlayScene\Map\Stage.cpp" />
     <ClCompile Include="Source\PlayScene\Map\StageObject.cpp" />
-    <ClCompile Include="Source\PlayScene\Map\StageOld.cpp" />
     <ClCompile Include="Source\PlayScene\Player\Camera.cpp" />
     <ClCompile Include="Source\PlayScene\Player\Player.cpp" />
     <ClCompile Include="Source\PlayScene\PlayScene.cpp" />

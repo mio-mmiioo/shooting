@@ -1,8 +1,8 @@
 #include "Camera.h"
 
 namespace {
-	static float distance = 500.0f; // キャラからの距離
-	static float lookHeight = 200.0f; // 注視点の高さ
+	static float DISTANCE = 500.0f; // キャラからの距離
+	static float LOOK_HIEGHT = 200.0f; // 注視点の高さ
 	const float CAMERA_SPEED = 0.005f; // カメラの回転速度
 };
 
@@ -10,6 +10,8 @@ Camera::Camera()
 {
 	GetMousePoint(&prevX, &prevY);
 	transform_.rotation_.y = 20.0f * DegToRad;
+
+	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
 }
 
 Camera::~Camera()
@@ -42,7 +44,7 @@ void Camera::Update()
 	VECTOR3 camPos = VECTOR3(0, 0, -500.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
 
 	//ここの書き方もう少しよくかけそう
-	SetCameraPositionAndTarget_UpVecY(lookPosition + VECTOR(camPos) + VECTOR(playerHeadPos), lookPosition + VECTOR(VECTOR3(0, 200.0f, 0)));
+	SetCameraPositionAndTarget_UpVecY(lookPosition_ + VECTOR(camPos) + VECTOR(playerHeadPos), lookPosition_ + VECTOR(VECTOR3(0, 200.0f, 0)));
 
 	prevX = mouseX;
 	prevY = mouseY;
@@ -50,5 +52,5 @@ void Camera::Update()
 
 void Camera::SetPlayerPosition(const VECTOR& pos)
 {
-	lookPosition = pos;
+	lookPosition_ = pos;
 }

@@ -6,11 +6,11 @@ class Camera;
 class Player : public Actor
 {
 public:
-	Player(const VECTOR3& position, float ang, int hModel, int hp);
+	Player(const VECTOR3& position, float ang, int hp);
 	~Player() override;
 	void Update() override;
 	void Draw() override;
 private:
-	Camera* camera;
+	Camera* camera_;
 };
 

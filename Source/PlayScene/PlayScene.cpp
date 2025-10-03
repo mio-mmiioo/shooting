@@ -1,8 +1,13 @@
 #include "PlayScene.h"
+#include "Map/Stage.h"
+#include "Player/Camera.h"
 
 PlayScene::PlayScene()
 {
-	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));//Y‚ªŒÅ’è‚³‚ê‚Ä‚éƒJƒƒ‰
+	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
+	new Camera();
+	new Stage(0);
+
 }
 
 PlayScene::~PlayScene()

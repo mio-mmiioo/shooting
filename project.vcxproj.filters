@@ -38,6 +38,15 @@
     <ClCompile Include="Source\PlayScene\Player\Camera.cpp">
       <Filter>PlayScene\Player</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Map\Stage.cpp">
+      <Filter>PlayScene\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\Map\StageObject.cpp">
+      <Filter>PlayScene\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\Map\StageOld.cpp">
+      <Filter>PlayScene\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -83,6 +92,12 @@
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Player\Camera.h">
       <Filter>PlayScene\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Map\Stage.h">
+      <Filter>PlayScene\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Map\StageObject.h">
+      <Filter>PlayScene\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -145,6 +145,8 @@
     <ClInclude Include="Library\Time.h" />
     <ClInclude Include="Source\BootScene.h" />
     <ClInclude Include="Source\PlayScene\Actor.h" />
+    <ClInclude Include="Source\PlayScene\Map\Stage.h" />
+    <ClInclude Include="Source\PlayScene\Map\StageObject.h" />
     <ClInclude Include="Source\PlayScene\Player\Camera.h" />
     <ClInclude Include="Source\PlayScene\Player\Player.h" />
     <ClInclude Include="Source\PlayScene\PlayScene.h" />
@@ -161,6 +163,9 @@
     <ClCompile Include="Library\Time.cpp" />
     <ClCompile Include="Source\BootScene.cpp" />
     <ClCompile Include="Source\PlayScene\Actor.cpp" />
+    <ClCompile Include="Source\PlayScene\Map\Stage.cpp" />
+    <ClCompile Include="Source\PlayScene\Map\StageObject.cpp" />
+    <ClCompile Include="Source\PlayScene\Map\StageOld.cpp" />
     <ClCompile Include="Source\PlayScene\Player\Camera.cpp" />
     <ClCompile Include="Source\PlayScene\Player\Player.cpp" />
     <ClCompile Include="Source\PlayScene\PlayScene.cpp" />

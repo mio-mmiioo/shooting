@@ -9,6 +9,6 @@ public:
 
 	void SetPlayerPosition(const VECTOR& pos);
 private:
-	VECTOR lookPosition;
+	VECTOR lookPosition_;
 	int prevX, prevY;//前のマウスを取っておく
 };

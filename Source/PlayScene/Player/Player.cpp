@@ -1,6 +1,6 @@
 #include "Player.h"
 
-Player::Player(const VECTOR3& position, float ang, int hModel, int hp)
+Player::Player(const VECTOR3& position, float ang, int hp)
 {
 	transform_.position_ = position;
 
@@ -11,7 +11,7 @@ Player::Player(const VECTOR3& position, float ang, int hModel, int hp)
 	cameraTarget = transform_.position_ + VECTOR3(0, 150, 0);//150足してるのは、カメラの中心をキャラの足元よりも高くするため
 	SetCameraPositionAndTarget_UpVecY(cameraPosition, cameraTarget);
 
-	camera = FindGameObject<Camera>();
+	camera_ = FindGameObject<Camera>();
 }
 
 Player::~Player()

@@ -5,7 +5,7 @@ StageObject::StageObject(const std::string& fileName, const VECTOR3& position, c
 {
 	const std::string folder = "data/model/";
 	hModel_ = MV1LoadModel((folder+fileName+".mv1").c_str());
-	assert(hModel_ > 0);
+	//assert(hModel_ > 0);
 
 	hitModel_ = MV1LoadModel((folder + fileName + "_c.mv1").c_str());
 //	assert(hitModel > 0);

@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "../../../Library/CsvReader.h"
 #include "../Player/Player.h"
+#include "../Enemy/Enemy.h"
 #include "StageObject.h"
 
 Stage::Stage(int number)
@@ -62,6 +63,9 @@ void Stage::ReadMappingData(std::string filename)
 			switch (csv->GetInt(line, 1)) {
 			case 0:
 				new Player(pos, ang, hp);
+				break;
+			case 1:
+				new Enemy(pos, ang, hp);
 				break;
 			}
 		} else if (com == "OBJ") {

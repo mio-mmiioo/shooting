@@ -10,7 +10,7 @@ Camera::Camera()
 {
 	GetMousePoint(&prevX, &prevY);
 	transform_.rotation_.y = 20.0f * DegToRad;
-	lookPosition_ = {0, 0, 0};
+	lookPosition_ = {0, 150, 0};
 	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
 }
 

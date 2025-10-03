@@ -47,6 +47,9 @@
     <ClCompile Include="Library\csvReader.cpp">
       <Filter>Library</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Enemy\Enemy.cpp">
+      <Filter>PlayScene\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -101,6 +104,9 @@
     </ClInclude>
     <ClInclude Include="Library\CsvReader.h">
       <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Enemy\Enemy.h">
+      <Filter>PlayScene\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

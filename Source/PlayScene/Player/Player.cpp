@@ -1,9 +1,12 @@
 #include "Player.h"
 #include "Camera.h"
+#include <assert.h>
 
 Player::Player(const VECTOR3& position, float ang, int hp)
 {
 	transform_.position_ = position;
+	hModel_ = MV1LoadModel("data/model/player.mv1");
+	assert(hModel_ > 0);
 
 	VECTOR3 cameraPosition;
 	VECTOR3 cameraTarget;
@@ -54,6 +57,6 @@ void Player::Update()
 	//SetCameraPositionAndTarget_UpVecY(cameraPosition, cameraTarget);
 }
 
-void Player::Draw()
-{
-}
+//void Player::Draw()
+//{
+//}

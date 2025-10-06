@@ -12,6 +12,7 @@ Camera::Camera()
 	transform_.rotation_.y = 20.0f * DegToRad;
 	lookPosition_ = {0, 150, 0};
 	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
+	state_ = THIRD;
 }
 
 Camera::~Camera()
@@ -19,6 +20,31 @@ Camera::~Camera()
 }
 
 void Camera::Update()
+{
+	switch (state_)
+	{
+	case FIRST:
+		FirstCamera();
+		break;
+	case THIRD:
+		ThirdCamera();
+		break;
+	case FREE:
+		FreeCamera();
+		break;
+	}
+}
+
+void Camera::SetPlayerPosition(const VECTOR& pos)
+{
+	lookPosition_ = pos;
+}
+
+void Camera::FirstCamera()
+{
+}
+
+void Camera::ThirdCamera()
 {
 	int mouseX, mouseY;
 
@@ -48,9 +74,10 @@ void Camera::Update()
 
 	prevX = mouseX;
 	prevY = mouseY;
+
 }
 
-void Camera::SetPlayerPosition(const VECTOR& pos)
+void Camera::FreeCamera()
 {
-	lookPosition_ = pos;
+
 }

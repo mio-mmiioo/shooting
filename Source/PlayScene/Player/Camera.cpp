@@ -21,15 +21,28 @@ Camera::~Camera()
 
 void Camera::Update()
 {
+	if (CheckHitKey(KEY_INPUT_0))
+	{
+		state_ = CAM_STATE::FIRST;
+	}
+	else if (CheckHitKey(KEY_INPUT_1))
+	{
+		state_ = CAM_STATE::THIRD;
+	}
+	else if (CheckHitKey(KEY_INPUT_2))
+	{
+		state_ = CAM_STATE::FREE;
+	}
+
 	switch (state_)
 	{
-	case FIRST:
+	case CAM_STATE::FIRST:
 		FirstCamera();
 		break;
-	case THIRD:
+	case CAM_STATE::THIRD:
 		ThirdCamera();
 		break;
-	case FREE:
+	case CAM_STATE::FREE:
 		FreeCamera();
 		break;
 	}
@@ -74,10 +87,35 @@ void Camera::ThirdCamera()
 
 	prevX = mouseX;
 	prevY = mouseY;
-
 }
 
 void Camera::FreeCamera()
 {
 
+	//カメラの回転コメント解除するとカメラも回転しちゃう→使う場合は使うボタンを変える
+	float RotSpeed = 3.0f; //回転の速さ(度）
+	if (CheckHitKey(KEY_INPUT_R))
+	{
+		freeTransform_.rotation_.y -= RotSpeed * DX_PI_F / 180.0f;
+	}
+	else if (CheckHitKey(KEY_INPUT_L))
+	{
+		freeTransform_.rotation_.y += RotSpeed * DX_PI_F / 180.0f;
+	}
+
+	//xy, yzはあとで考える
+
+	//このwhile は if でもいいけど、while が必要なゲームもあるから、、今回はカメラ自分で動かす予定だから考えなくてもよい
+	while (freeTransform_.rotation_.y >= DX_PI_F) {
+		freeTransform_.rotation_.y -= 2.0f * DX_PI_F;
+	}
+	while (freeTransform_.rotation_.y < -DX_PI_F) {
+		freeTransform_.rotation_.y += 2.0f * DX_PI_F;
+	}
+
+	//上で考えた角度をもとに長さをセットする
+	//target.x = position.x + 100 * cos(directionXZ);
+	//target.z = position.z + 100 * sin(directionXZ);
+
+	//SetCameraPositionAndTarget_UpVecY(cameraPosition, target);//カメラの位置をセット
 }

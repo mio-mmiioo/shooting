@@ -18,9 +18,14 @@ private:
 		FREE   // 自由に動かせるカメラ
 	};
 
-	CAM_STATE state_;
+	CAM_STATE state_; // カメラの状態
 
-	void FirstCamera();
-	void ThirdCamera();
-	void FreeCamera();
+	// 一人称で使用する変数
+	Transform firstTransform_;
+	Transform thirdTransform_;
+	Transform freeTransform_;
+
+	void FirstCamera();		// 一人称カメラ
+	void ThirdCamera();		// 三人称カメラ
+	void FreeCamera();		// 自由に動かせるカメラ
 };

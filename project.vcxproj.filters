@@ -50,6 +50,9 @@
     <ClCompile Include="Source\PlayScene\Enemy\Enemy.cpp">
       <Filter>PlayScene\Enemy</Filter>
     </ClCompile>
+    <ClCompile Include="Library\Input.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -107,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Enemy\Enemy.h">
       <Filter>PlayScene\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Input.h">
+      <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

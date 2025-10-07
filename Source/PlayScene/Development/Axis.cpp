@@ -25,5 +25,7 @@ void Axis::Draw()
 	VECTOR3 pos2 = { -100, 0,  100 };
 	VECTOR3 pos3 = { 100,  0,  100 };
 	VECTOR3 pos4 = { 100,  0, -100 };
-	DrawTriangle3D()
+	int color = GetColor(100, 150, 100);
+	DrawTriangle3D(pos1, pos2, pos3, color, TRUE);
+	DrawTriangle3D(pos3, pos4, pos1, color, TRUE);
 }

@@ -15,7 +15,8 @@ private:
 	enum CAM_STATE {
 		FIRST, // 一人称視点
 		THIRD, // 三人称視点
-		FREE   // 自由に動かせるカメラ
+		FREE,  // 自由に動かせるカメラ
+		FIX	   // 固定カメラ
 	};
 
 	CAM_STATE state_; // カメラの状態
@@ -25,7 +26,10 @@ private:
 	Transform thirdTransform_;
 	Transform freeTransform_;
 
+	void SetFreeCamera(); // 自由に動かせるカメラを定位置にセットする
+
 	void FirstCamera();		// 一人称カメラ
 	void ThirdCamera();		// 三人称カメラ
 	void FreeCamera();		// 自由に動かせるカメラ
+	void FixCamera();		// 固定カメラ
 };

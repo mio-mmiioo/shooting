@@ -1,6 +1,7 @@
 #include "PlayScene.h"
 #include "Map/Stage.h"
 #include "Player/Camera.h"
+#include "Player/Player.h" // プレイヤーが描画されているか確認するように入れてる
 #include "Development/Axis.h"
 
 PlayScene::PlayScene()
@@ -8,7 +9,8 @@ PlayScene::PlayScene()
 	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
 	new Axis();
 	new Camera();
-	new Stage(1);
+	new Player(VECTOR3(0, 0, 0), 0, 10);
+	//new Stage(1);
 
 }
 

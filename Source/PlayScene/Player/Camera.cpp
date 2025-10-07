@@ -1,4 +1,5 @@
 #include "Camera.h"
+#include "../../../Library/Input.h"
 
 namespace {
 	static float DISTANCE = 500.0f; // キャラからの距離
@@ -21,17 +22,21 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	if (CheckHitKey(KEY_INPUT_0))
+	if (Input::IsKeyDown(KEY_INPUT_0))
 	{
 		state_ = CAM_STATE::FIRST;
 	}
-	else if (CheckHitKey(KEY_INPUT_1))
+	else if (Input::IsKeyDown(KEY_INPUT_1))
 	{
 		state_ = CAM_STATE::THIRD;
 	}
-	else if (CheckHitKey(KEY_INPUT_2))
+	else if (Input::IsKeyDown(KEY_INPUT_2))
 	{
 		state_ = CAM_STATE::FREE;
+	}
+	else if (Input::IsKeyDown(KEY_INPUT_3))
+	{
+		state_ = CAM_STATE::FIX;
 	}
 
 	switch (state_)
@@ -44,6 +49,9 @@ void Camera::Update()
 		break;
 	case CAM_STATE::FREE:
 		FreeCamera();
+		break;
+	case CAM_STATE::FIX:
+		FixCamera();
 		break;
 	}
 }
@@ -91,21 +99,31 @@ void Camera::ThirdCamera()
 
 void Camera::FreeCamera()
 {
+	// 移動
+	float moveSpeed = 3.0f;
+	if (Input::IsKeepKeyDown(KEY_INPUT_UP))
+	{
+		freeTransform_.position_.y += moveSpeed;
+	}
+	else if (Input::IsKeepKeyDown(KEY_INPUT_DOWN))
+	{
+		freeTransform_.position_.y -= moveSpeed;
+	}
 
-	//カメラの回転コメント解除するとカメラも回転しちゃう→使う場合は使うボタンを変える
+	// カメラの回転コメント解除するとカメラも回転しちゃう→使う場合は使うボタンを変える
 	float RotSpeed = 3.0f; //回転の速さ(度）
-	if (CheckHitKey(KEY_INPUT_R))
+	if (Input::IsKeepKeyDown(KEY_INPUT_R))
 	{
 		freeTransform_.rotation_.y -= RotSpeed * DX_PI_F / 180.0f;
 	}
-	else if (CheckHitKey(KEY_INPUT_L))
+	else if (Input::IsKeepKeyDown(KEY_INPUT_L))
 	{
 		freeTransform_.rotation_.y += RotSpeed * DX_PI_F / 180.0f;
 	}
 
-	//xy, yzはあとで考える
+	// xy, yzはあとで考える
 
-	//このwhile は if でもいいけど、while が必要なゲームもあるから、、今回はカメラ自分で動かす予定だから考えなくてもよい
+	// このwhile は if でもいいけど、while が必要なゲームもあるから、、今回はカメラ自分で動かす予定だから考えなくてもよい
 	while (freeTransform_.rotation_.y >= DX_PI_F) {
 		freeTransform_.rotation_.y -= 2.0f * DX_PI_F;
 	}
@@ -113,9 +131,17 @@ void Camera::FreeCamera()
 		freeTransform_.rotation_.y += 2.0f * DX_PI_F;
 	}
 
-	//上で考えた角度をもとに長さをセットする
-	//target.x = position.x + 100 * cos(directionXZ);
-	//target.z = position.z + 100 * sin(directionXZ);
+	// 上で考えた角度をもとに長さをセットする
+	VECTOR tar;
+	tar.x = freeTransform_.position_.x + 100 * cos(freeTransform_.rotation_.y);
+	tar.z = freeTransform_.position_.z + 100 * sin(freeTransform_.rotation_.y);
 
-	//SetCameraPositionAndTarget_UpVecY(cameraPosition, target);//カメラの位置をセット
+	SetCameraPositionAndTarget_UpVecY(freeTransform_.position_, tar);//カメラの位置をセット
+}
+
+void Camera::FixCamera()
+{
+	VECTOR pos = { 0, 0, -300 };
+	VECTOR tar = { 0, 0, 0 };
+	SetCameraPositionAndTarget_UpVecY(pos, tar);//カメラの位置をセット
 }

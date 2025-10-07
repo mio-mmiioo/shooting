@@ -9,7 +9,7 @@ public:
 
 	void SetPlayerPosition(const VECTOR& pos);
 private:
-	VECTOR lookPosition_;
+	VECTOR3 lookPosition_;
 	int prevX, prevY;//前のマウスを取っておく
 
 	enum CAM_STATE {
@@ -21,7 +21,9 @@ private:
 
 	CAM_STATE state_; // カメラの状態
 
-	// 一人称で使用する変数
+	VECTOR3 cameraPosition_; // 最終的にセットされる視点の位置
+	VECTOR3 targetPosition_; // 最終的にセットされる注視点の位置
+
 	Transform firstTransform_;
 	Transform thirdTransform_;
 	Transform freeTransform_;

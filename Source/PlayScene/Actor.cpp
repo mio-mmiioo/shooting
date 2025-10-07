@@ -1,5 +1,9 @@
 #include "Actor.h"
 
+Actor::Actor()
+{
+}
+
 Actor::Actor(const VECTOR3& position, float ang, int hModel, int hp)
 	:isAlive_(true),
 	hp_(hp)

@@ -11,10 +11,13 @@ Camera::Camera()
 {
 	GetMousePoint(&prevX, &prevY);
 	transform_.rotation_.y = 20.0f * DegToRad;
-	lookPosition_ = {0, 150, 0};
+	lookPosition_ = VECTOR3(0, 150, 0);
 	freeDistance_ = 100.0f;
-	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
-	state_ = THIRD;
+
+	cameraPosition_ = VECTOR3(50, 100, -300);
+	targetPosition_ = VECTOR3(0, 0, 0);
+	SetCameraPositionAndTarget_UpVecY(cameraPosition_, targetPosition_);
+	state_ = CAM_STATE::FIX;
 }
 
 Camera::~Camera()
@@ -23,24 +26,29 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	if (Input::IsKeyDown(KEY_INPUT_0))
+	// カメラのセットを切り替える
 	{
-		state_ = CAM_STATE::FIRST;
-	}
-	else if (Input::IsKeyDown(KEY_INPUT_1))
-	{
-		state_ = CAM_STATE::THIRD;
-	}
-	else if (Input::IsKeyDown(KEY_INPUT_2))
-	{
-		state_ = CAM_STATE::FREE;
-		SetFreeCamera();
-	}
-	else if (Input::IsKeyDown(KEY_INPUT_3))
-	{
-		state_ = CAM_STATE::FIX;
+		if (Input::IsKeyDown(KEY_INPUT_0))
+		{
+			state_ = CAM_STATE::FIRST;
+		}
+		else if (Input::IsKeyDown(KEY_INPUT_1))
+		{
+			state_ = CAM_STATE::THIRD;
+		}
+		else if (Input::IsKeyDown(KEY_INPUT_2))
+		{
+			state_ = CAM_STATE::FREE;
+			SetFreeCamera();
+		}
+		else if (Input::IsKeyDown(KEY_INPUT_3))
+		{
+			state_ = CAM_STATE::FIX;
+		}
+
 	}
 
+	// カメラ状態によって、セットする位置を調整
 	switch (state_)
 	{
 	case CAM_STATE::FIRST:
@@ -56,6 +64,9 @@ void Camera::Update()
 		FixCamera();
 		break;
 	}
+
+	// カメラの位置をセット
+	SetCameraPositionAndTarget_UpVecY(cameraPosition_, targetPosition_);
 }
 
 void Camera::SetPlayerPosition(const VECTOR& pos)
@@ -65,12 +76,12 @@ void Camera::SetPlayerPosition(const VECTOR& pos)
 
 void Camera::SetFreeCamera()
 {
-	VECTOR pos = { 0, 0, -300 };
-	SetCameraPositionAndTarget_UpVecY(pos, lookPosition_);//カメラの位置をセット
+	freeTransform_.position_ = VECTOR3(0, 0, -300);
 }
 
 void Camera::FirstCamera()
 {
+	// プレイヤーの位置がきちんと把握できてから書く予定
 }
 
 void Camera::ThirdCamera()
@@ -98,8 +109,8 @@ void Camera::ThirdCamera()
 	VECTOR3 playerHeadPos = VECTOR3(0, 150.0f, 0);
 	VECTOR3 camPos = VECTOR3(0, 0, -500.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
 
-	//ここの書き方もう少しよくかけそう
-	SetCameraPositionAndTarget_UpVecY(lookPosition_ + VECTOR(camPos) + VECTOR(playerHeadPos), lookPosition_ + VECTOR(VECTOR3(0, 200.0f, 0)));
+	cameraPosition_ = lookPosition_ + camPos + playerHeadPos;
+	targetPosition_ = lookPosition_ + VECTOR3(0, 200.0f, 0);
 
 	prevX = mouseX;
 	prevY = mouseY;
@@ -107,25 +118,6 @@ void Camera::ThirdCamera()
 
 void Camera::FreeCamera()
 {
-	// 移動
-	float moveSpeed = 3.0f;
-	if (Input::IsKeepKeyDown(KEY_INPUT_UP))
-	{
-		freeTransform_.position_.y += moveSpeed;
-	}
-	else if (Input::IsKeepKeyDown(KEY_INPUT_DOWN))
-	{
-		freeTransform_.position_.y -= moveSpeed;
-	}
-	else if (Input::IsKeepKeyDown(KEY_INPUT_RIGHT))
-	{
-		freeDistance_ += 1.0f;
-	}
-	else if (Input::IsKeepKeyDown(KEY_INPUT_LEFT))
-	{
-		freeDistance_ -= 1.0f;
-	}
-
 	// カメラの回転コメント解除するとカメラも回転しちゃう→使う場合は使うボタンを変える
 	float RotSpeed = 3.0f; //回転の速さ(度）
 	if (Input::IsKeepKeyDown(KEY_INPUT_R))
@@ -137,7 +129,29 @@ void Camera::FreeCamera()
 		freeTransform_.rotation_.y += RotSpeed * DX_PI_F / 180.0f;
 	}
 
-	// xy, yzはあとで考える
+	// 移動
+	{
+		float moveSpeed = 3.0f;
+		
+		// 上下
+		if (Input::IsKeepKeyDown(KEY_INPUT_UP))
+		{
+			freeTransform_.position_.y += moveSpeed;
+		}
+		else if (Input::IsKeepKeyDown(KEY_INPUT_DOWN))
+		{
+			freeTransform_.position_.y -= moveSpeed;
+		}
+
+		VECTOR3 velocity;// 移動ベクトル
+		if (CheckHitKey(KEY_INPUT_G))
+		{
+			velocity = VECTOR3(0, 0, 1) * moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+		}
+
+		//velocity→進行方向
+		freeTransform_.position_ += velocity;
+	}
 
 	// このwhile は if でもいいけど、while が必要なゲームもあるから、、今回はカメラ自分で動かす予定だから考えなくてもよい
 	while (freeTransform_.rotation_.y >= DX_PI_F) {
@@ -147,16 +161,18 @@ void Camera::FreeCamera()
 		freeTransform_.rotation_.y += 2.0f * DX_PI_F;
 	}
 
-	// 上で考えた角度をもとに長さをセットする
+	// 上で考えた角度をもとに長さをセットする 多分ここがうまくいってない
 	VECTOR3 tar;
 	tar.x = freeTransform_.position_.x + freeDistance_ * cos(freeTransform_.rotation_.y);
 	tar.z = freeTransform_.position_.z + freeDistance_ * sin(freeTransform_.rotation_.y);
-	SetCameraPositionAndTarget_UpVecY(freeTransform_.position_, tar);//カメラの位置をセット
+
+	// カメラの位置を代入
+	cameraPosition_ = freeTransform_.position_;
+	targetPosition_ = tar;
 }
 
 void Camera::FixCamera()
 {
-	VECTOR pos = { 0, 0, -300 };
-	VECTOR tar = { 0, 0, 0 };
-	SetCameraPositionAndTarget_UpVecY(pos, tar);//カメラの位置をセット
+	cameraPosition_ = VECTOR3(0, 0, -300);
+	targetPosition_ = VECTOR3(0, 0, 0);
 }

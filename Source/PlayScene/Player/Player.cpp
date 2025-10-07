@@ -8,13 +8,6 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	hModel_ = MV1LoadModel("data/model/player.mv1");
 	assert(hModel_ > 0);
 
-	VECTOR3 cameraPosition;
-	VECTOR3 cameraTarget;
-
-	cameraPosition = VECTOR3(0, 300, -300) * MGetRotY(transform_.rotation_.y) + transform_.position_;
-	cameraTarget = transform_.position_ + VECTOR3(0, 150, 0);//150足してるのは、カメラの中心をキャラの足元よりも高くするため
-	SetCameraPositionAndTarget_UpVecY(cameraPosition, cameraTarget);
-
 	camera_ = FindGameObject<Camera>();
 }
 
@@ -48,11 +41,17 @@ void Player::Update()
 	transform_.position_ += velocity;
 
 	camera_->SetPlayerPosition(transform_.position_);
+}
 
-	//VECTOR3 cameraPosition;
-	//VECTOR3 cameraTarget;
-
-	//cameraPosition = VECTOR3(0, 300, -300) * MGetRotY(transform_.rotation_.y) + transform_.position_;
-	//cameraTarget = transform_.position_ + VECTOR3(0, 150, 0);//150足してるのは、カメラの中心をキャラの足元よりも高くするため
-	//SetCameraPositionAndTarget_UpVecY(cameraPosition, cameraTarget);
+void Player::Draw()
+{
+	if (hModel_ > 0)
+	{
+		MV1SetPosition(hModel_, transform_.position_);
+		MV1DrawModel(hModel_);
+		if (MV1DrawModel(hModel_) != 0)
+		{
+			// エラー
+		}
+	}
 }

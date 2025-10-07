@@ -9,6 +9,7 @@ public:
 	Player(const VECTOR3& position, float ang, int hp);
 	~Player() override;
 	void Update() override;
+	void Draw() override;
 private:
 	Camera* camera_;
 };

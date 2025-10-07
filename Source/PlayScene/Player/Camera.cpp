@@ -12,6 +12,7 @@ Camera::Camera()
 	GetMousePoint(&prevX, &prevY);
 	transform_.rotation_.y = 20.0f * DegToRad;
 	lookPosition_ = {0, 150, 0};
+	freeDistance_ = 100.0f;
 	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
 	state_ = THIRD;
 }
@@ -33,6 +34,7 @@ void Camera::Update()
 	else if (Input::IsKeyDown(KEY_INPUT_2))
 	{
 		state_ = CAM_STATE::FREE;
+		SetFreeCamera();
 	}
 	else if (Input::IsKeyDown(KEY_INPUT_3))
 	{
@@ -59,6 +61,12 @@ void Camera::Update()
 void Camera::SetPlayerPosition(const VECTOR& pos)
 {
 	lookPosition_ = pos;
+}
+
+void Camera::SetFreeCamera()
+{
+	VECTOR pos = { 0, 0, -300 };
+	SetCameraPositionAndTarget_UpVecY(pos, lookPosition_);//カメラの位置をセット
 }
 
 void Camera::FirstCamera()
@@ -109,6 +117,14 @@ void Camera::FreeCamera()
 	{
 		freeTransform_.position_.y -= moveSpeed;
 	}
+	else if (Input::IsKeepKeyDown(KEY_INPUT_RIGHT))
+	{
+		freeDistance_ += 1.0f;
+	}
+	else if (Input::IsKeepKeyDown(KEY_INPUT_LEFT))
+	{
+		freeDistance_ -= 1.0f;
+	}
 
 	// カメラの回転コメント解除するとカメラも回転しちゃう→使う場合は使うボタンを変える
 	float RotSpeed = 3.0f; //回転の速さ(度）
@@ -132,10 +148,9 @@ void Camera::FreeCamera()
 	}
 
 	// 上で考えた角度をもとに長さをセットする
-	VECTOR tar;
-	tar.x = freeTransform_.position_.x + 100 * cos(freeTransform_.rotation_.y);
-	tar.z = freeTransform_.position_.z + 100 * sin(freeTransform_.rotation_.y);
-
+	VECTOR3 tar;
+	tar.x = freeTransform_.position_.x + freeDistance_ * cos(freeTransform_.rotation_.y);
+	tar.z = freeTransform_.position_.z + freeDistance_ * sin(freeTransform_.rotation_.y);
 	SetCameraPositionAndTarget_UpVecY(freeTransform_.position_, tar);//カメラの位置をセット
 }
 

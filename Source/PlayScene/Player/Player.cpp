@@ -56,7 +56,3 @@ void Player::Update()
 	//cameraTarget = transform_.position_ + VECTOR3(0, 150, 0);//150足してるのは、カメラの中心をキャラの足元よりも高くするため
 	//SetCameraPositionAndTarget_UpVecY(cameraPosition, cameraTarget);
 }
-
-//void Player::Draw()
-//{
-//}

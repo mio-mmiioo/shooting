@@ -20,10 +20,6 @@ void Actor::Update()
 	}
 }
 
-void Actor::Draw()
-{
-}
-
 void Actor::SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed)
 {
 	VECTOR3 toGo = toPosition - transform_.position_;

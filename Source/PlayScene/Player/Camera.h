@@ -26,6 +26,8 @@ private:
 	Transform thirdTransform_;
 	Transform freeTransform_;
 
+	float freeDistance_; // カメラとターゲットの距離
+
 	void SetFreeCamera(); // 自由に動かせるカメラを定位置にセットする
 
 	void FirstCamera();		// 一人称カメラ

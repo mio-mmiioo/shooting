@@ -34,7 +34,7 @@ void Player::Update()
 	VECTOR3 velocity;// 移動ベクトル
 	if (CheckHitKey(KEY_INPUT_W))
 	{
-		velocity = VECTOR3(0, 0, 1) * 5.0f * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+		velocity = VECTOR3(0, 0, 1) * 0.5f * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 	}
 
 	//velocity→進行方向

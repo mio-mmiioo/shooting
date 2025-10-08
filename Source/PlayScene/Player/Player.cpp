@@ -31,12 +31,16 @@ void Player::Update()
 
 	//移動
 
-	VECTOR3 velocity;// 移動ベクトル
+	VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
+	velocity = VECTOR3(0, 0, 1) * 0.5f * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+
 	if (CheckHitKey(KEY_INPUT_W))
 	{
-		velocity = VECTOR3(0, 0, 1) * 0.5f * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
-		//velocity→進行方向
 		transform_.position_ += velocity;
+	}
+	else if (CheckHitKey(KEY_INPUT_S))
+	{
+		transform_.position_ -= velocity;
 	}
 
 
@@ -47,6 +51,6 @@ void Player::Draw()
 {
 	Object3D::Draw();
 
-	// 向いてる方向を示す
+	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
 	DrawLine3D(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
 }

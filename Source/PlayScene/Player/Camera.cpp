@@ -3,7 +3,7 @@
 
 namespace {
 	static float DISTANCE = 500.0f; // キャラからの距離
-	static float LOOK_HIEGHT = 200.0f; // 注視点の高さ
+	static float LOOK_HIEGHT = 50.0f; // 視点の高さ
 	const float CAMERA_SPEED = 0.01f; // カメラの回転速度
 };
 
@@ -80,8 +80,8 @@ void Camera::SetFreeCamera()
 
 void Camera::FirstCamera()
 {
-	// プレイヤーの位置がきちんと把握できてから書く予定
-	
+	cameraPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0); // 目線の高さに合わせてる
+	targetPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0) + VECTOR3(0, 0, 1) * 1000 * MGetRotY(look_.rotation_.y);
 }
 
 void Camera::ThirdCamera()

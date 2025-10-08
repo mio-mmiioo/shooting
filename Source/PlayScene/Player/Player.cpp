@@ -40,13 +40,13 @@ void Player::Update()
 	}
 
 
-	camera_->SetPlayerPosition(transform_.position_); // プレイヤーの位置をカメラにセット
+	camera_->SetPlayerPosition(transform_); // プレイヤーの情報をカメラにセット
 }
 
 void Player::Draw()
 {
 	Object3D::Draw();
 
-	// ここに向いてる方向に〇を表示したい
-	//DrawLine3D(transform_.position_, )
+	// 向いてる方向を示す
+	DrawLine3D(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
 }

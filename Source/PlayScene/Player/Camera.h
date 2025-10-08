@@ -7,9 +7,9 @@ public:
 	~Camera();
 	void Update() override;
 
-	void SetPlayerPosition(const VECTOR& pos);
+	void SetPlayerPosition(const Transform& transform);
 private:
-	VECTOR3 lookPosition_;
+	Transform look_;
 	int prevX, prevY;//前のマウスを取っておく
 
 	enum CAM_STATE {

@@ -4,6 +4,7 @@
 #include "../Player/Player.h"
 #include "../Enemy/Enemy.h"
 #include "StageObject.h"
+#include "../Actor.h"
 
 Stage::Stage(int number)
 {
@@ -30,7 +31,23 @@ bool Stage::CollideLine(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit) 
 	for (StageObject* ob : objs) 
 	{
 		VECTOR3 ret;
-		if (ob->CollideLine(pos1, pos2, &ret)) 
+		if (ob->Object3D::CollideLine(pos1, pos2, &ret)) 
+		{
+			found = true;
+			VECTOR3 v = pos1 - ret;
+			float len = v.Size();
+			if (len < nowVal)
+			{
+				nowVal = len;
+				now = ret;
+			}
+		}
+	}
+	std::list<Actor*> act = FindGameObjects<Actor>();
+	for (Actor* ac : act)
+	{
+		VECTOR3 ret;
+		if (ac->Object3D::CollideLine(pos1, pos2, &ret))
 		{
 			found = true;
 			VECTOR3 v = pos1 - ret;

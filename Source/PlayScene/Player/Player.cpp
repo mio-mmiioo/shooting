@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include <assert.h>
 #include "../Map/Stage.h"
+#include "../../../Library/Input.h"
 
 namespace PLAYER
 {
@@ -37,11 +38,11 @@ void Player::Update()
 
 	//回転
 	{
-		if (CheckHitKey(KEY_INPUT_D))
+		if (Input::IsKeepKeyDown(KEY_INPUT_D))
 		{
 			transform_.rotation_.y += 3 * DegToRad;
 		}
-		if (CheckHitKey(KEY_INPUT_A))
+		if (Input::IsKeepKeyDown(KEY_INPUT_A))
 		{
 			transform_.rotation_.y -= 3 * DegToRad;
 		}
@@ -52,18 +53,17 @@ void Player::Update()
 	VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
 	velocity = VECTOR3(0, 0, 1) * 5.0f * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 
-	if (CheckHitKey(KEY_INPUT_W))
+	if (Input::IsKeepKeyDown(KEY_INPUT_W))
 	{
 		transform_.position_ += velocity;
 	}
-	else if (CheckHitKey(KEY_INPUT_S))
+	else if (Input::IsKeepKeyDown(KEY_INPUT_S))
 	{
 		transform_.position_ -= velocity;
 	}
 
 	VECTOR3 hit;
 	VECTOR3 startPos = transform_.position_ + VECTOR3(0, 180, 0);
-
 	DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
 
 	if (stage_->CollideLine(startPos, wPointerPos_, &hit))

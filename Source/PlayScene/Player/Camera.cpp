@@ -3,7 +3,7 @@
 
 namespace {
 	static float DISTANCE = 500.0f; // キャラからの距離
-	static float LOOK_HIEGHT = 50.0f; // 視点の高さ
+	static float LOOK_HIEGHT = 180.0f; // 視点の高さ
 	const float CAMERA_SPEED = 0.01f; // カメラの回転速度
 };
 

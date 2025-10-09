@@ -5,7 +5,7 @@
 Player::Player(const VECTOR3& position, float ang, int hp)
 {
 	transform_.position_ = position;
-	hModel_ = MV1LoadModel("data/model/player01.mv1");
+	hModel_ = MV1LoadModel("data/model/player02.mv1");
 	assert(hModel_ > 0);
 
 	camera_ = FindGameObject<Camera>();
@@ -32,7 +32,7 @@ void Player::Update()
 	//移動
 
 	VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-	velocity = VECTOR3(0, 0, 1) * 0.5f * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+	velocity = VECTOR3(0, 0, 1) * 5.0f * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 
 	if (CheckHitKey(KEY_INPUT_W))
 	{
@@ -52,5 +52,6 @@ void Player::Draw()
 	Object3D::Draw();
 
 	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
-	DrawLine3D(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
+	VECTOR3 addPlayerHeight = { 0, 180, 0 };
+	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
 }

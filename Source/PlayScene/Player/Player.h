@@ -22,5 +22,8 @@ private:
 	int hImagePointerHit_;						// 敵に銃弾が当たる場合のポインター
 	int imagePointerHitX_, imagePointerHitY_;	// 画像のサイズを代入する変数
 
+	// 銃弾関連
+	float reloadTimer_;
+
 };
 

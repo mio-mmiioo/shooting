@@ -4,12 +4,13 @@
 
 namespace BULLET
 {
-	const int MAX_SETTING_BULET = 16; // 銃に装填できる最大数
-	int remainingAll = 5;//残弾数
-	int remainingSetting = MAX_SETTING_BULET;//銃に装てんされている残弾数　名前後でわかるように変えて
+	const int MAX_SETTING_BULET = 16;			// 銃に装填できる最大数
+	int remainingAll = 5;						// 残弾数
+	int remainingSetting = MAX_SETTING_BULET;	// 銃に装てんされている残弾数　名前後でわかるように変えて
 
-	int hImageGauge; // 銃弾の装填数のゲージ
-	int hImageGaugeRemaining; // 残弾数を示すのに使用する
+	int hImageGauge;							// 銃弾の装填数のゲージ
+	int hImageGaugeRemaining;					// 残弾数を示すゲージ
+	int hImageReload;							// リロードを示すゲージ
 }
 
 void BULLET::Init()
@@ -18,6 +19,8 @@ void BULLET::Init()
 	assert(hImageGauge > 0);
 	hImageGaugeRemaining = LoadGraph("data/image/bulletUi02.png");
 	assert(hImageGaugeRemaining > 0);
+	hImageReload = LoadGraph("data/image/reload");
+	assert(hImageReload);
 
 }
 
@@ -29,11 +32,9 @@ void BULLET::Update()
 void BULLET::Draw()
 {
 	DrawRemainingSetting(remainingSetting); // 残弾数のゲージの表示
-
-	DrawFormatString(10, 100, GetColor(255, 255, 255), "tamesi");
 }
 
-//残弾数をGetして残弾数の分,表示する円ゲージ
+// 残弾数をGetして残弾数の分,表示する円ゲージ
 void BULLET::DrawRemainingSetting(int currentRemainingSetting)
 {
 	float remaining = 115.0 - (currentRemainingSetting * 5);
@@ -42,11 +43,21 @@ void BULLET::DrawRemainingSetting(int currentRemainingSetting)
 	DrawCircleGauge(100, 200, 115.0, hImageGaugeRemaining, remaining, 1.0, 0, 0);
 }
 
+// リロードの時間を示すゲージ
+void BULLET::DrawReloadCircle(int mouseX, int mouseY, float timer)
+{
+	DrawCircleGauge(mouseX, mouseY, 100.0, hImageReload, 100 - timer, 1.0, 0, 0);
+}
+
 void BULLET::OutBullet()
 {
 	if (remainingSetting > 0)
 	{
 		remainingSetting -= 1;
+	}
+	else
+	{
+		// 銃弾がない場合の処理
 	}
 }
 

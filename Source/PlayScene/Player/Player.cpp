@@ -8,6 +8,7 @@
 namespace PLAYER
 {
 	VECTOR3 G = { 0, 9.8, 0 };
+	const float RELOAD_TIME = 5.0f;
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -16,6 +17,7 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	hModel_ = MV1LoadModel("data/model/player02.mv1");
 	assert(hModel_ > 0);
 
+	// ポインター
 	// 標準時のポインター
 	hImagePointer_ = LoadGraph("data/image/pointer1.png");
 	assert(hImagePointer_);
@@ -25,14 +27,17 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	assert(hImagePointer_);
 	GetGraphSize(hImagePointer_, &imagePointerHitX_, &imagePointerHitY_);
 
-	camera_ = FindGameObject<Camera>();
-	stage_ = FindGameObject<Stage>();
-	time_ = 0;
-
+	GetMousePoint(&mouseX_, &mouseY_);
 
 	isHit_ = false;
 
+	// 銃弾関連
+	reloadTimer_ = 0.0f;
 	BULLET::Init(); // 銃弾の初期化
+
+	camera_ = FindGameObject<Camera>();
+	stage_ = FindGameObject<Stage>();
+	time_ = 0;
 }
 
 Player::~Player()
@@ -77,11 +82,22 @@ void Player::Update()
 		transform_.position_ -= velocity;
 	}
 
+	// 試しに書いているだけ 厳密に書くのはまた今度
+	if (reloadTimer_ > 0)
+	{
+		reloadTimer_ -= Time::DeltaTime();
+	}
+	
+	if (Input::IsKeyDown(KEY_INPUT_R))
+	{
+		reloadTimer_ = PLAYER::RELOAD_TIME;
+	}
+
 	// 当たり判定　Stage→Actor の順で確認している
 	{
 		VECTOR3 hit;
 		VECTOR3 startPos = transform_.position_ + VECTOR3(0, 180, 0);
-		DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
+		//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
 
 		if (stage_->CollideLine(startPos, wPointerPos_, &hit))
 		{
@@ -101,6 +117,7 @@ void Player::Update()
 
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
 	camera_->SetPlayerPosition(transform_); // プレイヤーの情報をカメラにセット
+
 }
 
 void Player::Draw()
@@ -120,10 +137,14 @@ void Player::Draw()
 	if (isHit_ == true)
 	{
 		DrawGraph(mouseX_ - imagePointerHitX_ / 2, mouseY_ - imagePointerHitY_ / 2, hImagePointerHit_, TRUE); // Actorに当たる
-
 	}
 	else
 	{
 		DrawGraph(mouseX_ - imagePointerX_ / 2, mouseY_ - imagePointerY_ / 2, hImagePointer_, TRUE); // 標準
+	}
+
+	if (reloadTimer_ > 0)
+	{
+		BULLET::DrawReloadCircle(mouseX_, mouseY_, reloadTimer_);
 	}
 }

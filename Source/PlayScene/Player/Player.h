@@ -2,6 +2,7 @@
 #include "../Actor.h"
 
 class Camera;
+class Stage;
 
 class Player : public Actor
 {
@@ -12,5 +13,7 @@ public:
 	void Draw() override;
 private:
 	Camera* camera_;
+	Stage* stage_;
+	float time_; // —Ž‰ºŽžŠÔ
 };
 

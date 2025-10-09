@@ -1,6 +1,12 @@
 #include "Player.h"
 #include "Camera.h"
 #include <assert.h>
+#include "../Map/Stage.h"
+
+namespace PLAYER
+{
+	VECTOR3 G = { 0, 9.8, 0 };
+}
 
 Player::Player(const VECTOR3& position, float ang, int hp)
 {
@@ -9,10 +15,17 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	assert(hModel_ > 0);
 
 	camera_ = FindGameObject<Camera>();
+	stage_ = FindGameObject<Stage>();
+	time_ = 0;
 }
 
 Player::~Player()
 {
+	if (hModel_ > 0)
+	{
+		MV1DeleteModel(hModel_);
+		hModel_ = -1;
+	}
 }
 
 void Player::Update()
@@ -43,6 +56,21 @@ void Player::Update()
 		transform_.position_ -= velocity;
 	}
 
+	VECTOR3 hit;
+	if (stage_->CollideLine(transform_.position_ + VECTOR3(0, 500, 0), transform_.position_ + VECTOR3(0, -500, 0), &hit))
+	{
+		transform_.position_ = hit;
+		if (time_ != 0)
+		{
+			time_ = 0;
+		}
+	}
+	else
+	{
+		//空中なら落下処理
+		time_ += Time::DeltaTime();
+		transform_.position_ -= PLAYER::G * time_ * time_;
+	}
 
 	camera_->SetPlayerPosition(transform_); // プレイヤーの情報をカメラにセット
 }

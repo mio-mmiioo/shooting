@@ -6,7 +6,8 @@ Actor::Actor()
 
 Actor::Actor(const VECTOR3& position, float ang, int hModel, int hp)
 	:isAlive_(true),
-	hp_(hp)
+	hp_(hp),
+	time_(0)
 {
 	transform_.position_ = position;
 	hModel_ = hModel;

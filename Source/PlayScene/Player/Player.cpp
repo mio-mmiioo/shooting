@@ -56,22 +56,7 @@ void Player::Update()
 		transform_.position_ -= velocity;
 	}
 
-	VECTOR3 hit;
-	if (stage_->CollideLine(transform_.position_ + VECTOR3(0, 500, 0), transform_.position_ + VECTOR3(0, -500, 0), &hit))
-	{
-		transform_.position_ = hit;
-		if (time_ != 0)
-		{
-			time_ = 0;
-		}
-	}
-	else
-	{
-		//空中なら落下処理
-		time_ += Time::DeltaTime();
-		transform_.position_ -= PLAYER::G * time_ * time_;
-	}
-
+	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
 	camera_->SetPlayerPosition(transform_); // プレイヤーの情報をカメラにセット
 }
 

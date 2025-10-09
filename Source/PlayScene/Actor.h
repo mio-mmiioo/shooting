@@ -1,6 +1,8 @@
 #pragma once
 #include "../../Library/Object3D.h"
 
+class Stage;
+
 class Actor : public Object3D
 {
 public:
@@ -12,8 +14,10 @@ public:
 	virtual void addHp(int num) { hp_ += num; } // 体力の増減はこれで管理
 	virtual void SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed); // 移動したい場所, 回転スピード, 動くスピード
 
-private:
+protected:
+	Stage* stage_;
 	int hp_; // 体力
 	bool isAlive_; // 生きてる？　生きていたらtrue 死んでいたらfalse
+	float time_; // 空中にいる時間
 
 };

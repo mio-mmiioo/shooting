@@ -14,6 +14,7 @@ private:
 	Camera* camera_;
 	int mouseX_, mouseY_;
 	VECTOR3 wPointerPos_; // スクリーン座標のポインターをワールド座標に変換したものを代入する変数
+	bool isHit_; // enemyなどのActorクラスとぶつかるかどうか
 
 	// ポインターの画像
 	int hImagePointer_;							// 標準時のポインター

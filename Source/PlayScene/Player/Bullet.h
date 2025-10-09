@@ -1,14 +1,11 @@
 #pragma once
-#include "../../../Library/Object3D.h"
 
-class Bullet : public Object3D
+namespace BULLET
 {
-public:
-	Bullet();
-	~Bullet();
-	void Update() override;
-	void Draw() override;
-
-private:
-
-};
+	void Init();
+	void Update();
+	void Draw();
+	void DrawRemainingSetting(int currentRemainingSetting);
+	void OutBullet();
+	void AddBullet(int addNumber);
+}

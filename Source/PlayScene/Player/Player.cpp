@@ -3,6 +3,7 @@
 #include <assert.h>
 #include "../Map/Stage.h"
 #include "../../../Library/Input.h"
+#include "Bullet.h"
 
 namespace PLAYER
 {
@@ -27,6 +28,9 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	camera_ = FindGameObject<Camera>();
 	stage_ = FindGameObject<Stage>();
 	time_ = 0;
+
+
+	isHit_ = false;
 }
 
 Player::~Player()
@@ -79,12 +83,17 @@ void Player::Update()
 
 		if (stage_->CollideLine(startPos, wPointerPos_, &hit))
 		{
-			DrawSphere3D(hit, 20, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
+			// stageObjectに当たる場合の処理
 		}
 
 		if (Actor::CollideLine(startPos, wPointerPos_, &hit))
 		{
-			DrawSphere3D(hit, 20, 20, GetColor(200, 100, 100), GetColor(200, 100, 100), TRUE);
+			// Actorに当たる場合の処理
+			isHit_ = true;
+		}
+		else
+		{
+			isHit_ = false;
 		}
 	}
 
@@ -101,7 +110,18 @@ void Player::Draw()
 	//DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
 
 	// 2Dの描画
-	DrawGraph(mouseX_ - imagePointerX_ / 2, mouseY_ - imagePointerY_ / 2, hImagePointer_, TRUE);
 
+	// 残弾数の表示
+	BULLET::Draw();
 
+	// ポインターの描画
+	if (isHit_ == true)
+	{
+		DrawGraph(mouseX_ - imagePointerHitX_ / 2, mouseY_ - imagePointerHitY_ / 2, hImagePointerHit_, TRUE); // Actorに当たる
+
+	}
+	else
+	{
+		DrawGraph(mouseX_ - imagePointerX_ / 2, mouseY_ - imagePointerY_ / 2, hImagePointer_, TRUE); // 標準
+	}
 }

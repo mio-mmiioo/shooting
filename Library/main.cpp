@@ -23,6 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	SetMainWindowText(Screen::WINDOW_NAME);
 	SetWindowSizeExtendRate(Screen::WINDOW_EXTEND);
+	SetBackgroundColor(200, 200, 200);
 	ChangeWindowMode(Screen::WINDOW_MODE); // Windowモードの場合
 
 	if (DxLib_Init() == -1)		// ＤＸライブラリ初期化処理

@@ -21,6 +21,8 @@ private:
 	int imagePointerX_, imagePointerY_;			// 画像のサイズを代入する変数
 	int hImagePointerHit_;						// 敵に銃弾が当たる場合のポインター
 	int imagePointerHitX_, imagePointerHitY_;	// 画像のサイズを代入する変数
+	int hImageReload_;							// リロードするときのポインター
+	int imageReloadX_, imageReloadY_;			// 画像のサイズを代入する変数
 
 	// 銃弾関連
 	float reloadTimer_;

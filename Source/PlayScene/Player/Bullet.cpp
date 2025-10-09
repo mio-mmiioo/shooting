@@ -19,9 +19,6 @@ void BULLET::Init()
 	assert(hImageGauge > 0);
 	hImageGaugeRemaining = LoadGraph("data/image/bulletUi02.png");
 	assert(hImageGaugeRemaining > 0);
-	hImageReload = LoadGraph("data/image/reload");
-	assert(hImageReload);
-
 }
 
 void BULLET::Update()
@@ -41,12 +38,6 @@ void BULLET::DrawRemainingSetting(int currentRemainingSetting)
 
 	DrawCircleGauge(100, 200, 115.0, hImageGauge, 35.0, 1.0, 0, 0);
 	DrawCircleGauge(100, 200, 115.0, hImageGaugeRemaining, remaining, 1.0, 0, 0);
-}
-
-// リロードの時間を示すゲージ
-void BULLET::DrawReloadCircle(int mouseX, int mouseY, float timer)
-{
-	DrawCircleGauge(mouseX, mouseY, 100.0, hImageReload, 100 - timer, 1.0, 0, 0);
 }
 
 void BULLET::OutBullet()

@@ -20,12 +20,17 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	// ポインター
 	// 標準時のポインター
 	hImagePointer_ = LoadGraph("data/image/pointer1.png");
-	assert(hImagePointer_);
+	assert(hImagePointer_ > 0);
 	GetGraphSize(hImagePointer_, &imagePointerX_, &imagePointerY_);
 	// 敵に当たるときのポインター
 	hImagePointerHit_ = LoadGraph("data/image/pointer2.png");
-	assert(hImagePointer_);
+	assert(hImagePointer_ > 0);
 	GetGraphSize(hImagePointer_, &imagePointerHitX_, &imagePointerHitY_);
+
+	// リロードするときのポインター
+	hImageReload_ = LoadGraph("data/image/reload.png");
+	assert(hImageReload_ > 0);
+	GetGraphSize(hImageReload_, &imageReloadX_, &imageReloadY_);
 
 	GetMousePoint(&mouseX_, &mouseY_);
 
@@ -145,6 +150,7 @@ void Player::Draw()
 
 	if (reloadTimer_ > 0)
 	{
-		BULLET::DrawReloadCircle(mouseX_, mouseY_, reloadTimer_);
+		float rate = (PLAYER::RELOAD_TIME - reloadTimer_) / PLAYER::RELOAD_TIME * 100; // (maxの時間 - 残り時間) / maxの時間 * 100 = 〇〇%
+		DrawCircleGauge(mouseX_, mouseY_, 100.0, hImageReload_, rate, 1.0, 0, 0);
 	}
 }

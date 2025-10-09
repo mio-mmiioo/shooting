@@ -13,8 +13,13 @@ public:
 private:
 	Camera* camera_;
 	int mouseX_, mouseY_;
-	VECTOR3 wPointerPos_;
+	VECTOR3 wPointerPos_; // スクリーン座標のポインターをワールド座標に変換したものを代入する変数
 
+	// ポインターの画像
+	int hImagePointer_;							// 標準時のポインター
+	int imagePointerX_, imagePointerY_;			// 画像のサイズを代入する変数
+	int hImagePointerHit_;						// 敵に銃弾が当たる場合のポインター
+	int imagePointerHitX_, imagePointerHitY_;	// 画像のサイズを代入する変数
 
 };
 

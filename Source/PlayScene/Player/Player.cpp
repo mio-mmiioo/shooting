@@ -15,6 +15,15 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	hModel_ = MV1LoadModel("data/model/player02.mv1");
 	assert(hModel_ > 0);
 
+	// 標準時のポインター
+	hImagePointer_ = LoadGraph("data/image/pointer1.png");
+	assert(hImagePointer_);
+	GetGraphSize(hImagePointer_, &imagePointerX_, &imagePointerY_);
+	// 敵に当たるときのポインター
+	hImagePointerHit_ = LoadGraph("data/image/pointer2.png");
+	assert(hImagePointer_);
+	GetGraphSize(hImagePointer_, &imagePointerHitX_, &imagePointerHitY_);
+
 	camera_ = FindGameObject<Camera>();
 	stage_ = FindGameObject<Stage>();
 	time_ = 0;
@@ -87,7 +96,12 @@ void Player::Draw()
 {
 	Object3D::Draw();
 
-	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
-	VECTOR3 addPlayerHeight = { 0, 180, 0 };
-	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
+	//// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
+	//VECTOR3 addPlayerHeight = { 0, 180, 0 };
+	//DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
+
+	// 2Dの描画
+	DrawGraph(mouseX_ - imagePointerX_ / 2, mouseY_ - imagePointerY_ / 2, hImagePointer_, TRUE);
+
+
 }

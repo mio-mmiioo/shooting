@@ -16,6 +16,7 @@ Camera::Camera()
 	cameraPosition_ = VECTOR3(50, 100, -300);
 	targetPosition_ = VECTOR3(0, 0, 0);
 	SetCameraPositionAndTarget_UpVecY(cameraPosition_, targetPosition_);
+
 	state_ = CAM_STATE::FIX;
 }
 
@@ -25,6 +26,7 @@ Camera::~Camera()
 
 void Camera::Update()
 {
+	SetCameraNearFar(100.0f, 2000.0f); // ここにいらないかも
 	// カメラのセットを切り替える
 	{
 		if (Input::IsKeyDown(KEY_INPUT_0))

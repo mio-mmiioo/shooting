@@ -56,6 +56,9 @@
     <ClCompile Include="Source\PlayScene\Development\Axis.cpp">
       <Filter>PlayScene\Development</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Player\Pointer.cpp">
+      <Filter>PlayScene\Player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -119,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Development\Axis.h">
       <Filter>PlayScene\Development</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Player\Pointer.h">
+      <Filter>PlayScene\Player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

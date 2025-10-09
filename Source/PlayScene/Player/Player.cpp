@@ -2,6 +2,7 @@
 #include "Camera.h"
 #include <assert.h>
 #include "../Map/Stage.h"
+#include "Pointer.h"
 
 namespace PLAYER
 {
@@ -54,6 +55,16 @@ void Player::Update()
 	else if (CheckHitKey(KEY_INPUT_S))
 	{
 		transform_.position_ -= velocity;
+	}
+
+	VECTOR3 hit;
+	VECTOR3 startPos = transform_.position_ + VECTOR3(0, 180, 0);
+
+	DrawLine3D(startPos, POINTER::GetWorldPointerPos(), GetColor(255, 255, 255));
+
+	if (stage_->CollideLine(startPos, POINTER::GetWorldPointerPos(), &hit))
+	{
+		DrawSphere3D(hit, 20, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
 	}
 
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する

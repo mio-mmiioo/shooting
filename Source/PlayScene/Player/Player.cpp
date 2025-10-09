@@ -31,6 +31,8 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 
 
 	isHit_ = false;
+
+	BULLET::Init(); // e’e‚Ì‰Šú‰»
 }
 
 Player::~Player()

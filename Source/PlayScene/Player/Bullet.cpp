@@ -16,7 +16,7 @@ void BULLET::Init()
 {
 	hImageGauge = LoadGraph("data/image/bulletUi01.png");
 	assert(hImageGauge > 0);
-	hImageGaugeRemaining = LoadGraph("data/image/bullet02.png");
+	hImageGaugeRemaining = LoadGraph("data/image/bulletUi02.png");
 	assert(hImageGaugeRemaining > 0);
 
 }

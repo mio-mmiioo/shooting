@@ -43,22 +43,6 @@ bool Stage::CollideLine(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit) 
 			}
 		}
 	}
-	std::list<Actor*> act = FindGameObjects<Actor>();
-	for (Actor* ac : act)
-	{
-		VECTOR3 ret;
-		if (ac->Object3D::CollideLine(pos1, pos2, &ret))
-		{
-			found = true;
-			VECTOR3 v = pos1 - ret;
-			float len = v.Size();
-			if (len < nowVal)
-			{
-				nowVal = len;
-				now = ret;
-			}
-		}
-	}
 	if (hit != nullptr)
 	{
 		*hit = now;

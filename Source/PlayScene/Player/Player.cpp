@@ -71,6 +71,11 @@ void Player::Update()
 		DrawSphere3D(hit, 20, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
 	}
 
+	if (Actor::CollideLine(startPos, wPointerPos_, &hit))
+	{
+		DrawSphere3D(hit, 20, 20, GetColor(200, 100, 100), GetColor(200, 100, 100), TRUE);
+	}
+
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
 	camera_->SetPlayerPosition(transform_); // プレイヤーの情報をカメラにセット
 }

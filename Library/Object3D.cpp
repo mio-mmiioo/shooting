@@ -30,7 +30,7 @@ void Object3D::Draw()
 	}
 }
 
-bool Object3D::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit)
+bool Object3D::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
 {
 	MV1_COLL_RESULT_POLY ret = MV1CollCheck_Line(hitModel_, -1, pos1, pos2);
 	if (ret.HitFlag == false)

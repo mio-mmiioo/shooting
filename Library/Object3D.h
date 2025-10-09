@@ -50,7 +50,7 @@ public:
 	virtual void Draw() override;
 	Transform GetTransform() { return transform_; }
 	void SetParent(Object3D* _parent) { parent_ = _parent; }
-	bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr);
+	virtual bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const;
 protected:
 	int hModel_; // 本当に描画するモデル
 	int hitModel_; // 当たり判定用のモデル

@@ -47,3 +47,31 @@ void Actor::SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed)
 
 	transform_.position_ += VECTOR3(0, 0, moveSpeed) * MGetRotY(transform_.rotation_.y);
 }
+
+bool Actor::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const 
+{
+	bool found = false;
+	VECTOR3 now;
+	float nowVal = ((VECTOR3)(pos2 - pos1)).Size();
+	std::list<Actor*> act = FindGameObjects<Actor>();
+	for (Actor* ac : act)
+	{
+		VECTOR3 ret;
+		if (ac->Object3D::CollideLine(pos1, pos2, &ret))
+		{
+			found = true;
+			VECTOR3 v = pos1 - ret;
+			float len = v.Size();
+			if (len < nowVal)
+			{
+				nowVal = len;
+				now = ret;
+			}
+		}
+	}
+	if (hit != nullptr)
+	{
+		*hit = now;
+	}
+	return found;
+}

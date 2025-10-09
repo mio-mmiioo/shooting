@@ -153,7 +153,6 @@
     <ClInclude Include="Source\PlayScene\Map\StageObject.h" />
     <ClInclude Include="Source\PlayScene\Player\Camera.h" />
     <ClInclude Include="Source\PlayScene\Player\Player.h" />
-    <ClInclude Include="Source\PlayScene\Player\Pointer.h" />
     <ClInclude Include="Source\PlayScene\PlayScene.h" />
     <ClInclude Include="Source\Screen.h" />
     <ClInclude Include="Source\SceneFactory.h" />
@@ -176,7 +175,6 @@
     <ClCompile Include="Source\PlayScene\Map\StageObject.cpp" />
     <ClCompile Include="Source\PlayScene\Player\Camera.cpp" />
     <ClCompile Include="Source\PlayScene\Player\Player.cpp" />
-    <ClCompile Include="Source\PlayScene\Player\Pointer.cpp" />
     <ClCompile Include="Source\PlayScene\PlayScene.cpp" />
     <ClCompile Include="Source\SceneFactory.cpp" />
     <ClCompile Include="Source\TitleScene.cpp" />

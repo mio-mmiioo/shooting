@@ -12,5 +12,9 @@ public:
 	void Draw() override;
 private:
 	Camera* camera_;
+	int mouseX_, mouseY_;
+	VECTOR3 wPointerPos_;
+
+
 };
 

@@ -35,6 +35,8 @@ Enemy::~Enemy()
 
 void Enemy::Update()
 {
+	MV1SetMatrix(hitModel_, transform_.GetLocalMatrix());
+	MV1RefreshCollInfo(hitModel_);
 	stage_->SetOnGround(transform_.position_, time_, ENEMY::G);
 }
 

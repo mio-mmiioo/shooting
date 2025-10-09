@@ -62,18 +62,21 @@ void Player::Update()
 		transform_.position_ -= velocity;
 	}
 
-	VECTOR3 hit;
-	VECTOR3 startPos = transform_.position_ + VECTOR3(0, 180, 0);
-	DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
-
-	if (stage_->CollideLine(startPos, wPointerPos_, &hit))
+	// 当たり判定　Stage→Actor の順で確認している
 	{
-		DrawSphere3D(hit, 20, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
-	}
+		VECTOR3 hit;
+		VECTOR3 startPos = transform_.position_ + VECTOR3(0, 180, 0);
+		DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
 
-	if (Actor::CollideLine(startPos, wPointerPos_, &hit))
-	{
-		DrawSphere3D(hit, 20, 20, GetColor(200, 100, 100), GetColor(200, 100, 100), TRUE);
+		if (stage_->CollideLine(startPos, wPointerPos_, &hit))
+		{
+			DrawSphere3D(hit, 20, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
+		}
+
+		if (Actor::CollideLine(startPos, wPointerPos_, &hit))
+		{
+			DrawSphere3D(hit, 20, 20, GetColor(200, 100, 100), GetColor(200, 100, 100), TRUE);
+		}
 	}
 
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する

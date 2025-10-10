@@ -11,6 +11,7 @@ namespace BULLET
 	int hImageGauge;							// 銃弾の装填数のゲージ
 	int hImageGaugeRemaining;					// 残弾数を示すゲージ
 	int hImageReload;							// リロードを示すゲージ
+	int hImageEffectOutBullet;					// 発砲後に画面を光らせるための画像
 }
 
 void BULLET::Init()
@@ -19,6 +20,8 @@ void BULLET::Init()
 	assert(hImageGauge > 0);
 	hImageGaugeRemaining = LoadGraph("data/image/bulletUi02.png");
 	assert(hImageGaugeRemaining > 0);
+	hImageEffectOutBullet = LoadGraph("data/image/right.png");
+	assert(hImageEffectOutBullet > 0);
 }
 
 void BULLET::Update()
@@ -35,10 +38,11 @@ void BULLET::Draw()
 	{
 		DrawFormatString(100, 200, GetColor(255, 0, 0), "EMPTY");
 	}
-	else if (remainingAll > 0 && remainingSetting == 0)
-	{
-		DrawFormatString(100, 200, GetColor(255, 0, 0), "RELOAD");
-	}
+	//else if (remainingAll > 0 && remainingSetting == 0)
+	//{
+	//	DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", remainingSetting + remainingAll); 
+	//  // ここにこのボタンを押してリロードしてって表示を一定時間後に表示できたらしたい
+	//}
 	else
 	{
 		DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", remainingSetting + remainingAll); // 残弾数の表示
@@ -59,29 +63,38 @@ int BULLET::OutBullet()
 	if (remainingSetting > 0)
 	{
 		remainingSetting -= 1;
+		OutBulletEffect();
 		return remainingSetting;
 	}
 	else
 	{
 		// 銃弾がない場合の処理
-		DrawFormatString(100, 200, GetColor(255, 0, 0), "RELOAD");
 		return -1;
 	}
 }
 
+void BULLET::OutBulletEffect()
+{
+	// 銃を発砲したエフェクト画像　最終的にはライトで光らせる処理をいれたい
+	DrawGraph(-10, -10, hImageEffectOutBullet, TRUE); // 位置をマイナスにしているのは入れた画像の端が黒くなってたから
+}
+
 void BULLET::ReloadBullet()
 {
-	int canSetNum = BULLET::MAX_SETTING_BULET - remainingSetting; // 装填可能数
+	if (!(remainingAll == remainingSetting))
+	{
+		int canSetNum = BULLET::MAX_SETTING_BULET - remainingSetting; // 装填可能数
 
-	if (canSetNum >= remainingAll) // 装填可能数 >= 残弾数
-	{
-		remainingSetting += remainingAll;
-		remainingAll = 0;
-	}
-	else
-	{
-		remainingSetting += canSetNum;
-		remainingAll -= canSetNum;
+		if (canSetNum >= remainingAll) // 装填可能数 >= 残弾数
+		{
+			remainingSetting += remainingAll;
+			remainingAll = 0;
+		}
+		else
+		{
+			remainingSetting += canSetNum;
+			remainingAll -= canSetNum;
+		}
 	}
 }
 

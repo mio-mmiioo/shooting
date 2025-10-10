@@ -57,6 +57,8 @@ Player::~Player()
 
 void Player::Update()
 {
+	isAttack_ = false;
+
 	GetMousePoint(&mouseX_, &mouseY_);
 
 	VECTOR ScreenPos = { (float)mouseX_, (float)mouseY_, 1.0f };
@@ -116,7 +118,7 @@ void Player::Update()
 		reloadTimer_ -= Time::DeltaTime();
 	}
 
-	isAttack_ = false;
+
 
 	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
 	{

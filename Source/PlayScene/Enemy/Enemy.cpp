@@ -55,7 +55,7 @@ void Enemy::Update()
 
 	player_ = FindGameObject<Player>();
 	VECTOR3 hit;
-	if (CollideLine(player_->GetTransform().position_, player_->GetWPointerPos(), &hit)) // e‚Ì‹O“¹ã‚É‚ ‚é‚©
+	if (Object3D::CollideLine(player_->GetTransform().position_, player_->GetWPointerPos(), &hit)) // e‚Ì‹O“¹ã‚É‚ ‚é‚©
 	{
 		if (player_->IsAttack()) // ƒvƒŒƒCƒ„[‚ª”­–C
 		{

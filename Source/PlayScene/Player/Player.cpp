@@ -116,6 +116,8 @@ void Player::Update()
 		reloadTimer_ -= Time::DeltaTime();
 	}
 
+	isAttack_ = false;
+
 	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
 	{
 		reloadTimer_ = PLAYER::RELOAD_TIME;
@@ -124,7 +126,6 @@ void Player::Update()
 	}
 	else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
 	{
-		isAttack_ = false;
 		if (reloadTimer_ <= 0) // ƒŠƒ[ƒh’†‚¶‚á‚È‚¢¨Œ‚‚Ä‚é
 		{
 			BULLET::OutBullet(); // e’e‚ð”­ŽË‚·‚éˆ— Žc’e”‚ª1Œ¸‚éorEMPTY‚Ì•\Ž¦‚ðo‚µ‚½‚¢

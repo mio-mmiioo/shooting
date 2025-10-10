@@ -6,6 +6,7 @@ namespace BULLET
 	void Update();
 	void Draw();
 	void DrawRemainingSetting(int currentRemainingSetting);
-	void OutBullet();
+	int OutBullet();
+	void ReloadBullet();
 	void AddBullet(int addNumber);
 }

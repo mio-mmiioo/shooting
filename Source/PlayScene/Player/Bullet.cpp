@@ -29,6 +29,7 @@ void BULLET::Update()
 void BULLET::Draw()
 {
 	DrawRemainingSetting(remainingSetting); // c’e”‚ÌƒQ[ƒW‚Ì•\¦
+	DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", remainingSetting + remainingAll); // c’e”‚Ì•\¦
 }
 
 // c’e”‚ğGet‚µ‚Äc’e”‚Ì•ª,•\¦‚·‚é‰~ƒQ[ƒW
@@ -40,16 +41,23 @@ void BULLET::DrawRemainingSetting(int currentRemainingSetting)
 	DrawCircleGauge(100, 200, 115.0, hImageGaugeRemaining, remaining, 1.0, 0, 0);
 }
 
-void BULLET::OutBullet()
+int BULLET::OutBullet()
 {
 	if (remainingSetting > 0)
 	{
 		remainingSetting -= 1;
+		return remainingSetting;
 	}
 	else
 	{
 		// e’e‚ª‚È‚¢ê‡‚Ìˆ—
+		return -1;
 	}
+}
+
+void BULLET::ReloadBullet()
+{
+	// c’e” - ‘•“U”
 }
 
 void BULLET::AddBullet(int addNumber)

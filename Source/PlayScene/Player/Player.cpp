@@ -87,17 +87,6 @@ void Player::Update()
 		transform_.position_ -= velocity;
 	}
 
-	// 試しに書いているだけ 厳密に書くのはまた今度
-	if (reloadTimer_ > 0)
-	{
-		reloadTimer_ -= Time::DeltaTime();
-	}
-	
-	if (Input::IsKeyDown(KEY_INPUT_R))
-	{
-		reloadTimer_ = PLAYER::RELOAD_TIME;
-	}
-
 	// 当たり判定　Stage→Actor の順で確認している
 	{
 		VECTOR3 hit;
@@ -117,6 +106,26 @@ void Player::Update()
 		else
 		{
 			isHit_ = false;
+		}
+	}
+
+	// 銃弾
+	if (reloadTimer_ > 0)
+	{
+		reloadTimer_ -= Time::DeltaTime();
+	}
+
+	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
+	{
+		reloadTimer_ = PLAYER::RELOAD_TIME;
+		// リロードの処理
+
+	}
+	else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
+	{
+		if (reloadTimer_ <= 0) // リロード中じゃない→撃てる
+		{
+			BULLET::OutBullet(); // 銃弾を発射する処理 残弾数が1減るorEMPTYの表示を出したい
 		}
 	}
 

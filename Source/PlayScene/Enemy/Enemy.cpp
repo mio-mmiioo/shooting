@@ -55,8 +55,9 @@ void Enemy::Update()
 
 	player_ = FindGameObject<Player>();
 	VECTOR3 hit;
-	if (Object3D::CollideLine(player_->GetTransform().position_, player_->GetWPointerPos(), &hit)) // 銃の軌道上にあるか
+	if (Object3D::CollideLine(player_->GetTransform().position_ + VECTOR3(0, 180, 0), player_->GetWPointerPos(), &hit)) // 銃の軌道上にあるか
 	{
+		DrawSphere3D(hit, 10, 10, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
 		if (player_->IsAttack()) // プレイヤーが発砲
 		{
 			addHp(-5); // 攻撃される ここに入れる値をプレイヤーからもらいたい

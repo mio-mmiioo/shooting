@@ -121,20 +121,19 @@ void Player::Update()
 	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
 	{
 		reloadTimer_ = PLAYER::RELOAD_TIME;
-		// リロードの処理
-		BULLET::ReloadBullet();
+		BULLET::ReloadBullet(); // リロードの処理
 	}
 	else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
 	{
 		if (reloadTimer_ <= 0) // リロード中じゃない→撃てる
 		{
-			BULLET::OutBullet(); // 銃弾を発射する処理 残弾数が1減るorEMPTYの表示を出したい
+			BULLET::OutBullet(); // 銃弾を発射する処理
 			isAttack_ = true;
 		}
 	}
 
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
-	camera_->SetPlayerPosition(transform_); // プレイヤーの情報をカメラにセット
+	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 
 }
 

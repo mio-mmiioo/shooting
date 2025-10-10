@@ -36,6 +36,14 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 
 Enemy::~Enemy()
 {
+	if (hModel_ > 0)
+	{
+		MV1DeleteModel(hModel_);
+	}
+	if (hitModel_ > 0)
+	{
+		MV1DeleteModel(hitModel_);
+	}
 }
 
 void Enemy::Update()
@@ -79,7 +87,7 @@ bool Enemy::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
 	VECTOR3 now;
 	float nowVal = ((VECTOR3)(pos2 - pos1)).Size();
 	VECTOR3 ret;
-	if (Object3D::CollideLine(pos1, pos2, &ret))
+	if (Actor::CollideLine(pos1, pos2, &ret))
 	{
 		found = true;
 		VECTOR3 v = pos1 - ret;

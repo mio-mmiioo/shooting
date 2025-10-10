@@ -1,5 +1,6 @@
 #pragma once
 #include "../Actor.h"
+#include "../Bullet/Bullet.h"
 
 class Camera;
 
@@ -16,6 +17,7 @@ public:
 
 private:
 	Camera* camera_;
+	Bullet* bullet_;
 	int mouseX_, mouseY_;
 	VECTOR3 wPointerPos_; // スクリーン座標のポインターをワールド座標に変換したものを代入する変数
 	bool isHit_; // enemyなどのActorクラスとぶつかるかどうか

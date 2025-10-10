@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "../Map/Stage.h"
 #include "../../../Library/Input.h"
-#include "Bullet.h"
+#include "../Bullet/Bullet.h"
 
 namespace PLAYER
 {
@@ -39,10 +39,10 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	// e’eŠÖ˜A
 	reloadTimer_ = 0.0f;
 	isAttack_ = false;
-	BULLET::Init(); // e’e‚Ì‰Šú‰»
 
 	camera_ = FindGameObject<Camera>();
 	stage_ = FindGameObject<Stage>();
+	bullet_ = new Bullet();
 	time_ = 0;
 }
 
@@ -121,13 +121,13 @@ void Player::Update()
 	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
 	{
 		reloadTimer_ = PLAYER::RELOAD_TIME;
-		BULLET::ReloadBullet(); // ƒŠƒ[ƒh‚Ìˆ—
+		bullet_->ReloadBullet(); // ƒŠƒ[ƒh‚Ìˆ—
 	}
 	else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
 	{
 		if (reloadTimer_ <= 0) // ƒŠƒ[ƒh’†‚¶‚á‚È‚¢¨Œ‚‚Ä‚é
 		{
-			BULLET::OutBullet(); // e’e‚ğ”­Ë‚·‚éˆ—
+			bullet_->OutBullet(); // e’e‚ğ”­Ë‚·‚éˆ—
 			isAttack_ = true;
 		}
 	}
@@ -148,7 +148,7 @@ void Player::Draw()
 	// 2D‚Ì•`‰æ
 
 	// c’e”‚Ì•\¦
-	BULLET::Draw();
+	bullet_->Draw();
 
 	// ƒ|ƒCƒ“ƒ^[‚Ì•`‰æ
 	if (isHit_ == true)

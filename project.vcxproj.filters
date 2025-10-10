@@ -56,8 +56,8 @@
     <ClCompile Include="Source\PlayScene\Development\Axis.cpp">
       <Filter>PlayScene\Development</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayScene\Player\Bullet.cpp">
-      <Filter>PlayScene\Player</Filter>
+    <ClCompile Include="Source\PlayScene\Bullet\Bullet.cpp">
+      <Filter>PlayScene\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -123,8 +123,8 @@
     <ClInclude Include="Source\PlayScene\Development\Axis.h">
       <Filter>PlayScene\Development</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PlayScene\Player\Bullet.h">
-      <Filter>PlayScene\Player</Filter>
+    <ClInclude Include="Source\PlayScene\Bullet\Bullet.h">
+      <Filter>PlayScene\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +151,9 @@
     </Filter>
     <Filter Include="PlayScene\Development">
       <UniqueIdentifier>{358f7ce9-eed7-44c3-ae24-eb6785fc68bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Bullet">
+      <UniqueIdentifier>{b699be25-6f82-4771-97da-4e260190f9c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -10,6 +10,10 @@ public:
 	~Player() override;
 	void Update() override;
 	void Draw() override;
+
+	VECTOR3 GetWPointerPos() { return wPointerPos_; }
+	bool IsAttack() { return isAttack_; }
+
 private:
 	Camera* camera_;
 	int mouseX_, mouseY_;
@@ -26,6 +30,7 @@ private:
 
 	// èeíeä÷òA
 	float reloadTimer_;
+	bool isAttack_;
 
 };
 

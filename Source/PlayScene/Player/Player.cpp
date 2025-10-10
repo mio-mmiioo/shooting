@@ -38,6 +38,7 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 
 	// e’eŠÖ˜A
 	reloadTimer_ = 0.0f;
+	isAttack_ = false;
 	BULLET::Init(); // e’e‚Ì‰Šú‰»
 
 	camera_ = FindGameObject<Camera>();
@@ -123,9 +124,11 @@ void Player::Update()
 	}
 	else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
 	{
+		isAttack_ = false;
 		if (reloadTimer_ <= 0) // ƒŠƒ[ƒh’†‚¶‚á‚È‚¢¨Œ‚‚Ä‚é
 		{
 			BULLET::OutBullet(); // e’e‚ğ”­Ë‚·‚éˆ— c’e”‚ª1Œ¸‚éorEMPTY‚Ì•\¦‚ğo‚µ‚½‚¢
+			isAttack_ = true;
 		}
 	}
 

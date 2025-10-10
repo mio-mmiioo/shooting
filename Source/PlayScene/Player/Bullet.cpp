@@ -29,6 +29,8 @@ void BULLET::Update()
 void BULLET::Draw()
 {
 	DrawRemainingSetting(remainingSetting); // écíeêîÇÃÉQÅ[ÉWÇÃï\é¶
+
+	// écíeêîÇÃï\é¶ï™äÚèàóùì¸ÇÍÇƒ
 	DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", remainingSetting + remainingAll); // écíeêîÇÃï\é¶
 }
 
@@ -51,13 +53,25 @@ int BULLET::OutBullet()
 	else
 	{
 		// èeíeÇ™Ç»Ç¢èÍçáÇÃèàóù
+		DrawFormatString(100, 200, GetColor(255, 0, 0), "RELOAD");
 		return -1;
 	}
 }
 
 void BULLET::ReloadBullet()
 {
-	// écíeêî - ëïìUêî
+	int canSetNum = BULLET::MAX_SETTING_BULET - remainingSetting; // ëïìUâ¬î\êî
+
+	if (canSetNum >= remainingAll) // ëïìUâ¬î\êî >= écíeêî
+	{
+		remainingSetting += remainingAll;
+		remainingAll = 0;
+	}
+	else
+	{
+		remainingSetting += canSetNum;
+		remainingAll -= canSetNum;
+	}
 }
 
 void BULLET::AddBullet(int addNumber)

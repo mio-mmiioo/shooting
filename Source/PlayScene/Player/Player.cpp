@@ -8,7 +8,7 @@
 namespace PLAYER
 {
 	VECTOR3 G = { 0, 9.8, 0 };
-	const float RELOAD_TIME = 5.0f;
+	const float RELOAD_TIME = 3.0f;
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -119,7 +119,7 @@ void Player::Update()
 	{
 		reloadTimer_ = PLAYER::RELOAD_TIME;
 		// ÉäÉçÅ[ÉhÇÃèàóù
-
+		BULLET::ReloadBullet();
 	}
 	else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
 	{

@@ -1,22 +1,28 @@
 #include "Gun.h"
 #include <assert.h>
 
-namespace GUN
-{
-	const int MAX_SETTING_BULLET = 16;
-}
-
 Gun::Gun()
 {
-	remainingAll_ = 5;
-	remainingSetting_ = GUN::MAX_SETTING_BULLET;
+	gunType_ = GUN_TYPE::HAND;
 
-	hImageGauge_ = LoadGraph("data/image/bulletUi01.png");
-	assert(hImageGauge_ > 0);
-	hImageGaugeRemaining_ = LoadGraph("data/image/bulletUi02.png");
-	assert(hImageGaugeRemaining_ > 0);
 	hImageEffectOutBullet_ = LoadGraph("data/image/right.png");
 	assert(hImageEffectOutBullet_ > 0);
+
+	gun hand = {
+		5,
+		16,
+		16,
+		LoadGraph("data/image/bulletUi01.png"),
+		LoadGraph("data/image/bulletUi02.png")
+	};
+
+	gun machine = {
+		200,
+		50,
+		machine.MAX_SETTING,
+		LoadGraph("data/image/bulletUi01.png"), // 画像作って書き換えて
+		LoadGraph("data/image/bulletUi02.png")
+	};
 }
 
 Gun::~Gun()
@@ -29,30 +35,33 @@ void Gun::Update()
 
 void Gun::Draw()
 {
-	DrawRemainingSetting(remainingSetting_); // 残弾数のゲージの表示
+	switch (gunType_)
+	{
+	case GUN_TYPE::HAND:
+		DrawRemainingSetting(&hand);
+		break;
+	case GUN_TYPE::MACHINE:
+		DrawRemainingSetting(&machine);
+		break;
+	}
+}
 
-	// 残弾数の表示分岐処理入れて
+void Gun::DrawRemainingSetting(struct gun* g)
+{
+	float remaining = 115.0 - (g.remainingSetting_ * 5);
+
+	DrawCircleGauge(100, 200, 115.0, g.hImageGauge_, 35.0, 1.0, 0, 0);
+	DrawCircleGauge(100, 200, 115.0, g.hImageGaugeRemaining_, remaining, 1.0, 0, 0);
+
+	// 残弾数の表示
 	if (remainingAll_ <= 0 && remainingSetting_ == 0)
 	{
 		DrawFormatString(100, 200, GetColor(255, 0, 0), "EMPTY");
 	}
-	//else if (remainingAll > 0 && remainingSetting == 0)
-	//{
-	//	DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", remainingSetting + remainingAll); 
-	//  // ここにこのボタンを押してリロードしてって表示を一定時間後に表示できたらしたい
-	//}
 	else
 	{
-		DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", remainingSetting_ + remainingAll_); // 残弾数の表示
+		DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", g.remainingSetting_ + g.remainingAll_);
 	}
-}
-
-void Gun::DrawRemainingSetting(int currentRemainingSetting)
-{
-	float remaining = 115.0 - (currentRemainingSetting * 5);
-
-	DrawCircleGauge(100, 200, 115.0, hImageGauge_, 35.0, 1.0, 0, 0);
-	DrawCircleGauge(100, 200, 115.0, hImageGaugeRemaining_, remaining, 1.0, 0, 0);
 }
 
 int Gun::OutBullet()
@@ -80,7 +89,7 @@ void Gun::ReloadBullet()
 {
 	if (!(remainingAll_ == remainingSetting_))
 	{
-		int canSetNum = GUN::MAX_SETTING_BULLET - remainingSetting_; // 装填可能数
+		int canSetNum = 16 - remainingSetting_; // 装填可能数
 
 		if (canSetNum >= remainingAll_) // 装填可能数 >= 残弾数
 		{

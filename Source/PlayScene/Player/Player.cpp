@@ -37,12 +37,14 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	isHit_ = false;
 
 	// e’eŠÖ˜A
+	gun_ = new Gun();
+	currentGun_ = GUN::TYPE::HAND;
+	gun_->SetGunType(currentGun_); // g—p‚·‚ée‚Ìí—Ş‚ğƒZƒbƒg
 	reloadTimer_ = 0.0f;
 	isAttack_ = false;
 
 	camera_ = FindGameObject<Camera>();
 	stage_ = FindGameObject<Stage>();
-	gun_ = new Gun();
 	time_ = 0;
 }
 
@@ -113,12 +115,21 @@ void Player::Update()
 	}
 
 	// e’e
+	if (Input::IsKeyDown(KEY_INPUT_6))
+	{
+		currentGun_ = GUN::TYPE::HAND;
+		gun_->SetGunType(currentGun_);
+	}
+	else if (Input::IsKeyDown(KEY_INPUT_7))
+	{
+		currentGun_ = GUN::TYPE::MACHINE;
+		gun_->SetGunType(currentGun_);
+	}
+
 	if (reloadTimer_ > 0)
 	{
 		reloadTimer_ -= Time::DeltaTime();
 	}
-
-
 
 	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
 	{

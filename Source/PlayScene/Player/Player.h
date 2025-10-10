@@ -36,5 +36,7 @@ private:
 	float reloadTimer_;
 	bool isAttack_;
 
+	GUN::TYPE currentGun_;
+
 };
 

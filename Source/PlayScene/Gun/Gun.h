@@ -1,14 +1,26 @@
 #pragma once
 #include "../../../Library/Object3D.h"
 
+namespace GUN
+{
+	enum TYPE {
+		HAND,		// ハンドガン/拳銃
+		MACHINE,	// マシンガン/機関銃
+		// ショットガン　散弾銃
+		// グレネードランチャー
+		MAX_TYPE
+	};
+}
+
 class Gun : public Object3D
 {
 	struct gun {
-		int remainingAll_;				// 残弾数
-		const int MAX_SETTING;			// 銃に装填できる最大数
-		int remainingSetting_;			// 銃に装てんされている残弾数　名前後でわかるように変えて
-		int hImageGauge_;				// 銃弾の装填数のゲージ
-		int hImageGaugeRemaining_;		// 残弾数を示すゲージ
+		GUN::TYPE type;					// 銃の種類
+		int remainingAll;				// 残弾数
+		int maxSetting;					// 銃に装填できる最大数
+		int remainingSetting;			// 銃に装てんされている残弾数　名前後でわかるように変えて
+		int hImageGauge;				// 銃弾の装填数のゲージ
+		int hImageGaugeRemaining;		// 残弾数を示すゲージ
 	};
 
 public:
@@ -17,33 +29,27 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	void DrawRemainingSetting(struct gun* g);
+	void DrawRemainingSetting();
 	int OutBullet();
 	void OutBulletEffect();
 	void ReloadBullet();
 	void AddGun(int addNumber);
+	void SetGunType(GUN::TYPE type);
 
 protected:
-	int remainingAll_;				// 残弾数
-	int remainingSetting_;			// 銃に装てんされている残弾数　名前後でわかるように変えて
+	//int remainingAll_;				// 残弾数
+	//int remainingSetting_;			// 銃に装てんされている残弾数　名前後でわかるように変えて
 
-	int hImageGauge_;				// 銃弾の装填数のゲージ
-	int hImageGaugeRemaining_;		// 残弾数を示すゲージ
+	//int hImageGauge_;				// 銃弾の装填数のゲージ
+	//int hImageGaugeRemaining_;		// 残弾数を示すゲージ
 	int hImageReload_;				// リロードを示すゲージ
 
 private:
-	enum GUN_TYPE {
-		HAND,		// ハンドガン/拳銃
-		MACHINE,	// マシンガン/機関銃
-		// ショットガン　散弾銃
-		// グレネードランチャー
-		MAX_GUN_TYPE
-	};
+	GUN::TYPE gunType_;
 
-	GUN_TYPE gunType_;
-
-	//gun hand;
-	//gun machine;
+	struct gun current;
+	struct gun hand;
+	struct gun machine;
 
 	int hImageEffectOutBullet_;		// 発砲後に画面を光らせるための画像
 };

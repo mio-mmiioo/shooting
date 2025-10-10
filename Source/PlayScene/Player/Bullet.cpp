@@ -31,7 +31,18 @@ void BULLET::Draw()
 	DrawRemainingSetting(remainingSetting); // 残弾数のゲージの表示
 
 	// 残弾数の表示分岐処理入れて
-	DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", remainingSetting + remainingAll); // 残弾数の表示
+	if (remainingAll <= 0 && remainingSetting == 0)
+	{
+		DrawFormatString(100, 200, GetColor(255, 0, 0), "EMPTY");
+	}
+	else if (remainingAll > 0 && remainingSetting == 0)
+	{
+		DrawFormatString(100, 200, GetColor(255, 0, 0), "RELOAD");
+	}
+	else
+	{
+		DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", remainingSetting + remainingAll); // 残弾数の表示
+	}
 }
 
 // 残弾数をGetして残弾数の分,表示する円ゲージ

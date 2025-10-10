@@ -1,11 +1,11 @@
 #pragma once
 #include "../../../Library/Object3D.h"
 
-class Bullet : public Object3D
+class Gun : public Object3D
 {
 public:
-	Bullet();
-	~Bullet();
+	Gun();
+	~Gun();
 	void Update() override;
 	void Draw() override;
 
@@ -13,7 +13,7 @@ public:
 	int OutBullet();
 	void OutBulletEffect();
 	void ReloadBullet();
-	void AddBullet(int addNumber);
+	void AddGun(int addNumber);
 
 private:
 	int remainingAll_;				// 残弾数
@@ -24,8 +24,9 @@ private:
 	int hImageReload_;				// リロードを示すゲージ
 	int hImageEffectOutBullet_;		// 発砲後に画面を光らせるための画像
 
-	enum BULLET_TYPE {
+	enum GUN_TYPE {
 		NORMAL,
-		MAX_BULLET_TYPE
+		MACHINE,
+		MAX_GUN_TYPE
 	};
 };

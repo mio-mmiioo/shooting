@@ -3,7 +3,7 @@
 #include <assert.h>
 #include "../Map/Stage.h"
 #include "../../../Library/Input.h"
-#include "../Bullet/Bullet.h"
+#include "../Gun/Gun.h"
 
 namespace PLAYER
 {
@@ -42,7 +42,7 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 
 	camera_ = FindGameObject<Camera>();
 	stage_ = FindGameObject<Stage>();
-	bullet_ = new Bullet();
+	gun_ = new Gun();
 	time_ = 0;
 }
 
@@ -123,13 +123,13 @@ void Player::Update()
 	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
 	{
 		reloadTimer_ = PLAYER::RELOAD_TIME;
-		bullet_->ReloadBullet(); // リロードの処理
+		gun_->ReloadBullet(); // リロードの処理
 	}
 	else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
 	{
 		if (reloadTimer_ <= 0) // リロード中じゃない→撃てる
 		{
-			bullet_->OutBullet(); // 銃弾を発射する処理
+			gun_->OutBullet(); // 銃弾を発射する処理
 			isAttack_ = true;
 		}
 	}
@@ -150,7 +150,7 @@ void Player::Draw()
 	// 2Dの描画
 
 	// 残弾数の表示
-	bullet_->Draw();
+	gun_->Draw();
 
 	// ポインターの描画
 	if (isHit_ == true)

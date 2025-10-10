@@ -1,15 +1,15 @@
-#include "Bullet.h"
+#include "Gun.h"
 #include <assert.h>
 
-namespace BULLET
+namespace GUN
 {
 	const int MAX_SETTING_BULLET = 16;
 }
 
-Bullet::Bullet()
+Gun::Gun()
 {
 	remainingAll_ = 5;
-	remainingSetting_ = BULLET::MAX_SETTING_BULLET;
+	remainingSetting_ = GUN::MAX_SETTING_BULLET;
 
 	hImageGauge_ = LoadGraph("data/image/bulletUi01.png");
 	assert(hImageGauge_ > 0);
@@ -19,15 +19,15 @@ Bullet::Bullet()
 	assert(hImageEffectOutBullet_ > 0);
 }
 
-Bullet::~Bullet()
+Gun::~Gun()
 {
 }
 
-void Bullet::Update()
+void Gun::Update()
 {
 }
 
-void Bullet::Draw()
+void Gun::Draw()
 {
 	DrawRemainingSetting(remainingSetting_); // 残弾数のゲージの表示
 
@@ -47,7 +47,7 @@ void Bullet::Draw()
 	}
 }
 
-void Bullet::DrawRemainingSetting(int currentRemainingSetting)
+void Gun::DrawRemainingSetting(int currentRemainingSetting)
 {
 	float remaining = 115.0 - (currentRemainingSetting * 5);
 
@@ -55,7 +55,7 @@ void Bullet::DrawRemainingSetting(int currentRemainingSetting)
 	DrawCircleGauge(100, 200, 115.0, hImageGaugeRemaining_, remaining, 1.0, 0, 0);
 }
 
-int Bullet::OutBullet()
+int Gun::OutBullet()
 {
 	if (remainingSetting_ > 0)
 	{
@@ -70,17 +70,17 @@ int Bullet::OutBullet()
 	}
 }
 
-void Bullet::OutBulletEffect()
+void Gun::OutBulletEffect()
 {
 	// 銃を発砲したエフェクト画像　最終的にはライトで光らせる処理をいれたい
 	DrawGraph(-10, -10, hImageEffectOutBullet_, TRUE); // 位置をマイナスにしているのは入れた画像の端が黒くなってたから
 }
 
-void Bullet::ReloadBullet()
+void Gun::ReloadBullet()
 {
 	if (!(remainingAll_ == remainingSetting_))
 	{
-		int canSetNum = BULLET::MAX_SETTING_BULLET - remainingSetting_; // 装填可能数
+		int canSetNum = GUN::MAX_SETTING_BULLET - remainingSetting_; // 装填可能数
 
 		if (canSetNum >= remainingAll_) // 装填可能数 >= 残弾数
 		{
@@ -95,7 +95,7 @@ void Bullet::ReloadBullet()
 	}
 }
 
-void Bullet::AddBullet(int addNumber)
+void Gun::AddGun(int addNumber)
 {
 	remainingAll_ += addNumber;
 }

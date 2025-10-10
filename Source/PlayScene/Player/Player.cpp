@@ -93,15 +93,15 @@ void Player::Update()
 	// “–‚½‚è”»’è@Stage¨Actor ‚Ì‡‚ÅŠm”F‚µ‚Ä‚¢‚é
 	{
 		VECTOR3 hit;
-		VECTOR3 startPos = transform_.position_ + VECTOR3(0, 180, 0);
+		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
 		//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
 
-		if (stage_->CollideLine(startPos, wPointerPos_, &hit))
+		if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
 		{
 			// stageObject‚É“–‚½‚éê‡‚Ìˆ—
 		}
 
-		if (Actor::CollideLine(startPos, wPointerPos_, &hit))
+		if (Actor::CollideLine(startPos_, wPointerPos_, &hit))
 		{
 			// Actor‚É“–‚½‚éê‡‚Ìˆ—
 			isHit_ = true;

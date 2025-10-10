@@ -13,6 +13,7 @@ public:
 	void Draw() override;
 
 	VECTOR3 GetWPointerPos() { return wPointerPos_; }
+	VECTOR3 GetStartPos() { return startPos_; }
 	bool IsAttack() { return isAttack_; }
 
 private:
@@ -20,6 +21,7 @@ private:
 	Bullet* bullet_;
 	int mouseX_, mouseY_;
 	VECTOR3 wPointerPos_; // スクリーン座標のポインターをワールド座標に変換したものを代入する変数
+	VECTOR3 startPos_; // 銃の軌道の始点
 	bool isHit_; // enemyなどのActorクラスとぶつかるかどうか
 
 	// ポインターの画像

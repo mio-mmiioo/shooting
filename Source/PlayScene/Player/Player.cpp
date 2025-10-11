@@ -130,18 +130,20 @@ void Player::Update()
 	{
 		reloadTimer_ -= Time::DeltaTime();
 	}
-
-	if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
+	else
 	{
-		reloadTimer_ = PLAYER::RELOAD_TIME;
-		gun_->ReloadBullet(); // リロードの処理
-	}
-	else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
-	{
-		if (reloadTimer_ <= 0) // リロード中じゃない→撃てる
+		if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
 		{
-			gun_->OutBullet(); // 銃弾を発射する処理
-			isAttack_ = true;
+			reloadTimer_ = PLAYER::RELOAD_TIME;
+			gun_->ReloadBullet(); // リロードの処理
+		}
+		else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
+		{
+			if (reloadTimer_ <= 0) // リロード中じゃない→撃てる
+			{
+				gun_->OutBullet(); // 銃弾を発射する処理
+				isAttack_ = true;
+			}
 		}
 	}
 

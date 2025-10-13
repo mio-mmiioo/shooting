@@ -2,13 +2,12 @@
 #include "DxLib.h"
 
 namespace Right {
-	VECTOR rightDirection;
+	VECTOR rightDirection; // 影をつけるのに使用しているライト
 }
 
 void Right::Init()
 {
-	rightDirection = { -1,-1,1 };
-
+	rightDirection = { -1, -2, 1 };
 	ChangeLightTypeDir(rightDirection);
 }
 

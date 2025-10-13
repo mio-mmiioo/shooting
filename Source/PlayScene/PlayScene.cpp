@@ -13,7 +13,6 @@ PlayScene::PlayScene()
 	new Camera();
 	new Stage(1);
 
-	
 	Right::Init();
 	Shadow::Init(); // Stage‚ÌŒã‚ÉInit‚·‚é
 }

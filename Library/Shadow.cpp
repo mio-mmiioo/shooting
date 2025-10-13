@@ -15,29 +15,16 @@ void Shadow::Init()
 	minPosition = { -4096, -4096, -4096 };
 	maxPosition = {  4096,  4096,  4096 };
 
-	if (0 != SetShadowMapLightDirection(hShadowMap, Right::GetRightDirection())) // ０：成功
-	{
-		// ミス
-	}
-	if (0 != SetShadowMapDrawArea(hShadowMap, minPosition, maxPosition)) // ０：成功
-	{
-		// ミス
-	}
-	if (0 != ShadowMap_DrawSetup(hShadowMap)) // ０：成功
-	{
-		// ミス
-	}
-	// モデルを描画
-	ObjectManager::Draw(); // これ書き方もう少しいい方法ある気がする
+	SetShadowMapLightDirection(hShadowMap, Right::GetRightDirection());
+	SetShadowMapDrawArea(hShadowMap, minPosition, maxPosition);
+	ShadowMap_DrawSetup(hShadowMap);
+	ObjectManager::Draw();
 	ShadowMap_DrawEnd();
 }
 
 void Shadow::Update()
 {
-	if (0 != ShadowMap_DrawSetup(hShadowMap)) // ０：成功
-	{
-		// ミス
-	}
+	ShadowMap_DrawSetup(hShadowMap);
 	// モデルを描画
 	ObjectManager::Draw(); // これ書き方もう少しいい方法ある気がする
 	ShadowMap_DrawEnd();

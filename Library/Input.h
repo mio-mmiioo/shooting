@@ -1,4 +1,5 @@
 #pragma once
+#include "DxLib.h"
 
 namespace Input {
 	//キーボード取得関連
@@ -7,7 +8,13 @@ namespace Input {
 	bool IsKeyDown(int keyCode); //押した瞬間
 	int IsKeepKeyDown(int keyCode); //押している間
 
-	bool IsButtonDown(int button); //ボタンが押された瞬間
-	bool IsButtonUP(int button); //ボタンが離された瞬間
-	bool IsButtonKeep(int button); //ボタンが押されている間
+	// マウス関連
+	bool IsMouseDown(int button); //ボタンが押された瞬間
+	bool IsMouseUP(int button); //ボタンが離された瞬間
+	bool IsMouseKeep(int button); //ボタンが押されている間
+
+	// Xbox関連
+	bool IsJoypadDown(int button);
+	bool IsJoypadUp(int button);
+	bool IsJoypadKeep(int button);
 }

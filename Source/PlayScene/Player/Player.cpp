@@ -132,12 +132,12 @@ void Player::Update()
 	}
 	else
 	{
-		if (Input::IsButtonDown(MOUSE_INPUT_RIGHT))
+		if (Input::IsMouseDown(MOUSE_INPUT_RIGHT))
 		{
 			reloadTimer_ = PLAYER::RELOAD_TIME;
 			gun_->ReloadBullet(); // リロードの処理
 		}
-		else if (Input::IsButtonDown(MOUSE_INPUT_LEFT))
+		else if (Input::IsMouseDown(MOUSE_INPUT_LEFT) || Input::IsJoypadDown(XINPUT_BUTTON_B))
 		{
 			if (reloadTimer_ <= 0) // リロード中じゃない→撃てる
 			{

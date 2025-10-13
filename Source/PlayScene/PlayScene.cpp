@@ -16,7 +16,7 @@ PlayScene::PlayScene()
 	Right::Init();
 	Shadow::Init(); // Stageの後にInitする
 
-	StartJoypadVibration(DX_INPUT_PAD1, 400, -1, -1); // つながってるか確認したくて振動させた
+	//StartJoypadVibration(DX_INPUT_PAD1, 400, -1, -1); // つながってるか確認したくて振動させた
 }
 
 PlayScene::~PlayScene()

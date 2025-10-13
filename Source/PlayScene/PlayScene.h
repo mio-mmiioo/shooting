@@ -13,4 +13,5 @@ public:
 	void Draw() override;
 
 private:
+	XINPUT_STATE* XInputState_;
 };

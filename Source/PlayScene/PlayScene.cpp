@@ -15,6 +15,8 @@ PlayScene::PlayScene()
 
 	Right::Init();
 	Shadow::Init(); // Stage‚ÌŒã‚ÉInit‚·‚é
+
+	StartJoypadVibration(DX_INPUT_PAD1, 400, -1, -1); // ‚Â‚È‚ª‚Á‚Ä‚é‚©Šm”F‚µ‚½‚­‚ÄU“®‚³‚¹‚½
 }
 
 PlayScene::~PlayScene()

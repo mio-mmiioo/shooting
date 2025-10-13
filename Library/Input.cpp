@@ -2,7 +2,7 @@
 #include "DxLib.h"
 
 namespace Input {
-	//キーボード取得関連
+	// キーボード取得関連
 	const int KEY_MAX = 255;
 	char curKey[KEY_MAX];		// 現在のキー
 	char prevKey[KEY_MAX];		// 1つ前のキー 
@@ -10,9 +10,12 @@ namespace Input {
 	char keyUp[KEY_MAX];		// 離された瞬間 
 	char KeyKeep[KEY_MAX];		// 押しっぱなし
 
-	//マウスの状態
+	// マウスの状態
 	int prevMouse = 0;			// 前のマウス状態
 	int curMouse = 0;			// 現在のマウス状態
+
+	// Xboxコントローラー関連
+
 }
 
 void Input::KeyStateUpdate()

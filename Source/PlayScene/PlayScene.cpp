@@ -2,14 +2,19 @@
 #include "Map/Stage.h"
 #include "Player/Camera.h"
 #include "Development/Axis.h"
+#include "../../Library/Right.h"
+#include "../../Library/Shadow.h"
 
 PlayScene::PlayScene()
 {
 	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
+
 	//new Axis();
 	new Camera();
 	new Stage(1);
 
+	Right::Init();
+	Shadow::Init();
 }
 
 PlayScene::~PlayScene()

@@ -34,6 +34,13 @@ void Shadow::Init()
 
 void Shadow::Update()
 {
+	if (0 != ShadowMap_DrawSetup(hShadowMap)) // ０：成功
+	{
+		// ミス
+	}
+	// モデルを描画
+	ObjectManager::Draw(); // これ書き方もう少しいい方法ある気がする
+	ShadowMap_DrawEnd();
 	SetUseShadowMap(0, hShadowMap);
 }
 

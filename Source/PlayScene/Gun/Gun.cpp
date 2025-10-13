@@ -62,16 +62,15 @@ void Gun::DrawRemainingSetting()
 
 int Gun::OutBullet()
 {
-	if (current.remainingSetting > 0)
+	if (current.remainingSetting <= 0)
+	{
+		return -1;
+	}
+	else
 	{
 		current.remainingSetting -= 1;
 		OutBulletEffect();
 		return current.remainingSetting;
-	}
-	else
-	{
-		// e’e‚ª‚È‚¢ê‡‚Ìˆ—
-		return -1;
 	}
 }
 

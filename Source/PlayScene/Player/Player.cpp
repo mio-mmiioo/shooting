@@ -142,6 +142,8 @@ void Player::Update()
 			if (reloadTimer_ <= 0) // ƒŠƒ[ƒh’†‚¶‚á‚È‚¢¨Œ‚‚Ä‚é
 			{
 				gun_->OutBullet(); // e’e‚ğ”­Ë‚·‚éˆ—
+				//‚±‚±‚ÉU“®
+				//SE
 				isAttack_ = true;
 			}
 		}

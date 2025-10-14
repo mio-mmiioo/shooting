@@ -36,14 +36,6 @@ public:
 	void AddGun(int addNumber);
 	void SetGunType(GUN::TYPE type);
 
-protected:
-	//int remainingAll_;				// 残弾数
-	//int remainingSetting_;			// 銃に装てんされている残弾数　名前後でわかるように変えて
-
-	//int hImageGauge_;				// 銃弾の装填数のゲージ
-	//int hImageGaugeRemaining_;		// 残弾数を示すゲージ
-	int hImageReload_;				// リロードを示すゲージ
-
 private:
 	GUN::TYPE gunType_;
 

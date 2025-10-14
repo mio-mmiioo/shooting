@@ -5,12 +5,14 @@
 #include "Input.h"
 #include "Shadow.h"
 #include <DxLib.h>
+#include "../Source/Sound.h"
 
 void AppInit()
 {
 	ObjectManager::Init();
 	SceneManager::Init();
 	Time::Init();
+	Sound::InitSE();
 }
 
 void AppUpdate()

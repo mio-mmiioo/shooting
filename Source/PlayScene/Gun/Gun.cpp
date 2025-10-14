@@ -1,5 +1,6 @@
 #include "Gun.h"
 #include <assert.h>
+#include "../../Sound.h"
 
 Gun::Gun()
 {
@@ -69,6 +70,8 @@ int Gun::OutBullet()
 	else
 	{
 		current.remainingSetting -= 1;
+		PlaySoundMem(Sound::se["OutBullet1"], DX_PLAYTYPE_BACK, TRUE);
+
 		OutBulletEffect();
 		return current.remainingSetting;
 	}
@@ -96,6 +99,7 @@ void Gun::ReloadBullet()
 			current.remainingSetting += canSetNum;
 			current.remainingAll -= canSetNum;
 		}
+		PlaySoundMem(Sound::se["Reload"], DX_PLAYTYPE_BACK, TRUE);
 	}
 }
 

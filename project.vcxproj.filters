@@ -56,9 +56,16 @@
     <ClCompile Include="Source\PlayScene\Development\Axis.cpp">
       <Filter>PlayScene\Development</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayScene\Bullet\Bullet.cpp">
-      <Filter>PlayScene\Bullet</Filter>
+    <ClCompile Include="Source\PlayScene\Gun\Gun.cpp">
+      <Filter>PlayScene\Gun</Filter>
     </ClCompile>
+    <ClCompile Include="Library\Right.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Shadow.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sound.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -123,9 +130,16 @@
     <ClInclude Include="Source\PlayScene\Development\Axis.h">
       <Filter>PlayScene\Development</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PlayScene\Bullet\Bullet.h">
-      <Filter>PlayScene\Bullet</Filter>
+    <ClInclude Include="Source\PlayScene\Gun\Gun.h">
+      <Filter>PlayScene\Gun</Filter>
     </ClInclude>
+    <ClInclude Include="Library\Right.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Shadow.h">
+      <Filter>Library</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Sound.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">
@@ -152,7 +166,7 @@
     <Filter Include="PlayScene\Development">
       <UniqueIdentifier>{358f7ce9-eed7-44c3-ae24-eb6785fc68bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PlayScene\Bullet">
+    <Filter Include="PlayScene\Gun">
       <UniqueIdentifier>{b699be25-6f82-4771-97da-4e260190f9c2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>

@@ -25,15 +25,8 @@ StageObject::~StageObject()
 		MV1DeleteModel(hModel_);
 		hModel_ = -1;
 	}
+	if (hitModel_ > 0) {
+		MV1DeleteModel(hitModel_);
+		hitModel_ = -1;
+	}
 }
-
-//bool StageObject::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit)
-//{
-//	MV1_COLL_RESULT_POLY ret = MV1CollCheck_Line(hitModel_, -1, pos1, pos2);
-//	if (ret.HitFlag == false)
-//		return false;
-//	if (hit != nullptr) {
-//		*hit = ret.HitPosition;
-//	}
-//	return true;
-//}

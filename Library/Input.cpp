@@ -41,7 +41,7 @@ void Input::KeyStateUpdate()
 
 	// Xboxä÷òA
 	prevJoypad = curJoypad;
-	GetJoypadXInputState(DX_INPUT_PAD1, &curJoypad);
+	GetJoypadXInputState(DX_INPUT_PAD1, &curJoypad); // àÍêlóp
 }
 
 
@@ -75,6 +75,7 @@ bool Input::IsMouseKeep(int button)
 {
 	return(((prevMouse & button) != 0) && ((curMouse & button) != 0));
 }
+
 
 bool Input::IsJoypadDown(int button)
 {

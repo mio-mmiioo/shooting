@@ -108,7 +108,7 @@ void Camera::ThirdCamera()
 		rot.x = -25 * DegToRad;
 	}
 
-	VECTOR3 playerHeadPos = VECTOR3(0, 150.0f, 0);
+	VECTOR3 playerHeadPos = VECTOR3(0, 180.0f, 0);
 	VECTOR3 camPos = VECTOR3(0, 0, -500.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
 
 	cameraPosition_ = look_.position_ + camPos + playerHeadPos;

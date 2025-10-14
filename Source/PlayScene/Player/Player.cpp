@@ -55,6 +55,27 @@ Player::~Player()
 		MV1DeleteModel(hModel_);
 		hModel_ = -1;
 	}
+	//‚±‚ê‘‚¢‚½•û‚ª‘‚¦‚é
+	//if (hImagePointer_ > 0)
+	//{
+	//	DeleteGraph(hImagePointer_);
+	//	hImagePointer_ = -1;
+	//}
+	//if (hImagePointerHit_ > 0)
+	//{
+	//	DeleteGraph(hImagePointerHit_);
+	//	hImagePointerHit_ = -1;
+	//}
+	//if (hImagePointerHit_ > 0)
+	//{
+	//	DeleteGraph(hImagePointerHit_);
+	//	hImagePointerHit_ = -1;
+	//}
+	//if (hImageReload_ > 0)
+	//{
+	//	DeleteGraph(hImageReload_);
+	//	hImageReload_ = -1;
+	//}
 }
 
 void Player::Update()
@@ -159,8 +180,8 @@ void Player::Draw()
 	Object3D::Draw();
 
 	//// Œü‚¢‚Ä‚é•ûŒü‚ğ¦‚·@‚±‚êƒJƒƒ‰•ÏX‚µ‚È‚­‚È‚Á‚½‚çÁ‚·‚±‚Æ
-	//VECTOR3 addPlayerHeight = { 0, 180, 0 };
-	//DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
+	VECTOR3 addPlayerHeight = { 0, 180, 0 };
+	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
 
 	// 2D‚Ì•`‰æ
 

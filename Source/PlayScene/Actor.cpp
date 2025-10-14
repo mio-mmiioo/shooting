@@ -15,6 +15,10 @@ Actor::Actor(const VECTOR3& position, float ang, int hModel, int hp)
 
 Actor::~Actor()
 {
+	if (hModel_ > 0)
+	{
+		hModel_ = -1;
+	}
 }
 
 void Actor::Update()

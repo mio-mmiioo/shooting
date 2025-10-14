@@ -21,6 +21,7 @@ PlayScene::PlayScene()
 
 PlayScene::~PlayScene()
 {
+	Shadow::Release(); // ƒVƒƒƒhƒE‚ÌŒãˆ—
 }
 
 void PlayScene::Update()

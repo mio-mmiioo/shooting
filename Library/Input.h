@@ -17,4 +17,6 @@ namespace Input {
 	bool IsJoypadDown(int button);
 	bool IsJoypadUp(int button);
 	bool IsJoypadKeep(int button);
+	// この下or工夫して上に追加する
+	// LT, RT, Lスティック, Rスティック
 }

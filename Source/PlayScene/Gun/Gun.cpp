@@ -9,7 +9,7 @@ Gun::Gun()
 	hImageEffectOutBullet_ = LoadGraph("data/image/right.png");
 	assert(hImageEffectOutBullet_ > 0);
 
-	current = { GUN::TYPE::MAX_TYPE, 0, 0, 0, -1, -1 };
+	current = { GUN::TYPE::MAX_TYPE, 0, 0, 0, -1, -1, 0.0f, 0.0f };
 
 	hand = {
 		GUN::TYPE::HAND,
@@ -17,7 +17,9 @@ Gun::Gun()
 		16,
 		16,
 		LoadGraph("data/image/bulletUi01.png"),
-		LoadGraph("data/image/bulletUi02.png")
+		LoadGraph("data/image/bulletUi02.png"),
+		0.0f,
+		3.0f
 	};
 
 	machine = {
@@ -26,7 +28,9 @@ Gun::Gun()
 		50,
 		50,
 		LoadGraph("data/image/bulletUi01.png"), // 画像作って書き換えて
-		LoadGraph("data/image/bulletUi02.png")
+		LoadGraph("data/image/bulletUi02.png"),
+		0.0f,
+		2.0f
 	};
 }
 
@@ -36,6 +40,11 @@ Gun::~Gun()
 
 void Gun::Update()
 {
+	// ここでタイマーを進める
+	if (current.reloadTimer > 0)
+	{
+		current.reloadTimer -= Time::DeltaTime();
+	}
 }
 
 void Gun::Draw()
@@ -71,7 +80,7 @@ int Gun::OutBullet()
 	{
 		current.remainingSetting -= 1;
 		PlaySoundMem(Sound::se["OutBullet1"], DX_PLAYTYPE_BACK, TRUE);
-
+		StartJoypadVibration(DX_INPUT_PAD1, 300, 120);
 		OutBulletEffect();
 		return current.remainingSetting;
 	}
@@ -85,21 +94,25 @@ void Gun::OutBulletEffect()
 
 void Gun::ReloadBullet()
 {
-	if (!(current.remainingAll == current.remainingSetting))
+	if (current.reloadTimer <= 0) // リロード中じゃない
 	{
-		int canSetNum = current.maxSetting - current.remainingSetting; // 装填可能数 0になってからリロードとは限らない
+		if (!((current.remainingAll == current.remainingSetting) || (current.remainingAll <= 0))) // リロードできない銃弾数条件じゃない
+		{
+			int canSetNum = current.maxSetting - current.remainingSetting; // 装填可能数 0になってからリロードとは限らない
 
-		if (canSetNum >= current.remainingAll) // 装填可能数 >= 残弾数
-		{
-			current.remainingSetting += current.remainingAll;
-			current.remainingAll = 0;
+			if (canSetNum >= current.remainingAll) // 装填可能数 >= 残弾数
+			{
+				current.remainingSetting += current.remainingAll;
+				current.remainingAll = 0;
+			}
+			else
+			{
+				current.remainingSetting += canSetNum;
+				current.remainingAll -= canSetNum;
+			}
+			PlaySoundMem(Sound::se["Reload"], DX_PLAYTYPE_BACK, TRUE);
+			current.reloadTimer = current.reloadTime; // リロードの時間をセット
 		}
-		else
-		{
-			current.remainingSetting += canSetNum;
-			current.remainingAll -= canSetNum;
-		}
-		PlaySoundMem(Sound::se["Reload"], DX_PLAYTYPE_BACK, TRUE);
 	}
 }
 

@@ -33,7 +33,6 @@ private:
 	int imageReloadX_, imageReloadY_;			// 画像のサイズを代入する変数
 
 	// 銃弾関連
-	float reloadTimer_;
 	bool isAttack_;
 
 	GUN::TYPE currentGun_;

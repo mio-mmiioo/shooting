@@ -8,7 +8,6 @@
 namespace PLAYER
 {
 	VECTOR3 G = { 0, 9.8, 0 };
-	const float RELOAD_TIME = 3.0f;
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -40,7 +39,6 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	gun_ = new Gun();
 	currentGun_ = GUN::TYPE::HAND;
 	gun_->SetGunType(currentGun_); // 使用する銃の種類をセット
-	reloadTimer_ = 0.0f;
 	isAttack_ = false;
 
 	camera_ = FindGameObject<Camera>();
@@ -147,26 +145,16 @@ void Player::Update()
 		gun_->SetGunType(currentGun_);
 	}
 
-	if (reloadTimer_ > 0)
+	if (Input::IsMouseDown(MOUSE_INPUT_RIGHT) || Input::IsJoypadDown(XINPUT_BUTTON_RIGHT_SHOULDER))
 	{
-		reloadTimer_ -= Time::DeltaTime();
+		gun_->ReloadBullet(); // リロードの処理
 	}
-	else
+	else if (Input::IsMouseDown(MOUSE_INPUT_LEFT) || Input::IsJoypadDown(XINPUT_BUTTON_B))
 	{
-		if (Input::IsMouseDown(MOUSE_INPUT_RIGHT))
+		if (gun_->current.reloadTimer <= 0) // リロード中じゃない→撃てる
 		{
-			reloadTimer_ = PLAYER::RELOAD_TIME;
-			gun_->ReloadBullet(); // リロードの処理
-		}
-		else if (Input::IsMouseDown(MOUSE_INPUT_LEFT) || Input::IsJoypadDown(XINPUT_BUTTON_B))
-		{
-			if (reloadTimer_ <= 0) // リロード中じゃない→撃てる
-			{
-				gun_->OutBullet(); // 銃弾を発射する処理
-				//ここに振動
-				//SE
-				isAttack_ = true;
-			}
+			gun_->OutBullet(); // 銃弾を発射する処理 エフェクト・音・振動もここで処理
+			isAttack_ = true;
 		}
 	}
 
@@ -198,9 +186,9 @@ void Player::Draw()
 		DrawGraph(mouseX_ - imagePointerX_ / 2, mouseY_ - imagePointerY_ / 2, hImagePointer_, TRUE); // 標準
 	}
 
-	if (reloadTimer_ > 0)
+	if (gun_->current.reloadTimer > 0)
 	{
-		float rate = (PLAYER::RELOAD_TIME - reloadTimer_) / PLAYER::RELOAD_TIME * 100; // (maxの時間 - 残り時間) / maxの時間 * 100 = 〇〇%
+		float rate = (gun_->current.reloadTime - gun_->current.reloadTimer) / gun_->current.reloadTime * 100; // (maxの時間 - 残り時間) / maxの時間 * 100 = 〇〇%
 		DrawCircleGauge(mouseX_, mouseY_, 100.0, hImageReload_, rate, 1.0, 0, 0);
 	}
 }

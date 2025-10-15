@@ -21,6 +21,9 @@ class Gun : public Object3D
 		int remainingSetting;			// 銃に装てんされている残弾数　名前後でわかるように変えて
 		int hImageGauge;				// 銃弾の装填数のゲージ
 		int hImageGaugeRemaining;		// 残弾数を示すゲージ
+		float reloadTimer;				// リロード時間を管理するためのタイマー
+		float reloadTime;				// 武器のリロードにかかる時間
+
 	};
 
 public:
@@ -36,10 +39,11 @@ public:
 	void AddGun(int addNumber);
 	void SetGunType(GUN::TYPE type);
 
+	struct gun current;
+
 private:
 	GUN::TYPE gunType_;
 
-	struct gun current;
 	struct gun hand;
 	struct gun machine;
 

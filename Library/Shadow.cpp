@@ -1,6 +1,6 @@
 #include "Shadow.h"
 #include "DxLib.h"
-#include "Right.h"
+#include "Light.h"
 #include "ObjectManager.h"
 
 namespace Shadow {
@@ -15,7 +15,7 @@ void Shadow::Init()
 	minPosition = { -4096, -4096, -4096 };
 	maxPosition = {  4096,  4096,  4096 };
 
-	SetShadowMapLightDirection(hShadowMap, Right::GetRightDirection());
+	SetShadowMapLightDirection(hShadowMap, Light::GetLightDirection());
 	SetShadowMapDrawArea(hShadowMap, minPosition, maxPosition);
 	ShadowMap_DrawSetup(hShadowMap);
 	ObjectManager::Draw();

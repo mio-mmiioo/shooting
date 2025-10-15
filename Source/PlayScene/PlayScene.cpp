@@ -2,7 +2,7 @@
 #include "Map/Stage.h"
 #include "Player/Camera.h"
 #include "Development/Axis.h"
-#include "../../Library/Right.h"
+#include "../../Library/Light.h"
 #include "../../Library/Shadow.h"
 
 PlayScene::PlayScene()
@@ -13,7 +13,7 @@ PlayScene::PlayScene()
 	new Camera();
 	new Stage(1);
 
-	Right::Init();
+	Light::Init();
 	Shadow::Init(); // Stage‚ÌŒã‚ÉInit‚·‚é
 
 	//StartJoypadVibration(DX_INPUT_PAD1, 400, -1, -1); // ‚Â‚È‚ª‚Á‚Ä‚é‚©Šm”F‚µ‚½‚­‚ÄU“®‚³‚¹‚½

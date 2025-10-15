@@ -6,7 +6,7 @@ Gun::Gun()
 {
 	gunType_ = GUN::TYPE::HAND;
 
-	hImageEffectOutBullet_ = LoadGraph("data/image/right.png");
+	hImageEffectOutBullet_ = LoadGraph("data/image/light.png");
 	assert(hImageEffectOutBullet_ > 0);
 
 	current = { GUN::TYPE::MAX_TYPE, 0, 0, 0, -1, -1, 0.0f, 0.0f };

@@ -139,10 +139,10 @@
     <ClInclude Include="Library\CsvReader.h" />
     <ClInclude Include="Library\GameObject.h" />
     <ClInclude Include="Library\Input.h" />
+    <ClInclude Include="Library\Light.h" />
     <ClInclude Include="Library\myDxLib.h" />
     <ClInclude Include="Library\Object3D.h" />
     <ClInclude Include="Library\ObjectManager.h" />
-    <ClInclude Include="Library\Right.h" />
     <ClInclude Include="Library\SceneBase.h" />
     <ClInclude Include="Library\SceneManager.h" />
     <ClInclude Include="Library\Shadow.h" />
@@ -166,10 +166,10 @@
     <ClCompile Include="Library\App.cpp" />
     <ClCompile Include="Library\csvReader.cpp" />
     <ClCompile Include="Library\Input.cpp" />
+    <ClCompile Include="Library\Light.cpp" />
     <ClCompile Include="Library\main.cpp" />
     <ClCompile Include="Library\Object3D.cpp" />
     <ClCompile Include="Library\ObjectManager.cpp" />
-    <ClCompile Include="Library\Right.cpp" />
     <ClCompile Include="Library\SceneManager.cpp" />
     <ClCompile Include="Library\Shadow.cpp" />
     <ClCompile Include="Library\Time.cpp" />

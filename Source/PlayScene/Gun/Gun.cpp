@@ -9,7 +9,7 @@ Gun::Gun()
 	hImageEffectOutBullet_ = LoadGraph("data/image/light.png");
 	assert(hImageEffectOutBullet_ > 0);
 
-	current = { GUN::TYPE::MAX_TYPE, 0, 0, 0, -1, -1, 0.0f, 0.0f };
+	current = { GUN::TYPE::MAX_TYPE, 0, 0, 0, -1, -1, 0.0f, 0.0f, 0.0f, 0.0f };
 
 	hand = {
 		GUN::TYPE::HAND,
@@ -19,7 +19,9 @@ Gun::Gun()
 		LoadGraph("data/image/bulletUi01.png"),
 		LoadGraph("data/image/bulletUi02.png"),
 		0.0f,
-		3.0f
+		3.0f,
+		0.0f,
+		0.7f
 	};
 
 	machine = {
@@ -30,7 +32,9 @@ Gun::Gun()
 		LoadGraph("data/image/bulletUi01.png"), // 画像作って書き換えて
 		LoadGraph("data/image/bulletUi02.png"),
 		0.0f,
-		2.0f
+		2.0f,
+		0.0f,
+		0.0f
 	};
 }
 
@@ -40,10 +44,14 @@ Gun::~Gun()
 
 void Gun::Update()
 {
-	// ここでタイマーを進める
+	// タイマーを進める
 	if (current.reloadTimer > 0)
 	{
 		current.reloadTimer -= Time::DeltaTime();
+	}
+	if (current.coolDownTimer > 0)
+	{
+		current.coolDownTimer -= Time::DeltaTime();
 	}
 }
 
@@ -70,19 +78,20 @@ void Gun::DrawRemainingSetting()
 	}
 }
 
-int Gun::OutBullet()
+bool Gun::OutBullet()
 {
-	if (current.remainingSetting <= 0)
+	if (current.remainingSetting <= 0 || current.coolDownTimer > 0) // 残弾数が0以下 or クールダウン中
 	{
-		return -1;
+		return false;
 	}
 	else
 	{
 		current.remainingSetting -= 1;
+		current.coolDownTimer = current.coolDownTime;
 		PlaySoundMem(Sound::se["OutBullet1"], DX_PLAYTYPE_BACK, TRUE);
 		StartJoypadVibration(DX_INPUT_PAD1, 300, 120);
 		OutBulletEffect();
-		return current.remainingSetting;
+		return true;
 	}
 }
 

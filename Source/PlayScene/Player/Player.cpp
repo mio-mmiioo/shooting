@@ -153,8 +153,10 @@ void Player::Update()
 	{
 		if (gun_->GetReloadTimer() <= 0) // リロード中じゃない→撃てる
 		{
-			gun_->OutBullet(); // 銃弾を発射する処理 エフェクト・音・振動もここで処理
-			isAttack_ = true;
+			if (gun_->OutBullet() == true) // 攻撃成功→true : 銃弾を発射する処理 エフェクト・音・振動もここで処理
+			{
+				isAttack_ = true;
+			}
 		}
 	}
 

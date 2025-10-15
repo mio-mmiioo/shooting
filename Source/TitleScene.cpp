@@ -1,5 +1,6 @@
 #include "TitleScene.h"
 #include <fstream>
+#include "../Library/Input.h"
 
 using namespace std;
 
@@ -14,10 +15,10 @@ TitleScene::~TitleScene()
 
 void TitleScene::Update()
 {
-	if (CheckHitKey(KEY_INPUT_P)) {
+	if (Input::IsKeyDown(KEY_INPUT_P) || Input::IsJoypadDown(XINPUT_BUTTON_B)) {
 		SceneManager::ChangeScene("PLAY");
 	}
-	if (CheckHitKey(KEY_INPUT_ESCAPE)) {
+	if (Input::IsKeyDown(KEY_INPUT_ESCAPE)) {
 		SceneManager::Exit();
 	}
 }

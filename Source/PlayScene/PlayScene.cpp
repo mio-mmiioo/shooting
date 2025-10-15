@@ -4,6 +4,7 @@
 #include "Development/Axis.h"
 #include "../../Library/Light.h"
 #include "../../Library/Shadow.h"
+#include "../../Library/Input.h"
 
 PlayScene::PlayScene()
 {
@@ -26,7 +27,7 @@ PlayScene::~PlayScene()
 
 void PlayScene::Update()
 {
-	if (CheckHitKey(KEY_INPUT_T)) {
+	if (Input::IsKeyDown(KEY_INPUT_T) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
 		SceneManager::ChangeScene("TITLE");
 	}
 }

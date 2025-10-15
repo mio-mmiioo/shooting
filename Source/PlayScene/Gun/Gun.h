@@ -39,11 +39,13 @@ public:
 	void AddGun(int addNumber);
 	void SetGunType(GUN::TYPE type);
 
-	struct gun current;
+	float GetReloadTimer(); // 残りのリロードの時間
+	float GetReloadTime();  // 現在の銃のリロードにかかる時間
 
 private:
 	GUN::TYPE gunType_;
 
+	struct gun current;
 	struct gun hand;
 	struct gun machine;
 

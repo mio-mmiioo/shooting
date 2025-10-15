@@ -151,7 +151,7 @@ void Player::Update()
 	}
 	else if (Input::IsMouseDown(MOUSE_INPUT_LEFT) || Input::IsJoypadDown(XINPUT_BUTTON_B))
 	{
-		if (gun_->current.reloadTimer <= 0) // リロード中じゃない→撃てる
+		if (gun_->GetReloadTimer() <= 0) // リロード中じゃない→撃てる
 		{
 			gun_->OutBullet(); // 銃弾を発射する処理 エフェクト・音・振動もここで処理
 			isAttack_ = true;
@@ -186,9 +186,9 @@ void Player::Draw()
 		DrawGraph(mouseX_ - imagePointerX_ / 2, mouseY_ - imagePointerY_ / 2, hImagePointer_, TRUE); // 標準
 	}
 
-	if (gun_->current.reloadTimer > 0)
+	if (gun_->GetReloadTimer() > 0)
 	{
-		float rate = (gun_->current.reloadTime - gun_->current.reloadTimer) / gun_->current.reloadTime * 100; // (maxの時間 - 残り時間) / maxの時間 * 100 = 〇〇%
+		float rate = (gun_->GetReloadTime() - gun_->GetReloadTimer()) / gun_->GetReloadTime() * 100; // (maxの時間 - 残り時間) / maxの時間 * 100 = 〇〇%
 		DrawCircleGauge(mouseX_, mouseY_, 100.0, hImageReload_, rate, 1.0, 0, 0);
 	}
 }

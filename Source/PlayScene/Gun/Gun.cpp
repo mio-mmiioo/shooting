@@ -145,3 +145,13 @@ void Gun::SetGunType(GUN::TYPE type)
 		break;
 	}
 }
+
+float Gun::GetReloadTimer()
+{
+	return current.reloadTimer;
+}
+
+float Gun::GetReloadTime()
+{
+	return current.reloadTime;
+}

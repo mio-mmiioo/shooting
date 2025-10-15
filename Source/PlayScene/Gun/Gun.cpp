@@ -66,7 +66,7 @@ void Gun::DrawRemainingSetting()
 	}
 	else
 	{
-		DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", current.remainingSetting + current.remainingAll);
+		DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", current.remainingAll);
 	}
 }
 

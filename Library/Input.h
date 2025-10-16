@@ -19,4 +19,6 @@ namespace Input {
 	bool IsJoypadKeep(int button);
 	// この下or工夫して上に追加する
 	// LT, RT, Lスティック, Rスティック
+	// 傾きをパーセンテージで返す案
+	VECTOR ThumbLeft(); // 左スティックの移動方向ベクトル
 }

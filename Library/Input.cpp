@@ -1,6 +1,11 @@
 #include "Input.h"
 #include "DxLib.h"
 
+//short		ThumbLX;	// 左スティックの横軸値( -32768 ～ 32767 )
+//short		ThumbLY;	// 左スティックの縦軸値( -32768 ～ 32767 )
+//short		ThumbRX;	// 右スティックの横軸値( -32768 ～ 32767 )
+//short		ThumbRY;	// 右スティックの縦軸値( -32768 ～ 32767 )
+
 namespace Input {
 	// キーボード取得関連
 	const int KEY_MAX = 255;
@@ -15,9 +20,11 @@ namespace Input {
 	int curMouse = 0;			// 現在のマウス状態
 
 	// Xboxコントローラー関連
-	XINPUT_STATE tamesi;
 	XINPUT_STATE curJoypad;		// 現在のキー
 	XINPUT_STATE prevJoypad;	// 1つ前のキー 
+	short thumbLX;				// 左スティックの横軸
+	short thumbLY;				// 左スティックの縦軸
+	VECTOR thumbLeft;			// 左スティックの傾き(ベクトル)
 }
 
 void Input::KeyStateUpdate()
@@ -91,3 +98,16 @@ bool Input::IsJoypadKeep(int button)
 {
 	return(((prevJoypad.Buttons[button] & button) != 0) && ((curJoypad.Buttons[button] & button) != 0));
 }
+
+VECTOR Input::ThumbLeft()
+{
+	thumbLeft.x = curJoypad.ThumbLX;
+	thumbLeft.y = curJoypad.ThumbLY;
+	thumbLeft.z = 0;
+	VNorm(thumbLeft);
+
+	return thumbLeft;
+}
+
+
+

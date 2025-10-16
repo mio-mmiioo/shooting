@@ -75,7 +75,7 @@ void Enemy::Update()
 			}
 			else
 			{
-				hp_ -= player_->Attack(); // 攻撃される ここに入れる値をプレイヤーからもらいたい
+				hp_ -= player_->Attack(); // 攻撃される
 			}
 		}
 	}

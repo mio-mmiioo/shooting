@@ -16,6 +16,7 @@ class Gun : public Object3D
 {
 	struct gun {
 		GUN::TYPE type;					// e‚Ìí—Ş
+		int attak;						// UŒ‚—Í
 		int remainingAll;				// c’e”
 		int maxSetting;					// e‚É‘•“U‚Å‚«‚éÅ‘å”
 		int remainingSetting;			// e‚É‘•‚Ä‚ñ‚³‚ê‚Ä‚¢‚éc’e”
@@ -40,6 +41,7 @@ public:
 	void AddGun(int addNumber);
 	void SetGunType(GUN::TYPE type);
 
+	int GetAttack();
 	float GetReloadTimer(); // c‚è‚ÌƒŠƒ[ƒh‚ÌŠÔ
 	float GetReloadTime();  // Œ»İ‚Ìe‚ÌƒŠƒ[ƒh‚É‚©‚©‚éŠÔ
 

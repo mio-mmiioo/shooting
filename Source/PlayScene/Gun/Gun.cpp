@@ -9,10 +9,11 @@ Gun::Gun()
 	hImageEffectOutBullet_ = LoadGraph("data/image/light.png");
 	assert(hImageEffectOutBullet_ > 0);
 
-	current = { GUN::TYPE::MAX_TYPE, 0, 0, 0, -1, -1, 0.0f, 0.0f, 0.0f, 0.0f };
+	current = { GUN::TYPE::MAX_TYPE, 0, 0, 0, 0, -1, -1, 0.0f, 0.0f, 0.0f, 0.0f };
 
 	hand = {
 		GUN::TYPE::HAND,
+		5,
 		5,
 		16,
 		16,
@@ -26,6 +27,7 @@ Gun::Gun()
 
 	machine = {
 		GUN::TYPE::MACHINE,
+		2,
 		200,
 		50,
 		50,
@@ -153,6 +155,11 @@ void Gun::SetGunType(GUN::TYPE type)
 		current = machine;
 		break;
 	}
+}
+
+int Gun::GetAttack()
+{
+	return current.attak;
 }
 
 float Gun::GetReloadTimer()

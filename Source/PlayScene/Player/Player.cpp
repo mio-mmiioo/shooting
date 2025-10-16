@@ -53,27 +53,6 @@ Player::~Player()
 		MV1DeleteModel(hModel_);
 		hModel_ = -1;
 	}
-	//‚±‚ê‘‚¢‚½•û‚ª‘‚¦‚é
-	//if (hImagePointer_ > 0)
-	//{
-	//	DeleteGraph(hImagePointer_);
-	//	hImagePointer_ = -1;
-	//}
-	//if (hImagePointerHit_ > 0)
-	//{
-	//	DeleteGraph(hImagePointerHit_);
-	//	hImagePointerHit_ = -1;
-	//}
-	//if (hImagePointerHit_ > 0)
-	//{
-	//	DeleteGraph(hImagePointerHit_);
-	//	hImagePointerHit_ = -1;
-	//}
-	//if (hImageReload_ > 0)
-	//{
-	//	DeleteGraph(hImageReload_);
-	//	hImageReload_ = -1;
-	//}
 }
 
 void Player::Update()
@@ -193,4 +172,13 @@ void Player::Draw()
 		float rate = (gun_->GetReloadTime() - gun_->GetReloadTimer()) / gun_->GetReloadTime() * 100; // (max‚ÌŠÔ - c‚èŠÔ) / max‚ÌŠÔ * 100 = ZZ%
 		DrawCircleGauge(mouseX_, mouseY_, 100.0, hImageReload_, rate, 1.0, 0, 0);
 	}
+}
+
+int Player::Attack()
+{
+	if (isAttack_ == true)
+	{
+		return gun_->GetAttack();
+	}
+	return -1;
 }

@@ -14,7 +14,7 @@ public:
 
 	VECTOR3 GetWPointerPos() { return wPointerPos_; }
 	VECTOR3 GetStartPos() { return startPos_; }
-	bool IsAttack() { return isAttack_; }
+	int Attack() override; // UŒ‚—Í‚ğ“ü‚ê‚é -1 ‚Ì‚ÍUŒ‚‚µ‚Ä‚È‚¢
 
 private:
 	Camera* camera_;

@@ -59,9 +59,9 @@ void Enemy::Update()
 	if (Object3D::CollideLine(player_->GetStartPos(), player_->GetWPointerPos(), &hit)) // 銃の軌道上にあるか
 	{
 		DrawSphere3D(hit, 10, 10, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
-		if (player_->IsAttack()) // プレイヤーが発砲
+		if (player_->Attack() > 0) // プレイヤーが発砲
 		{
-			addHp(-5); // 攻撃される ここに入れる値をプレイヤーからもらいたい
+			hp_ -= player_->Attack(); // 攻撃される ここに入れる値をプレイヤーからもらいたい
 		}
 	}
 

@@ -2,6 +2,12 @@
 #include <assert.h>
 #include "../../Sound.h"
 
+namespace GUN
+{
+	int gaugePosX = 100;
+	int gaugePosY = 200;
+}
+
 Gun::Gun()
 {
 	gunType_ = GUN::TYPE::HAND;
@@ -66,17 +72,17 @@ void Gun::DrawRemainingSetting()
 {
 	float remaining = 115.0 - (current.remainingSetting * 5);
 
-	DrawCircleGauge(100, 200, 115.0, current.hImageGauge, 35.0, 1.0, 0, 0);
-	DrawCircleGauge(100, 200, 115.0, current.hImageGaugeRemaining, remaining, 1.0, 0, 0);
+	DrawCircleGauge(GUN::gaugePosX, GUN::gaugePosY, 115.0, current.hImageGauge, 35.0, 1.0, 0, 0);
+	DrawCircleGauge(GUN::gaugePosX, GUN::gaugePosY, 115.0, current.hImageGaugeRemaining, remaining, 1.0, 0, 0);
 
 	// écíeêîÇÃï\é¶
 	if (current.remainingAll <= 0 && current.remainingSetting == 0)
 	{
-		DrawFormatString(100, 200, GetColor(255, 0, 0), "EMPTY");
+		DrawFormatString(GUN::gaugePosX, GUN::gaugePosY, GetColor(255, 0, 0), "EMPTY");
 	}
 	else
 	{
-		DrawFormatString(100, 200, GetColor(0, 0, 0), "%04d", current.remainingAll);
+		DrawFormatString(GUN::gaugePosX, GUN::gaugePosY, GetColor(0, 0, 0), "%04d", current.remainingAll);
 	}
 }
 

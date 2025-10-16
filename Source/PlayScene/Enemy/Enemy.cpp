@@ -69,6 +69,7 @@ void Enemy::Update()
 
 		if (player_->Attack() > 0) // プレイヤーが発砲
 		{
+			// ヘッドショットっだったらheadshotBonusをかける
 			if (Segment_Point_MinLength(player_->GetStartPos(), player_->GetWPointerPos(), transform_.position_ + ENEMY::headshotPos) < ENEMY::headshotR) // クリティカル内か
 			{
 				hp_ -= player_->Attack() * ENEMY::headshotBonus;

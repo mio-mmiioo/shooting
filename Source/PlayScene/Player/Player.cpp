@@ -4,6 +4,7 @@
 #include "../Map/Stage.h"
 #include "../../../Library/Input.h"
 #include "../Gun/Gun.h"
+#include "../Enemy/Enemy.h"
 
 namespace PLAYER
 {

@@ -7,6 +7,8 @@ namespace ENEMY
 {
 	VECTOR3 G = { 0, 9.8, 0 };
 	VECTOR3 size = { 50, 200, 50 }; // hitModelのサイズ
+	VECTOR3 headshotPos = { 0, 170, 0 };
+	float headshotR = 25;
 }
 
 Enemy::Enemy(const VECTOR3& position, float ang, int hp)
@@ -58,10 +60,22 @@ void Enemy::Update()
 	VECTOR3 hit;
 	if (Object3D::CollideLine(player_->GetStartPos(), player_->GetWPointerPos(), &hit)) // 銃の軌道上にあるか
 	{
-		DrawSphere3D(hit, 10, 10, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+		// ヘッドショットになる場合黒丸を表示
+		//if (Segment_Point_MinLength(player_->GetStartPos(), player_->GetWPointerPos(), transform_.position_ + ENEMY::headshotPos) < ENEMY::headshotR) // クリティカル内か
+		//{
+		//	DrawSphere3D(hit, 10, 10, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+		//}
+
 		if (player_->Attack() > 0) // プレイヤーが発砲
 		{
-			hp_ -= player_->Attack(); // 攻撃される ここに入れる値をプレイヤーからもらいたい
+			if (Segment_Point_MinLength(player_->GetStartPos(), player_->GetWPointerPos(), transform_.position_ + ENEMY::headshotPos) < ENEMY::headshotR) // クリティカル内か
+			{
+				hp_ -= player_->Attack() * 2;
+			}
+			else
+			{
+				hp_ -= player_->Attack(); // 攻撃される ここに入れる値をプレイヤーからもらいたい
+			}
 		}
 	}
 

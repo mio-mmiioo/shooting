@@ -19,6 +19,7 @@ public:
 private:
 	Camera* camera_;
 	Gun* gun_;
+	
 	int mouseX_, mouseY_;
 	VECTOR3 wPointerPos_; // スクリーン座標のポインターをワールド座標に変換したものを代入する変数
 	VECTOR3 startPos_; // 銃の軌道の始点

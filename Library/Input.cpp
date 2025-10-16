@@ -82,7 +82,7 @@ bool Input::IsJoypadDown(int button)
 	return(((prevJoypad.Buttons[button] & button) == 0) && ((curJoypad.Buttons[button] & button) != 0));
 }
 
-bool Input::IsJoypadUp(int  button)
+bool Input::IsJoypadUp(int button)
 {
 	return(((prevJoypad.Buttons[button] & button) != 0) && ((curJoypad.Buttons[button] & button) == 0));
 }

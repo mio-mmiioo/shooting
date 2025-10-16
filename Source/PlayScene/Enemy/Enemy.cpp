@@ -9,6 +9,7 @@ namespace ENEMY
 	VECTOR3 size = { 50, 200, 50 }; // hitModelのサイズ
 	VECTOR3 headshotPos = { 0, 170, 0 };
 	float headshotR = 25;
+	int headshotBonus = 2;
 }
 
 Enemy::Enemy(const VECTOR3& position, float ang, int hp)
@@ -70,7 +71,7 @@ void Enemy::Update()
 		{
 			if (Segment_Point_MinLength(player_->GetStartPos(), player_->GetWPointerPos(), transform_.position_ + ENEMY::headshotPos) < ENEMY::headshotR) // クリティカル内か
 			{
-				hp_ -= player_->Attack() * 2;
+				hp_ -= player_->Attack() * ENEMY::headshotBonus;
 			}
 			else
 			{

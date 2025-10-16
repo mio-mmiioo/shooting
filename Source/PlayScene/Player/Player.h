@@ -33,6 +33,7 @@ private:
 	int imageReloadX_, imageReloadY_;			// 画像のサイズを代入する変数
 
 	// 銃弾関連
+	bool IsAttackInput(); // 銃によって攻撃の入力処理を変更する
 	bool isAttack_;
 
 	GUN::TYPE currentGun_;

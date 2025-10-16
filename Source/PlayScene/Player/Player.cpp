@@ -128,7 +128,7 @@ void Player::Update()
 	{
 		gun_->ReloadBullet(); // リロードの処理
 	}
-	else if (Input::IsMouseDown(MOUSE_INPUT_LEFT) || Input::IsJoypadDown(XINPUT_BUTTON_B))
+	else if (IsAttackInput() == true) // 銃の種類によって入力の判定が異なる 
 	{
 		if (gun_->GetReloadTimer() <= 0) // リロード中じゃない→撃てる
 		{
@@ -181,4 +181,25 @@ int Player::Attack()
 		return gun_->GetAttack();
 	}
 	return -1;
+}
+
+bool Player::IsAttackInput()
+{
+	switch (currentGun_)
+	{
+	case GUN::TYPE::HAND: // 一発ずつ発砲
+		if (Input::IsMouseDown(MOUSE_INPUT_LEFT) || Input::IsJoypadDown(XINPUT_BUTTON_B))
+		{
+			return true;
+		}
+		break;
+
+	case GUN::TYPE::MACHINE: // 長押しで連射
+		if (Input::IsMouseKeep(MOUSE_INPUT_LEFT) || Input::IsJoypadKeep(XINPUT_BUTTON_B))
+		{
+			return true;
+		}
+		break;
+	}
+	return false;
 }

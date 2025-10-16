@@ -151,6 +151,7 @@
     <ClInclude Include="Source\PlayScene\Actor.h" />
     <ClInclude Include="Source\PlayScene\Development\Axis.h" />
     <ClInclude Include="Source\PlayScene\Enemy\Enemy.h" />
+    <ClInclude Include="Source\PlayScene\Gun\Effect.h" />
     <ClInclude Include="Source\PlayScene\Gun\Gun.h" />
     <ClInclude Include="Source\PlayScene\Map\Stage.h" />
     <ClInclude Include="Source\PlayScene\Map\StageObject.h" />
@@ -177,6 +178,7 @@
     <ClCompile Include="Source\PlayScene\Actor.cpp" />
     <ClCompile Include="Source\PlayScene\Development\Axis.cpp" />
     <ClCompile Include="Source\PlayScene\Enemy\Enemy.cpp" />
+    <ClCompile Include="Source\PlayScene\Gun\Effect.cpp" />
     <ClCompile Include="Source\PlayScene\Gun\Gun.cpp" />
     <ClCompile Include="Source\PlayScene\Map\Stage.cpp" />
     <ClCompile Include="Source\PlayScene\Map\StageObject.cpp" />

@@ -59,13 +59,14 @@
     <ClCompile Include="Source\PlayScene\Gun\Gun.cpp">
       <Filter>PlayScene\Gun</Filter>
     </ClCompile>
-    <ClCompile Include="Library\Right.cpp">
-      <Filter>Library</Filter>
-    </ClCompile>
     <ClCompile Include="Library\Shadow.cpp">
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="Source\Sound.cpp" />
+    <ClCompile Include="Library\Light.cpp" />
+    <ClCompile Include="Source\PlayScene\Gun\Effect.cpp">
+      <Filter>PlayScene\Gun</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -133,13 +134,14 @@
     <ClInclude Include="Source\PlayScene\Gun\Gun.h">
       <Filter>PlayScene\Gun</Filter>
     </ClInclude>
-    <ClInclude Include="Library\Right.h">
-      <Filter>Library</Filter>
-    </ClInclude>
     <ClInclude Include="Library\Shadow.h">
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\Sound.h" />
+    <ClInclude Include="Library\Light.h" />
+    <ClInclude Include="Source\PlayScene\Gun\Effect.h">
+      <Filter>PlayScene\Gun</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">

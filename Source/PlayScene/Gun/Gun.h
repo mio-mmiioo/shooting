@@ -38,7 +38,7 @@ public:
 	bool OutBullet();
 	void OutBulletEffect();
 	void ReloadBullet();
-	void AddGun(int addNumber);
+	void AddBullet(int addNumber);
 	void SetGunType(GUN::TYPE type);
 
 	int GetAttack();

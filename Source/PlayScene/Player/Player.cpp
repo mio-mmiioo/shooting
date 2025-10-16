@@ -4,6 +4,7 @@
 #include "../Map/Stage.h"
 #include "../../../Library/Input.h"
 #include "../Gun/Gun.h"
+#include "../Gun/Effect.h"
 #include "../Enemy/Enemy.h"
 
 namespace PLAYER
@@ -92,27 +93,26 @@ void Player::Update()
 	}
 
 	// 当たり判定　Stage→Actor の順で確認している
+	
+	VECTOR3 hit;
+	startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
+	//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
+
+	if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
 	{
-		VECTOR3 hit;
-		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
-		//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
-
-		if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
-		{
-			// stageObjectに当たる場合の処理
-		}
-
-		if (Actor::CollideLine(startPos_, wPointerPos_, &hit))
-		{
-			// Actorに当たる場合の処理
-			isHit_ = true;
-		}
-		else
-		{
-			isHit_ = false;
-		}
+		// stageObjectに当たる場合の処理
 	}
 
+	if (Actor::CollideLine(startPos_, wPointerPos_, &hit))
+	{
+		// Actorに当たる場合の処理
+		isHit_ = true;
+	}
+	else
+	{
+		isHit_ = false;
+	}
+	
 	// 銃弾
 	if (Input::IsKeyDown(KEY_INPUT_6))
 	{
@@ -129,12 +129,13 @@ void Player::Update()
 	{
 		gun_->ReloadBullet(); // リロードの処理
 	}
-	else if (IsAttackInput() == true) // 銃の種類によって入力の判定が異なる 
+	if (IsAttackInput() == true) // 銃の種類によって入力の判定が異なる 
 	{
 		if (gun_->GetReloadTimer() <= 0) // リロード中じゃない→撃てる
 		{
 			if (gun_->OutBullet() == true) // 攻撃成功→true : 銃弾を発射する処理 エフェクト・音・振動もここで処理
 			{
+				new Effect(hit, currentGun_);
 				isAttack_ = true;
 			}
 		}

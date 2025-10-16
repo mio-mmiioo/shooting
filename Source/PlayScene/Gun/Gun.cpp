@@ -36,7 +36,7 @@ Gun::Gun()
 		0.0f,
 		2.0f,
 		0.0f,
-		0.1f
+		0.06f
 	};
 }
 
@@ -127,7 +127,7 @@ void Gun::ReloadBullet()
 	}
 }
 
-void Gun::AddGun(int addNumber)
+void Gun::AddBullet(int addNumber)
 {
 	current.remainingAll += addNumber;
 }

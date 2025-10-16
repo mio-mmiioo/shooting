@@ -1,8 +1,8 @@
 #include "Player.h"
 #include "Camera.h"
 #include <assert.h>
-#include "../Map/Stage.h"
-#include "../../../Library/Input.h"
+#include "../../Map/Stage.h"
+#include "../../../../Library/Input.h"
 #include "../Gun/Gun.h"
 #include "../Gun/Effect.h"
 #include "../Enemy/Enemy.h"

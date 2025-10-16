@@ -1,10 +1,10 @@
 #include "Stage.h"
 #include <assert.h>
 #include "../../../Library/CsvReader.h"
-#include "../Player/Player.h"
-#include "../Enemy/Enemy.h"
+#include "../Actor/Player/Player.h"
+#include "../Actor/Enemy/Enemy.h"
 #include "StageObject.h"
-#include "../Actor.h"
+#include "../Actor/Actor.h"
 
 Stage::Stage(int number)
 {

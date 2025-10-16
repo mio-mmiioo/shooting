@@ -1,6 +1,6 @@
 #include "PlayScene.h"
 #include "Map/Stage.h"
-#include "Player/Camera.h"
+#include "Actor/Player/Camera.h"
 #include "Development/Axis.h"
 #include "../../Library/Light.h"
 #include "../../Library/Shadow.h"

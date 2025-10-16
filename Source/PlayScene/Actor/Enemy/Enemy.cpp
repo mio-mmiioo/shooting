@@ -1,6 +1,6 @@
 #include "Enemy.h"
 #include <assert.h>
-#include "../Map/Stage.h"
+#include "../../Map/Stage.h"
 #include "../Player/Player.h"
 
 namespace ENEMY

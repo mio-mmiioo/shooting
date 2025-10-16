@@ -1,6 +1,6 @@
 #include "Gun.h"
 #include <assert.h>
-#include "../../Sound.h"
+#include "../../../Sound.h"
 
 namespace GUN
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../Library/Object3D.h"
+#include "../../../../Library/Object3D.h"
 #include "Gun.h"
 
 class Effect : public Object3D

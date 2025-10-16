@@ -4,7 +4,7 @@ Effect::Effect(VECTOR3 effectPos, GUN::TYPE type)
 {
 	transform_.position_ = effectPos;
 	type_ = type;
-	timer_ = 10.0f;
+	timer_ = 5.0f;
 }
 
 Effect::~Effect()

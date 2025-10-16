@@ -91,27 +91,6 @@ void Player::Update()
 	{
 		transform_.position_ -= velocity;
 	}
-
-	// 当たり判定　Stage→Actor の順で確認している
-	
-	VECTOR3 hit;
-	startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
-	//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
-
-	if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
-	{
-		// stageObjectに当たる場合の処理
-	}
-
-	if (Actor::CollideLine(startPos_, wPointerPos_, &hit))
-	{
-		// Actorに当たる場合の処理
-		isHit_ = true;
-	}
-	else
-	{
-		isHit_ = false;
-	}
 	
 	// 銃弾
 	if (Input::IsKeyDown(KEY_INPUT_6))
@@ -135,9 +114,34 @@ void Player::Update()
 		{
 			if (gun_->OutBullet() == true) // 攻撃成功→true : 銃弾を発射する処理 エフェクト・音・振動もここで処理
 			{
-				new Effect(hit, currentGun_);
 				isAttack_ = true;
 			}
+		}
+	}
+
+	// 当たり判定　Stage→Actor の順で確認している isHit_を変更できればいい
+	{
+		VECTOR3 hit;
+		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
+		//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
+
+		if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
+		{
+			// stageObjectに当たる場合の処理
+			if (isAttack_ == true)
+			{
+				new Effect(hit, currentGun_);
+			}
+		}
+
+		if (Actor::CollideLine(startPos_, wPointerPos_, &hit))
+		{
+			// Actorに当たる場合の処理
+			isHit_ = true;
+		}
+		else
+		{
+			isHit_ = false;
 		}
 	}
 

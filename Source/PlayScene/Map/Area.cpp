@@ -17,6 +17,7 @@ namespace Area {
 void Area::SetStage()
 {
 	new Stage(nextPositionNumber);
+
 }
 
 VECTOR3 Area::GetNextPosition()

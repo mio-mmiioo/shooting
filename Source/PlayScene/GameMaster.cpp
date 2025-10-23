@@ -6,7 +6,7 @@
 #include "Map/Stage.h"
 
 namespace GameMaster {
-	Player* player;
+	Player* player = nullptr;
 }
 
 void GameMaster::Init()
@@ -34,8 +34,8 @@ void GameMaster::SetPlayerPos()
 {
 	if (IsChangeArea() == true)
 	{
-		Area::SetStage();
 		player = FindGameObject<Player>();
 		player->SetPosition(Area::GetNextPosition());
+		Area::SetStage(); // Area::GetNextPosition()‚ÌŒã‚É‚©‚­
 	}
 }

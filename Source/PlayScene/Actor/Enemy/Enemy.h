@@ -13,6 +13,8 @@ public:
 
 	bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const override;
 
+	bool isHit_;
+
 
 private:
 	Player* player_;

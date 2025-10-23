@@ -57,29 +57,29 @@ void Enemy::Update()
 		DestroyMe();
 	}
 
-	player_ = FindGameObject<Player>();
-	VECTOR3 hit;
-	if (Object3D::CollideLine(player_->GetStartPos(), player_->GetWPointerPos(), &hit)) // 銃の軌道上にあるか
-	{
-		// ヘッドショットになる場合黒丸を表示
-		//if (Segment_Point_MinLength(player_->GetStartPos(), player_->GetWPointerPos(), transform_.position_ + ENEMY::headshotPos) < ENEMY::headshotR) // クリティカル内か
-		//{
-		//	DrawSphere3D(hit, 10, 10, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
-		//}
+	//player_ = FindGameObject<Player>();
+	//VECTOR3 hit;
+	//if (Object3D::CollideLine(player_->GetStartPos(), player_->GetWPointerPos(), &hit)) // 銃の軌道上にあるか
+	//{
+	//	// ヘッドショットになる場合黒丸を表示
+	//	//if (Segment_Point_MinLength(player_->GetStartPos(), player_->GetWPointerPos(), transform_.position_ + ENEMY::headshotPos) < ENEMY::headshotR) // クリティカル内か
+	//	//{
+	//	//	DrawSphere3D(hit, 10, 10, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+	//	//}
 
-		if (player_->Attack() > 0) // プレイヤーが発砲
-		{
-			// ヘッドショットっだったらheadshotBonusをかける
-			if (Segment_Point_MinLength(player_->GetStartPos(), player_->GetWPointerPos(), transform_.position_ + ENEMY::headshotPos) < ENEMY::headshotR) // クリティカル内か
-			{
-				hp_ -= player_->Attack() * ENEMY::headshotBonus;
-			}
-			else
-			{
-				hp_ -= player_->Attack(); // 攻撃される
-			}
-		}
-	}
+	//	if (player_->Attack() > 0) // プレイヤーが発砲
+	//	{
+	//		// ヘッドショットっだったらheadshotBonusをかける
+	//		if (Segment_Point_MinLength(player_->GetStartPos(), player_->GetWPointerPos(), transform_.position_ + ENEMY::headshotPos) < ENEMY::headshotR) // クリティカル内か
+	//		{
+	//			hp_ -= player_->Attack() * ENEMY::headshotBonus;
+	//		}
+	//		else
+	//		{
+	//			hp_ -= player_->Attack(); // 攻撃される
+	//		}
+	//	}
+	//}
 
 	if (hp_ <= 0)
 	{
@@ -112,7 +112,7 @@ bool Enemy::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
 	VECTOR3 now;
 	float nowVal = ((VECTOR3)(pos2 - pos1)).Size();
 	VECTOR3 ret;
-	if (Actor::CollideLine(pos1, pos2, &ret))
+	if (Object3D::CollideLine(pos1, pos2, &ret))
 	{
 		found = true;
 		VECTOR3 v = pos1 - ret;

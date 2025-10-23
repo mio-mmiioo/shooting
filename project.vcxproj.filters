@@ -26,17 +26,8 @@
     <ClCompile Include="Library\Object3D.cpp">
       <Filter>Library</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayScene\Actor.cpp">
-      <Filter>PlayScene</Filter>
-    </ClCompile>
     <ClCompile Include="Source\PlayScene\PlayScene.cpp">
       <Filter>PlayScene</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PlayScene\Player\Player.cpp">
-      <Filter>PlayScene\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\PlayScene\Player\Camera.cpp">
-      <Filter>PlayScene\Player</Filter>
     </ClCompile>
     <ClCompile Include="Source\PlayScene\Map\Stage.cpp">
       <Filter>PlayScene\Map</Filter>
@@ -47,25 +38,36 @@
     <ClCompile Include="Library\csvReader.cpp">
       <Filter>Library</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayScene\Enemy\Enemy.cpp">
-      <Filter>PlayScene\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="Library\Input.cpp">
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="Source\PlayScene\Development\Axis.cpp">
       <Filter>PlayScene\Development</Filter>
     </ClCompile>
-    <ClCompile Include="Source\PlayScene\Gun\Gun.cpp">
-      <Filter>PlayScene\Gun</Filter>
-    </ClCompile>
     <ClCompile Include="Library\Shadow.cpp">
       <Filter>Library</Filter>
     </ClCompile>
     <ClCompile Include="Source\Sound.cpp" />
-    <ClCompile Include="Library\Light.cpp" />
-    <ClCompile Include="Source\PlayScene\Gun\Effect.cpp">
-      <Filter>PlayScene\Gun</Filter>
+    <ClCompile Include="Source\PlayScene\Actor\Player\Camera.cpp">
+      <Filter>PlayScene\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\Actor\Player\Player.cpp">
+      <Filter>PlayScene\Actor\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\Actor\Gun\Effect.cpp">
+      <Filter>PlayScene\Actor\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\Actor\Gun\Gun.cpp">
+      <Filter>PlayScene\Actor\Gun</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\Actor\Enemy\Enemy.cpp">
+      <Filter>PlayScene\Actor\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayScene\Actor\Actor.cpp">
+      <Filter>PlayScene\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Light.cpp">
+      <Filter>Library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,17 +103,8 @@
     <ClInclude Include="Library\Object3D.h">
       <Filter>Library</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PlayScene\Actor.h">
-      <Filter>PlayScene</Filter>
-    </ClInclude>
     <ClInclude Include="Source\PlayScene\PlayScene.h">
       <Filter>PlayScene</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PlayScene\Player\Player.h">
-      <Filter>PlayScene\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\PlayScene\Player\Camera.h">
-      <Filter>PlayScene\Player</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Map\Stage.h">
       <Filter>PlayScene\Map</Filter>
@@ -122,25 +115,36 @@
     <ClInclude Include="Library\CsvReader.h">
       <Filter>Library</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PlayScene\Enemy\Enemy.h">
-      <Filter>PlayScene\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="Library\Input.h">
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\PlayScene\Development\Axis.h">
       <Filter>PlayScene\Development</Filter>
     </ClInclude>
-    <ClInclude Include="Source\PlayScene\Gun\Gun.h">
-      <Filter>PlayScene\Gun</Filter>
-    </ClInclude>
     <ClInclude Include="Library\Shadow.h">
       <Filter>Library</Filter>
     </ClInclude>
     <ClInclude Include="Source\Sound.h" />
-    <ClInclude Include="Library\Light.h" />
-    <ClInclude Include="Source\PlayScene\Gun\Effect.h">
-      <Filter>PlayScene\Gun</Filter>
+    <ClInclude Include="Source\PlayScene\Actor\Player\Camera.h">
+      <Filter>PlayScene\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Actor\Player\Player.h">
+      <Filter>PlayScene\Actor\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Actor\Gun\Effect.h">
+      <Filter>PlayScene\Actor\Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Actor\Gun\Gun.h">
+      <Filter>PlayScene\Actor\Gun</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Actor\Enemy\Enemy.h">
+      <Filter>PlayScene\Actor\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Actor\Actor.h">
+      <Filter>PlayScene\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Light.h">
+      <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -159,17 +163,20 @@
     <Filter Include="PlayScene\Map">
       <UniqueIdentifier>{4e7a4392-3f03-48af-8e16-a640bc311a52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PlayScene\Enemy">
-      <UniqueIdentifier>{cfe94efb-d98d-4653-a5ee-563cf54bfb3f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PlayScene\Player">
-      <UniqueIdentifier>{f51f801b-8e12-43f0-af93-e44b602ed436}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PlayScene\Development">
       <UniqueIdentifier>{358f7ce9-eed7-44c3-ae24-eb6785fc68bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PlayScene\Gun">
+    <Filter Include="PlayScene\Actor">
+      <UniqueIdentifier>{29f00bea-33f2-481d-b2aa-829d0598fa2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Actor\Gun">
       <UniqueIdentifier>{b699be25-6f82-4771-97da-4e260190f9c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Actor\Enemy">
+      <UniqueIdentifier>{cfe94efb-d98d-4653-a5ee-563cf54bfb3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Actor\Player">
+      <UniqueIdentifier>{f51f801b-8e12-43f0-af93-e44b602ed436}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -59,6 +59,41 @@ Player::~Player()
 
 void Player::Update()
 {
+	// ‘O‰ñ‚Ìî•ñ‚ğ‚à‚Æ‚ÉUŒ‚‚³‚ê‚é‘ÎÛ‚ğ“Á’è‚·‚é
+	{
+		VECTOR3 ret = { 10000, 10000, 10000 };
+		float distance = ((VECTOR3)(transform_.position_ - ret)).Size();
+		for (Enemy* enemy : hitEnemy_)
+		{
+			VECTOR3 ePos = enemy->GetTransform().position_;
+			if (distance > ((VECTOR3)(transform_.position_ - ePos)).Size())
+			{
+				// Actor‚É“–‚½‚éê‡‚Ìˆ—
+				distance = ((VECTOR3)(transform_.position_ - ePos)).Size();
+				enemy->isHit_ = true;
+			}
+			else
+			{
+				enemy->isHit_ = false;
+			}
+		}
+
+		if (isAttack_ == true)
+		{
+			for (Enemy* enemy : hitEnemy_)
+			{
+				if (enemy->isHit_ == true)
+				{
+					// UŒ‚—Í
+					enemy->addHp(-Attack());
+				}
+			}
+		}
+
+		hitEnemy_.clear();
+	}
+
+
 	isAttack_ = false;
 
 	GetMousePoint(&mouseX_, &mouseY_);
@@ -134,14 +169,20 @@ void Player::Update()
 			}
 		}
 
-		if (Actor::CollideLine(startPos_, wPointerPos_, &hit))
+		enemy_ = FindGameObjects<Enemy>();
+
+		for (Enemy* enemy : enemy_)
 		{
-			// Actor‚É“–‚½‚éê‡‚Ìˆ—
-			isHit_ = true;
-		}
-		else
-		{
-			isHit_ = false;
+			if (enemy->CollideLine(startPos_, wPointerPos_, &hit))
+			{
+				hitEnemy_.push_back(enemy);
+				// Actor‚É“–‚½‚éê‡‚Ìˆ—
+				isHit_ = true;
+			}
+			else
+			{
+				isHit_ = false;
+			}
 		}
 	}
 

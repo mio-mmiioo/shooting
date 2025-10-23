@@ -1,6 +1,9 @@
 #include "Actor.h"
 
 Actor::Actor()
+	:isAlive_(true),
+	hp_(10),
+	time_(0)
 {
 }
 

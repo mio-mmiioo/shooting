@@ -5,11 +5,12 @@
 
 namespace GameMaster {
 	Player* player;
+
 }
 
 void GameMaster::Update()
 {
-	SetPlayerPos();
+	SetPlayerPos(); // ğŒ‚ğ–‚½‚³‚È‚«‚áƒZƒbƒg‚³‚ê‚È‚¢
 
 }
 

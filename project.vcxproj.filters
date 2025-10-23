@@ -72,6 +72,9 @@
     <ClCompile Include="Source\PlayScene\GameMaster.cpp">
       <Filter>PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Map\Area.cpp">
+      <Filter>PlayScene\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -151,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="Source\PlayScene\GameMaster.h">
       <Filter>PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Map\Area.h">
+      <Filter>PlayScene\Map</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

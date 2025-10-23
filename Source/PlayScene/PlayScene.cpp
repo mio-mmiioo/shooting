@@ -13,7 +13,7 @@ PlayScene::PlayScene()
 
 	//new Axis();
 	new Camera();
-	new Stage(1);
+	//new Stage(1);
 
 	Light::Init();
 	Shadow::Init(); // Stage‚ÌŒã‚ÉInit‚·‚é

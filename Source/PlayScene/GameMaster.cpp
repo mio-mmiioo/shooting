@@ -3,9 +3,15 @@
 #include "Actor/Enemy/Enemy.h"
 #include "Actor/Player/Player.h"
 #include "Map/Area.h"
+#include "Map/Stage.h"
 
 namespace GameMaster {
 	Player* player;
+}
+
+void GameMaster::Init()
+{
+	Area::SetStage(); // 最初のステージをセット
 }
 
 void GameMaster::Update()
@@ -28,6 +34,7 @@ void GameMaster::SetPlayerPos()
 {
 	if (IsChangeArea() == true)
 	{
+		Area::SetStage();
 		player = FindGameObject<Player>();
 		player->SetPosition(Area::GetNextPosition());
 	}

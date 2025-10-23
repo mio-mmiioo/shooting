@@ -1,5 +1,6 @@
 #include "Area.h"
 #include <vector>
+#include "Stage.h"
 
 namespace Area {
 	std::vector<VECTOR3> nextPosition = {
@@ -13,6 +14,10 @@ namespace Area {
 	int nextPositionNumber = 0;
 }
 
+void Area::SetStage()
+{
+	new Stage(nextPositionNumber);
+}
 
 VECTOR3 Area::GetNextPosition()
 {

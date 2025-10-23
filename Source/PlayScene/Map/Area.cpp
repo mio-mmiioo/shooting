@@ -9,10 +9,17 @@ namespace Area {
 		{ {-500, 0, -500} },
 		{ {-500, 0,  500} }
 	};
+
+	int nextPositionNumber = 0;
 }
 
 
 VECTOR3 Area::GetNextPosition()
 {
-	return VECTOR3();
+	nextPositionNumber += 1;
+	if (nextPositionNumber >= nextPosition.size())
+	{
+		nextPositionNumber = 1;
+	}
+	return Area::nextPosition[Area::nextPositionNumber];
 }

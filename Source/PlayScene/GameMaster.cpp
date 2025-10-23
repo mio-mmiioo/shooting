@@ -2,10 +2,10 @@
 #include "../../Library/Object3D.h"
 #include "Actor/Enemy/Enemy.h"
 #include "Actor/Player/Player.h"
+#include "Map/Area.h"
 
 namespace GameMaster {
 	Player* player;
-
 }
 
 void GameMaster::Update()
@@ -29,7 +29,6 @@ void GameMaster::SetPlayerPos()
 	if (IsChangeArea() == true)
 	{
 		player = FindGameObject<Player>();
-		VECTOR3 newPos = { 0, 0, 0 };
-		player->SetPosition(newPos);
+		player->SetPosition(Area::GetNextPosition());
 	}
 }

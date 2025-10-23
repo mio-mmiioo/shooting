@@ -14,9 +14,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	VECTOR3 GetWPointerPos() { return wPointerPos_; }
-	VECTOR3 GetStartPos() { return startPos_; }
 	int Attack(); // UŒ‚—Í‚ğ“ü‚ê‚é -1 ‚Ì‚ÍUŒ‚‚µ‚Ä‚È‚¢
+	void SetPosition(VECTOR3 newPosition) { transform_.position_ = newPosition; }
 
 private:
 	Camera* camera_;

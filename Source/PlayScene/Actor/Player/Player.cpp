@@ -10,6 +10,8 @@
 namespace PLAYER
 {
 	VECTOR3 G = { 0, 9.8, 0 };
+	float rotateSpeed = 3.0f;
+	float moveSpeed = 5.0f;
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -81,7 +83,7 @@ void Player::Update()
 
 		if (isAttack_ == true)
 		{
-			if (attackedEnemy != nullptr)
+			if (attackedEnemy != nullptr) // ポインターが敵にあっていない場合、attackedEnemyがnullptrになっている
 			{
 				attackedEnemy->addHp(-Attack());
 			}
@@ -102,18 +104,18 @@ void Player::Update()
 	{
 		if (Input::IsKeepKeyDown(KEY_INPUT_D))
 		{
-			transform_.rotation_.y += 3 * DegToRad;
+			transform_.rotation_.y += PLAYER::rotateSpeed * DegToRad;
 		}
 		if (Input::IsKeepKeyDown(KEY_INPUT_A))
 		{
-			transform_.rotation_.y -= 3 * DegToRad;
+			transform_.rotation_.y -= PLAYER::rotateSpeed * DegToRad;
 		}
 	}
 
 	//移動
 
 	VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-	velocity = VECTOR3(0, 0, 1) * 5.0f * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+	velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 
 	if (Input::IsKeepKeyDown(KEY_INPUT_W))
 	{
@@ -142,46 +144,45 @@ void Player::Update()
 	}
 	if (IsAttackInput() == true) // 銃の種類によって入力の判定が異なる 
 	{
-		if (gun_->GetReloadTimer() <= 0) // リロード中じゃない→撃てる
+		if (gun_->OutBullet() == true) // 攻撃成功→true : 銃弾を発射する処理 エフェクト・音・振動もここで処理
 		{
-			if (gun_->OutBullet() == true) // 攻撃成功→true : 銃弾を発射する処理 エフェクト・音・振動もここで処理
-			{
-				isAttack_ = true;
-			}
+			isAttack_ = true;
 		}
 	}
 
 	// 当たり判定　Stage→Actor の順で確認している isHit_を変更できればいい
-	VECTOR3 hit;
-	startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
-	//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
-
-	//if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
-	//{
-	//	// stageObjectに当たる場合の処理
-	//	if (isAttack_ == true)
-	//	{
-	//		new Effect(hit, currentGun_);
-	//	}
-	//}
-
-	enemy_ = FindGameObjects<Enemy>();
-
-	for (Enemy* enemy : enemy_)
 	{
-		if (enemy->Object3D::CollideLine(startPos_, wPointerPos_, &hit))
+		VECTOR3 hit;
+		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
+		//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
+
+		//if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
+		//{
+		//	// stageObjectに当たる場合の処理
+		//	if (isAttack_ == true)
+		//	{
+		//		new Effect(hit, currentGun_);
+		//	}
+		//}
+
+		enemy_ = FindGameObjects<Enemy>();
+
+		for (Enemy* enemy : enemy_)
 		{
-			hitEnemy_.push_back(enemy);
+			if (enemy->Object3D::CollideLine(startPos_, wPointerPos_, &hit))
+			{
+				hitEnemy_.push_back(enemy);
+			}
 		}
-	}
 
-	if (hitEnemy_.size() > 0)
-	{
-		isHit_ = true;
-	}
-	else
-	{
-		isHit_ = false;
+		if (hitEnemy_.size() > 0)
+		{
+			isHit_ = true;
+		}
+		else
+		{
+			isHit_ = false;
+		}
 	}
 
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
@@ -215,7 +216,7 @@ void Player::Draw()
 	if (gun_->GetReloadTimer() > 0)
 	{
 		float rate = (gun_->GetReloadTime() - gun_->GetReloadTimer()) / gun_->GetReloadTime() * 100; // (maxの時間 - 残り時間) / maxの時間 * 100 = 〇〇%
-		DrawCircleGauge(mouseX_, mouseY_, 100.0, hImageReload_, rate, 1.0, 0, 0);
+		DrawCircleGauge(mouseX_, mouseY_, 100.0, hImageReload_, rate);
 	}
 }
 

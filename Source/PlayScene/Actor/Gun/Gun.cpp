@@ -88,7 +88,7 @@ void Gun::DrawRemainingSetting()
 
 bool Gun::OutBullet()
 {
-	if (current.remainingSetting <= 0 || current.coolDownTimer > 0) // 残弾数が0以下 or クールダウン中
+	if (current.remainingSetting <= 0 || current.coolDownTimer > 0 || current.reloadTimer > 0) // 残弾数が0以下 or クールダウン中
 	{
 		return false;
 	}

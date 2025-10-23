@@ -81,7 +81,10 @@ void Player::Update()
 
 		if (isAttack_ == true)
 		{
-			attackedEnemy->addHp(-Attack());
+			if (attackedEnemy != nullptr)
+			{
+				attackedEnemy->addHp(-Attack());
+			}
 		}
 
 		hitEnemy_.clear();

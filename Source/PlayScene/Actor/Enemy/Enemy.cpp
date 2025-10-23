@@ -18,6 +18,7 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	hp_ = hp;
 
 	isAlive_ = true;
+	isAttacked_ = false;
 
 	hModel_ = MV1LoadModel("data/model/enemy01.mv1");
 	assert(hModel_ > 0);
@@ -106,26 +107,26 @@ void Enemy::Draw()
 	}
 }
 
-bool Enemy::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
-{
-	bool found = false;
-	VECTOR3 now;
-	float nowVal = ((VECTOR3)(pos2 - pos1)).Size();
-	VECTOR3 ret;
-	if (Object3D::CollideLine(pos1, pos2, &ret))
-	{
-		found = true;
-		VECTOR3 v = pos1 - ret;
-		float len = v.Size();
-		if (len < nowVal)
-		{
-			nowVal = len;
-			now = ret;
-		}
-	}
-	if (hit != nullptr)
-	{
-		*hit = now;
-	}
-	return found;
-}
+//bool Enemy::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
+//{
+//	bool found = false;
+//	VECTOR3 now;
+//	float nowVal = ((VECTOR3)(pos2 - pos1)).Size();
+//	VECTOR3 ret;
+//	if (Object3D::CollideLine(pos1, pos2, &ret))
+//	{
+//		found = true;
+//		VECTOR3 v = pos1 - ret;
+//		float len = v.Size();
+//		if (len < nowVal)
+//		{
+//			nowVal = len;
+//			now = ret;
+//		}
+//	}
+//	if (hit != nullptr)
+//	{
+//		*hit = now;
+//	}
+//	return found;
+//}

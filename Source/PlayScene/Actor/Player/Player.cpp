@@ -63,31 +63,25 @@ void Player::Update()
 	{
 		VECTOR3 ret = { 10000, 10000, 10000 };
 		float distance = ((VECTOR3)(transform_.position_ - ret)).Size();
+		Enemy* attackedEnemy = nullptr;
 		for (Enemy* enemy : hitEnemy_)
 		{
 			VECTOR3 ePos = enemy->GetTransform().position_;
-			if (distance > ((VECTOR3)(transform_.position_ - ePos)).Size())
+			float d = ((VECTOR3)(transform_.position_ - ePos)).Size();
+
+			if (isAttack_ == true)
 			{
-				// Actorに当たる場合の処理
-				distance = ((VECTOR3)(transform_.position_ - ePos)).Size();
-				enemy->isHit_ = true;
-			}
-			else
-			{
-				enemy->isHit_ = false;
+				if (distance > d)
+				{
+					distance = d;
+					attackedEnemy = enemy;
+				}
 			}
 		}
 
 		if (isAttack_ == true)
 		{
-			for (Enemy* enemy : hitEnemy_)
-			{
-				if (enemy->isHit_ == true)
-				{
-					// 攻撃力
-					enemy->addHp(-Attack());
-				}
-			}
+			attackedEnemy->addHp(-Attack());
 		}
 
 		hitEnemy_.clear();
@@ -155,35 +149,36 @@ void Player::Update()
 	}
 
 	// 当たり判定　Stage→Actor の順で確認している isHit_を変更できればいい
+	VECTOR3 hit;
+	startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
+	//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
+
+	//if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
+	//{
+	//	// stageObjectに当たる場合の処理
+	//	if (isAttack_ == true)
+	//	{
+	//		new Effect(hit, currentGun_);
+	//	}
+	//}
+
+	enemy_ = FindGameObjects<Enemy>();
+
+	for (Enemy* enemy : enemy_)
 	{
-		VECTOR3 hit;
-		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
-		//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
-
-		if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
+		if (enemy->Object3D::CollideLine(startPos_, wPointerPos_, &hit))
 		{
-			// stageObjectに当たる場合の処理
-			if (isAttack_ == true)
-			{
-				new Effect(hit, currentGun_);
-			}
+			hitEnemy_.push_back(enemy);
 		}
+	}
 
-		enemy_ = FindGameObjects<Enemy>();
-
-		for (Enemy* enemy : enemy_)
-		{
-			if (enemy->CollideLine(startPos_, wPointerPos_, &hit))
-			{
-				hitEnemy_.push_back(enemy);
-				// Actorに当たる場合の処理
-				isHit_ = true;
-			}
-			else
-			{
-				isHit_ = false;
-			}
-		}
+	if (hitEnemy_.size() > 0)
+	{
+		isHit_ = true;
+	}
+	else
+	{
+		isHit_ = false;
 	}
 
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する

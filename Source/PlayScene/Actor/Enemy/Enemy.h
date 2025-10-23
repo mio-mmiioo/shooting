@@ -11,9 +11,9 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const override;
+	//bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const override;
 
-	bool isHit_;
+	bool isAttacked_;
 
 
 private:

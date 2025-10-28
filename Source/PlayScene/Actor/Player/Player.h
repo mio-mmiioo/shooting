@@ -16,6 +16,7 @@ public:
 
 	int Attack(); // 攻撃力を入れる -1 の時は攻撃してない
 	void SetPosition(VECTOR3 newPosition) { transform_.position_ = newPosition; }
+	void SetToGo(VECTOR3 goPosition);
 
 private:
 	Camera* camera_;
@@ -28,7 +29,8 @@ private:
 	int mouseX_, mouseY_;
 	VECTOR3 wPointerPos_; // スクリーン座標のポインターをワールド座標に変換したものを代入する変数
 	VECTOR3 startPos_; // 銃の軌道の始点
-	bool isHit_; // enemyなどのActorクラスとぶつかるかどうか
+	bool isHit_; // enemyなどのActorクラスに銃弾がぶつかるかどうか
+
 
 	// ポインターの画像
 	int hImagePointer_;							// 標準時のポインター

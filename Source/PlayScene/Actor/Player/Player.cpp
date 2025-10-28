@@ -152,7 +152,7 @@ void Player::Update()
 		}
 	}
 
-	// 当たり判定　Stage→Actor の順で確認している isHit_を変更できればいい
+	// 当たり判定　弾が当たる敵のリストを作成 isHit_を変更
 	{
 		VECTOR3 hit;
 		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
@@ -187,6 +187,19 @@ void Player::Update()
 		}
 	}
 
+	// 当たり判定　敵と自分の距離を確認
+	{
+		for (Enemy* enemy : enemy_)
+		{
+			float d = VSize(transform_.position_ - enemy->GetTransform().position_);
+			if (d < 100.0f)
+			{
+				// ここにプレイヤーのダメージ処理
+			}
+
+		}
+	}
+
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 
@@ -196,7 +209,7 @@ void Player::Draw()
 {
 	Object3D::Draw();
 
-	//// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
+	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
 	VECTOR3 addPlayerHeight = { 0, 180, 0 };
 	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
 

@@ -12,6 +12,7 @@ namespace Area {
 	};
 
 	int nextPositionNumber = 0;
+	VECTOR3 currentPosition;
 }
 
 void Area::SetStage()
@@ -20,12 +21,17 @@ void Area::SetStage()
 
 }
 
-VECTOR3 Area::GetNextPosition()
+VECTOR3 Area::GetCurrentPosition()
+{
+	return Area::currentPosition;
+}
+
+void Area::SetNextPosition()
 {
 	nextPositionNumber += 1;
 	if (nextPositionNumber >= nextPosition.size())
 	{
 		nextPositionNumber = 1;
 	}
-	return Area::nextPosition[Area::nextPositionNumber];
+	currentPosition = nextPosition[nextPositionNumber];
 }

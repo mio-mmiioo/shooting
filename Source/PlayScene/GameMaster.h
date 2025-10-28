@@ -7,5 +7,5 @@ namespace GameMaster {
 	bool IsChangeArea();
 	void SetPlayerPos();
 
-	VECTOR3 SetMove(Transform currentTransform, VECTOR3 toPosition, float angSpeed, float moveSpeed);
+	//VECTOR3 SetMove(Transform currentTransform, VECTOR3 toPosition, float angSpeed, float moveSpeed);
 }

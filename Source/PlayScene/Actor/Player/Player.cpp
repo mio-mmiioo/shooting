@@ -37,6 +37,8 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 
 	GetMousePoint(&mouseX_, &mouseY_);
 
+	goPosition_ = VECTOR3(0, 0, 0);
+	isArrive_ = true;
 	isHit_ = false;
 
 	// e’eŠÖ˜A
@@ -128,6 +130,17 @@ void Player::Update()
 		transform_.position_ -= velocity;
 	}
 	
+	// ˆÚ“®‚·‚éêŠ‚É“’…‚µ‚Ä‚È‚¢ê‡AˆÚ“®‚·‚é
+	if (isArrive_ == false)
+	{
+		SetMove(goPosition_, 3.0f, 2.0f);
+
+		if (VSize(goPosition_ - transform_.position_) < 50.0f)
+		{
+			isArrive_ = true;
+		}
+	}
+
 	// e’e
 	if (Input::IsKeyDown(KEY_INPUT_6))
 	{
@@ -242,6 +255,29 @@ int Player::Attack()
 		return gun_->GetAttack();
 	}
 	return -1;
+}
+
+void Player::SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed)
+{
+	VECTOR3 toGo = toPosition - transform_.position_;
+
+	VECTOR3 front = VECTOR3(0, 0, 1) * MGetRotY(transform_.rotation_.y);//³–Ê
+	VECTOR3 right = VECTOR3(1, 0, 0) * MGetRotY(transform_.rotation_.y);//‰E ‰ñ“]‚ğŒ©‚é‚Ì‚Ég‚Á‚Ä‚é
+
+	if (VDot(front, toGo.Normalize()) >= cos(angSpeed))
+	{
+		transform_.rotation_.y = atan2f(toGo.x, toGo.z);
+	}
+	else if (VDot(right, toGo) > 0)
+	{
+		transform_.rotation_.y += angSpeed;
+	}
+	else
+	{
+		transform_.rotation_.y -= angSpeed;
+	}
+
+	transform_.position_ += VECTOR3(0, 0, moveSpeed) * MGetRotY(transform_.rotation_.y);
 }
 
 bool Player::IsAttackInput()

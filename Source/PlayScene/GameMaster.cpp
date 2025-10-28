@@ -41,38 +41,10 @@ void GameMaster::SetPlayerPos()
 
 	if (player != nullptr)
 	{
-		player->SetPosition(SetMove(player->GetTransform(), Area::GetCurrentPosition(), 3.0f, 2.0f));
+		if (VSize(player->GetTransform().position_ - Area::GetCurrentPosition()) > 50.0f)
+		{
+			player->SetToGo(Area::GetCurrentPosition());
+			player->SetIsArrive(false);
+		}
 	}
-	//if (player->GetTransform().position_.x != Area::GetCurrentPosition().x || player->GetTransform().position_.z != Area::GetCurrentPosition().z)
-	//{
-	//	// ‚ä‚Á‚­‚è‚ÆˆÚ“®‚³‚¹‚éŠÖ”‚ðŒÄ‚Ño‚·
-	//	SetMove(player->GetTransform(), Area::GetCurrentPosition(), 3.0f, 2.0f);
-	//	
-	//	//player->SetPosition(Area::GetNextPosition());
-	//}
-}
-
-VECTOR3 GameMaster::SetMove(Transform currentTransform, VECTOR3 toPosition, float angSpeed, float moveSpeed)
-{
-	VECTOR3 toGo = toPosition - currentTransform.position_;
-
-	VECTOR3 front = VECTOR3(0, 0, 1) * MGetRotY(currentTransform.rotation_.y);//³–Ê
-	VECTOR3 right = VECTOR3(1, 0, 0) * MGetRotY(currentTransform.rotation_.y);//‰E ‰ñ“]‚ðŒ©‚é‚Ì‚ÉŽg‚Á‚Ä‚é
-	VECTOR3 ret;
-	if (VDot(front, toGo.Normalize()) >= cos(angSpeed))
-	{
-		currentTransform.rotation_.y = atan2f(toGo.x, toGo.z);
-	}
-	else if (VDot(right, toGo) > 0)
-	{
-		currentTransform.rotation_.y += angSpeed;
-	}
-	else
-	{
-		currentTransform.rotation_.y -= angSpeed;
-	}
-
-	currentTransform.position_ += VECTOR3(0, 0, moveSpeed) * MGetRotY(currentTransform.rotation_.y);
-	ret = currentTransform.position_;
-	return ret;
 }

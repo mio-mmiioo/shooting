@@ -48,6 +48,8 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	camera_ = FindGameObject<Camera>();
 	stage_ = FindGameObject<Stage>();
 	time_ = 0;
+
+	SetDrawOrder(-1);
 }
 
 Player::~Player()

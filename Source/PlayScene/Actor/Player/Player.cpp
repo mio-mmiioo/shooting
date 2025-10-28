@@ -104,7 +104,21 @@ void Player::Update()
 	VECTOR ScreenPos = { (float)mouseX_, (float)mouseY_, 1.0f };
 	wPointerPos_ = ConvScreenPosToWorldPos(ScreenPos);
 
-	//回転
+	// 自動移動
+	{
+		if (isArrive_ == false)
+		{
+			SetMove(goPosition_, 3.0f, 2.0f);
+
+			if (VSize(goPosition_ - transform_.position_) < 50.0f)
+			{
+				isArrive_ = true;
+			}
+		}
+
+	}
+	
+	// 手動回転 開発時のみ
 	{
 		if (Input::IsKeepKeyDown(KEY_INPUT_D))
 		{
@@ -116,30 +130,22 @@ void Player::Update()
 		}
 	}
 
-	//移動
-
-	VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-	velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
-
-	if (Input::IsKeepKeyDown(KEY_INPUT_W))
+	// 手動移動 開発時のみ
 	{
-		transform_.position_ += velocity;
-	}
-	else if (Input::IsKeepKeyDown(KEY_INPUT_S))
-	{
-		transform_.position_ -= velocity;
-	}
-	
-	// 移動する場所に到着してない場合、移動する
-	if (isArrive_ == false)
-	{
-		SetMove(goPosition_, 3.0f, 2.0f);
+		VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
+		velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 
-		if (VSize(goPosition_ - transform_.position_) < 50.0f)
+		if (Input::IsKeepKeyDown(KEY_INPUT_W))
 		{
-			isArrive_ = true;
+			transform_.position_ += velocity;
+		}
+		else if (Input::IsKeepKeyDown(KEY_INPUT_S))
+		{
+			transform_.position_ -= velocity;
 		}
 	}
+
+	
 
 	// 銃弾
 	if (Input::IsKeyDown(KEY_INPUT_6))
@@ -209,7 +215,6 @@ void Player::Update()
 			{
 				// ここにプレイヤーのダメージ処理
 			}
-
 		}
 	}
 
@@ -261,8 +266,8 @@ void Player::SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed)
 {
 	VECTOR3 toGo = toPosition - transform_.position_;
 
-	VECTOR3 front = VECTOR3(0, 0, 1) * MGetRotY(transform_.rotation_.y);//正面
-	VECTOR3 right = VECTOR3(1, 0, 0) * MGetRotY(transform_.rotation_.y);//右 回転を見るのに使ってる
+	VECTOR3 front = VECTOR3(0, 0, 1) * MGetRotY(transform_.rotation_.y); // 正面
+	VECTOR3 right = VECTOR3(1, 0, 0) * MGetRotY(transform_.rotation_.y); // 右 回転を見るのに使ってる
 
 	if (VDot(front, toGo.Normalize()) >= cos(angSpeed))
 	{

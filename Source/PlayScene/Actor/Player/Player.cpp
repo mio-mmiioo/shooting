@@ -124,29 +124,29 @@ void Player::Update()
 	
 	// 手動回転 開発時のみ　他の処理書くために、一時的にコメントアウト
 	{
-		if (Input::IsKeepKeyDown(KEY_INPUT_D))
-		{
-			transform_.rotation_.y += PLAYER::rotateSpeed * DegToRad;
-		}
-		if (Input::IsKeepKeyDown(KEY_INPUT_A))
-		{
-			transform_.rotation_.y -= PLAYER::rotateSpeed * DegToRad;
-		}
+		//if (Input::IsKeepKeyDown(KEY_INPUT_D))
+		//{
+		//	transform_.rotation_.y += PLAYER::rotateSpeed * DegToRad;
+		//}
+		//if (Input::IsKeepKeyDown(KEY_INPUT_A))
+		//{
+		//	transform_.rotation_.y -= PLAYER::rotateSpeed * DegToRad;
+		//}
 	}
 
 	// 手動移動 開発時のみ　他の処理書くために、一時的にコメントアウト
 	{
-		VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-		velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+		//VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
+		//velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 
-		if (Input::IsKeepKeyDown(KEY_INPUT_W))
-		{
-			transform_.position_ += velocity;
-		}
-		else if (Input::IsKeepKeyDown(KEY_INPUT_S))
-		{
-			transform_.position_ -= velocity;
-		}
+		//if (Input::IsKeepKeyDown(KEY_INPUT_W))
+		//{
+		//	transform_.position_ += velocity;
+		//}
+		//else if (Input::IsKeepKeyDown(KEY_INPUT_S))
+		//{
+		//	transform_.position_ -= velocity;
+		//}
 	}
 
 	// 銃弾
@@ -222,7 +222,8 @@ void Player::Update()
 
 	
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
-	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), PLAYER::DISTANCE_R); // めり込みを確認する
+	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform_.rotation_.y), PLAYER::DISTANCE_R); // めり込みを確認する
+	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform_.rotation_.y), PLAYER::DISTANCE_R);
 	/*DrawCapsule3D(transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2,
 		50.0f, 10, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);*/
 

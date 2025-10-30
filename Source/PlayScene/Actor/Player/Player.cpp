@@ -12,6 +12,9 @@ namespace PLAYER
 	VECTOR3 G = { 0, 9.8, 0 };
 	float rotateSpeed = 3.0f;
 	float moveSpeed = 5.0f;
+
+	const VECTOR3 CAPSULE_POS1 = { 0,  50, 0 };
+	const VECTOR3 CAPSULE_POS2 = { 0, 150, 0 };
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -145,8 +148,6 @@ void Player::Update()
 		}
 	}
 
-	
-
 	// 銃弾
 	if (Input::IsKeyDown(KEY_INPUT_6))
 	{
@@ -218,7 +219,13 @@ void Player::Update()
 		}
 	}
 
+	
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
+	
+	stage_->CheckPush(transform_.position_, transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2, 50.0f, 50.0f);
+	DrawCapsule3D(transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2,
+		50.0f, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 
 }

@@ -57,13 +57,33 @@ void Stage::SetOnGround(VECTOR3& pos, float& time, VECTOR3 Gravity)
 	{
 		pos = hit;
 		if (time != 0)
+		{
 			time = 0;
+		}
 	}
 	else
 	{
 		//ãÛíÜÇ»ÇÁóéâ∫èàóù
 		time += Time::DeltaTime();
 		pos -= Gravity * time * time;
+	}
+}
+
+void Stage::CheckPush(VECTOR3& pos, VECTOR3 capsulePos1, VECTOR3 capsulePos2, float r, float minDistance)
+{
+	float distance;
+	VECTOR3 direction;
+	std::list<StageObject*> objs = FindGameObjects<StageObject>();
+	for (StageObject* ob : objs)
+	{
+		// ÉÇÉfÉãÇ∆ämîFÇµÇΩÇ¢Ç‡ÇÃÇ™Ç‘Ç¬Ç©Ç¡ÇƒÇ¢ÇΩèÍçá
+		if (ob->CheckHit(capsulePos1, capsulePos2, r) == true)
+		{
+			// ÇﬂÇËçûÇÒÇ≈Ç¢ÇÈï™âüÇµï‘Ç∑
+			direction = VNorm(pos - ob->GetTransform().position_);
+			distance = VSize(ob->GetTransform().position_ - pos) - minDistance;
+			pos += direction * distance;
+		}
 	}
 }
 

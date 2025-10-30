@@ -30,3 +30,16 @@ StageObject::~StageObject()
 		hitModel_ = -1;
 	}
 }
+
+bool StageObject::CheckHit(VECTOR3 capsulePos1, VECTOR3 capsulePos2, float r)
+{
+	MV1_COLL_RESULT_POLY_DIM  ret = MV1CollCheck_Capsule(hitModel_, 0, capsulePos1, capsulePos2, r);
+
+	// ƒ‚ƒfƒ‹‚ÆŠm‚©‚ß‚Ä‚¢‚é‚à‚Ì‚ª‚Ô‚Â‚©‚Á‚Ä‚¢‚éê‡
+	if (ret.HitNum > 0)
+	{
+		return true;
+	}
+
+	return false;
+}

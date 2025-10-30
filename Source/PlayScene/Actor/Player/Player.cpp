@@ -104,17 +104,17 @@ void Player::Update()
 	VECTOR ScreenPos = { (float)mouseX_, (float)mouseY_, 1.0f };
 	wPointerPos_ = ConvScreenPosToWorldPos(ScreenPos);
 
-	// 自動移動
+	// 自動移動 他の処理書くために、一時的にコメントアウト
 	{
-		if (isArrive_ == false)
+		/*if (isArrive_ == false)
 		{
-			SetMove(goPosition_, 3.0f, 2.0f);
+			SetMove(goPosition_, 1.0f, 2.0f);
 
 			if (VSize(goPosition_ - transform_.position_) < 50.0f)
 			{
 				isArrive_ = true;
 			}
-		}
+		}*/
 
 	}
 	

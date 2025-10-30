@@ -122,7 +122,7 @@ void Player::Update()
 
 	}
 	
-	// 手動回転 開発時のみ
+	// 手動回転 開発時のみ　他の処理書くために、一時的にコメントアウト
 	{
 		if (Input::IsKeepKeyDown(KEY_INPUT_D))
 		{
@@ -134,7 +134,7 @@ void Player::Update()
 		}
 	}
 
-	// 手動移動 開発時のみ
+	// 手動移動 開発時のみ　他の処理書くために、一時的にコメントアウト
 	{
 		VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
 		velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列

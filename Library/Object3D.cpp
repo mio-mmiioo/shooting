@@ -48,8 +48,8 @@ void Object3D::SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed)
 {
 	VECTOR3 toGo = toPosition - transform_.position_;
 
-	VECTOR3 front = VECTOR3(0, 0, 1) * MGetRotY(transform_.rotation_.y);//³–Ê
-	VECTOR3 right = VECTOR3(1, 0, 0) * MGetRotY(transform_.rotation_.y);//‰E ‰ñ“]‚ðŒ©‚é‚Ì‚ÉŽg‚Á‚Ä‚é
+	VECTOR3 front = VECTOR3(0, 0, 1) * MGetRotY(transform_.rotation_.y); // ³–Ê
+	VECTOR3 right = VECTOR3(1, 0, 0) * MGetRotY(transform_.rotation_.y); // ‰E ‰ñ“]‚ðŒ©‚é‚Ì‚ÉŽg‚Á‚Ä‚é
 
 	if (VDot(front, toGo.Normalize()) >= cos(angSpeed))
 	{

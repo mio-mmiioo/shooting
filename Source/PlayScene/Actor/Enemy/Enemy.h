@@ -1,8 +1,6 @@
 #pragma once
 #include "../Actor.h"
 
-class Player;
-
 class Enemy : public Actor
 {
 public:
@@ -17,8 +15,6 @@ public:
 	bool isAttacked_;
 
 private:
-
-	Player* player_;
 	VECTOR3 goPosition_;
 	bool isArrive_;
 

@@ -10,13 +10,10 @@ PlayScene::PlayScene()
 {
 	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
 
-	//new Axis();
 	new Camera();
 	GameMaster::Init();
 	Light::Init();
 	Shadow::Init(); // Stage‚ÌŒã‚ÉInit‚·‚é
-
-	//StartJoypadVibration(DX_INPUT_PAD1, 400, -1, -1); // ‚Â‚È‚ª‚Á‚Ä‚é‚©Šm”F‚µ‚½‚­‚ÄU“®‚³‚¹‚½
 }
 
 PlayScene::~PlayScene()
@@ -35,5 +32,4 @@ void PlayScene::Update()
 void PlayScene::Draw()
 {
 	DrawString(0, 0, "PLAY SCENE", GetColor(255, 255, 255));
-	//DrawString(100, 400, "Push [T]Key To Title", GetColor(255, 255, 255));
 }

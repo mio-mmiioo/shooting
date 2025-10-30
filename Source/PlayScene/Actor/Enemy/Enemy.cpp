@@ -1,7 +1,6 @@
 #include "Enemy.h"
 #include <assert.h>
 #include "../../Map/Stage.h"
-#include "../Player/Player.h"
 #include "../../../../Library/Input.h"
 
 namespace ENEMY
@@ -44,7 +43,6 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	MV1RefreshCollInfo(hitModel_);
 
 	stage_ = FindGameObject<Stage>();
-	player_ = FindGameObject<Player>();
 	time_ = 0;
 }
 

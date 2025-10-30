@@ -119,7 +119,6 @@ void Player::Update()
 				isArrive_ = true;
 			}
 		}*/
-
 	}
 	
 	// Žè“®‰ñ“] ŠJ”­Žž‚Ì‚Ý@‘¼‚Ìˆ—‘‚­‚½‚ß‚ÉAˆêŽž“I‚ÉƒRƒƒ“ƒgƒAƒEƒg
@@ -150,26 +149,28 @@ void Player::Update()
 	}
 
 	// e’e
-	if (Input::IsKeyDown(KEY_INPUT_6))
 	{
-		currentGun_ = GUN::TYPE::HAND;
-		gun_->SetGunType(currentGun_);
-	}
-	else if (Input::IsKeyDown(KEY_INPUT_7))
-	{
-		currentGun_ = GUN::TYPE::MACHINE;
-		gun_->SetGunType(currentGun_);
-	}
-
-	if (Input::IsMouseDown(MOUSE_INPUT_RIGHT) || Input::IsJoypadDown(XINPUT_BUTTON_RIGHT_SHOULDER))
-	{
-		gun_->ReloadBullet(); // ƒŠƒ[ƒh‚Ìˆ—
-	}
-	if (IsAttackInput() == true) // e‚ÌŽí—Þ‚É‚æ‚Á‚Ä“ü—Í‚Ì”»’è‚ªˆÙ‚È‚é 
-	{
-		if (gun_->OutBullet() == true) // UŒ‚¬Œ÷¨true : e’e‚ð”­ŽË‚·‚éˆ— ƒGƒtƒFƒNƒgE‰¹EU“®‚à‚±‚±‚Åˆ—
+		if (Input::IsKeyDown(KEY_INPUT_6))
 		{
-			isAttack_ = true;
+			currentGun_ = GUN::TYPE::HAND;
+			gun_->SetGunType(currentGun_);
+		}
+		else if (Input::IsKeyDown(KEY_INPUT_7))
+		{
+			currentGun_ = GUN::TYPE::MACHINE;
+			gun_->SetGunType(currentGun_);
+		}
+
+		if (Input::IsMouseDown(MOUSE_INPUT_RIGHT) || Input::IsJoypadDown(XINPUT_BUTTON_RIGHT_SHOULDER))
+		{
+			gun_->ReloadBullet(); // ƒŠƒ[ƒh‚Ìˆ—
+		}
+		if (IsAttackInput() == true) // e‚ÌŽí—Þ‚É‚æ‚Á‚Ä“ü—Í‚Ì”»’è‚ªˆÙ‚È‚é 
+		{
+			if (gun_->OutBullet() == true) // UŒ‚¬Œ÷¨true : e’e‚ð”­ŽË‚·‚éˆ— ƒGƒtƒFƒNƒgE‰¹EU“®‚à‚±‚±‚Åˆ—
+			{
+				isAttack_ = true;
+			}
 		}
 	}
 
@@ -268,29 +269,6 @@ int Player::Attack()
 		return gun_->GetAttack();
 	}
 	return -1;
-}
-
-void Player::SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed)
-{
-	VECTOR3 toGo = toPosition - transform_.position_;
-
-	VECTOR3 front = VECTOR3(0, 0, 1) * MGetRotY(transform_.rotation_.y); // ³–Ê
-	VECTOR3 right = VECTOR3(1, 0, 0) * MGetRotY(transform_.rotation_.y); // ‰E ‰ñ“]‚ðŒ©‚é‚Ì‚ÉŽg‚Á‚Ä‚é
-
-	if (VDot(front, toGo.Normalize()) >= cos(angSpeed))
-	{
-		transform_.rotation_.y = atan2f(toGo.x, toGo.z);
-	}
-	else if (VDot(right, toGo) > 0)
-	{
-		transform_.rotation_.y += angSpeed;
-	}
-	else
-	{
-		transform_.rotation_.y -= angSpeed;
-	}
-
-	transform_.position_ += VECTOR3(0, 0, moveSpeed) * MGetRotY(transform_.rotation_.y);
 }
 
 bool Player::IsAttackInput()

@@ -1,5 +1,4 @@
 #include "PlayScene.h"
-#include "Map/Stage.h"
 #include "Actor/Player/Camera.h"
 #include "Development/Axis.h"
 #include "../../Library/Light.h"
@@ -13,7 +12,6 @@ PlayScene::PlayScene()
 
 	//new Axis();
 	new Camera();
-	//new Stage(1);
 	GameMaster::Init();
 	Light::Init();
 	Shadow::Init(); // Stage‚ÌŒã‚ÉInit‚·‚é

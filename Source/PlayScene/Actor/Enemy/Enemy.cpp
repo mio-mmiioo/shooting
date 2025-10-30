@@ -132,7 +132,7 @@ void Enemy::Draw()
 	VECTOR3 checkPos2 = VECTOR3(ENEMY::size.x / 2, ENEMY::size.y, ENEMY::size.z / 2) + transform_.position_;
 	// ‹ŠE‚É“ü‚Á‚Ä‚¢‚é‚Í•`‰æ‚·‚é 
 	// ¦CheckCameraViewClip_Box¨‹ŠE‚É“ü‚Á‚Ä‚¢‚é:false
-	if (CheckCameraViewClip_Box(checkPos1, checkPos2) == FALSE)
+	if (CheckCameraViewClip_Box(checkPos1, checkPos2) == false)
 	{
 		if (isAlive_ == true)
 		{

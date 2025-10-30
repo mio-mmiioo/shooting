@@ -34,7 +34,6 @@ private:
 	bool isHit_; // enemyなどのActorクラスに銃弾がぶつかるかどうか
 
 	// 移動関連
-	void SetMove(VECTOR3 toPosition, float angSpeed, float moveSpeed);
 	VECTOR3 goPosition_; // プレイヤーが次に向かう場所
 	bool isArrive_;		 // 一度到着したことを確認する
 

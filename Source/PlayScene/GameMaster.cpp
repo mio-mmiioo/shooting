@@ -7,6 +7,7 @@
 
 namespace GameMaster {
 	Player* player = nullptr;
+	std::list<Enemy*> enemy;
 }
 
 void GameMaster::Init()
@@ -16,28 +17,19 @@ void GameMaster::Init()
 
 void GameMaster::Update()
 {
-	SetPlayerPos(); // 条件を満たさなきゃセットされない
-}
+	player = FindGameObject<Player>();
+	enemy = FindGameObjects<Enemy>();
 
-bool GameMaster::IsChangeArea()
-{
-	std::list<Enemy*> enemy = FindGameObjects<Enemy>();
-	if (enemy.empty())
-	{
-		return true;
-	}
-	return false;
+	SetPlayerPos(); // 条件を満たさなきゃセットされない
 }
 
 void GameMaster::SetPlayerPos()
 {
-	if (IsChangeArea() == true)
+	if (enemy.empty()) // プレイヤーの移動条件を増やしていく予定
 	{
 		Area::SetNextPosition();
 		Area::SetStage(); // Area::SetNextPosition()の後にかく
 	}
-
-	player = FindGameObject<Player>();
 
 	if (player != nullptr)
 	{
@@ -45,6 +37,18 @@ void GameMaster::SetPlayerPos()
 		{
 			player->SetToGo(Area::GetCurrentPosition());
 			player->SetIsArrive(false);
+		}
+	}
+}
+
+void GameMaster::SetEnemyPos()
+{
+	if (!enemy.empty())
+	{
+		for (auto e : enemy)
+		{
+			e->SetToGo(player->GetTransform().position_);
+			e->SetIsArrive(false);
 		}
 	}
 }

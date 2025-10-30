@@ -26,6 +26,9 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	isAlive_ = true;
 	isAttacked_ = false;
 
+	goPosition_ = VECTOR3(0, 0, 0);
+	isArrive_ = true;
+
 	hModel_ = MV1LoadModel("data/model/enemy01.mv1");
 	assert(hModel_ > 0);
 
@@ -62,6 +65,14 @@ void Enemy::Update()
 	if (isAlive_ == false)
 	{
 		DestroyMe();
+	}
+
+	// Ž©“®ˆÚ“®
+	{
+		if (isArrive_ == false)
+		{
+
+		}
 	}
 
 	// ‰ñ“]

@@ -4,6 +4,6 @@
 namespace GameMaster {
 	void Init();
 	void Update();
-	bool IsChangeArea();
 	void SetPlayerPos();
+	void SetEnemyPos();
 }

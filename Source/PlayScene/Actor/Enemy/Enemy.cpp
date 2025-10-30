@@ -71,7 +71,12 @@ void Enemy::Update()
 	{
 		if (isArrive_ == false)
 		{
+			SetMove(goPosition_, 1.0f, 2.0f);
 
+			if (VSize(goPosition_ - transform_.position_) < 200.0f)
+			{
+				isArrive_ = true;
+			}
 		}
 	}
 

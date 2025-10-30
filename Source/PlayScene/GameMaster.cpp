@@ -21,6 +21,7 @@ void GameMaster::Update()
 	enemy = FindGameObjects<Enemy>();
 
 	SetPlayerPos(); // ðŒ‚ð–ž‚½‚³‚È‚«‚áƒZƒbƒg‚³‚ê‚È‚¢
+	SetEnemyPos();
 }
 
 void GameMaster::SetPlayerPos()
@@ -47,8 +48,11 @@ void GameMaster::SetEnemyPos()
 	{
 		for (auto e : enemy)
 		{
-			e->SetToGo(player->GetTransform().position_);
-			e->SetIsArrive(false);
+			if (VSize(e->GetTransform().position_ - player->GetTransform().position_) > 200.0f)
+			{
+				e->SetToGo(player->GetTransform().position_);
+				e->SetIsArrive(false);
+			}
 		}
 	}
 }

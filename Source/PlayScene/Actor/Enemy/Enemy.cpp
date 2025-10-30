@@ -44,6 +44,7 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 
 	stage_ = FindGameObject<Stage>();
 	time_ = 0;
+	state_ = E_STATE::WALK;
 }
 
 Enemy::~Enemy()
@@ -66,16 +67,17 @@ void Enemy::Update()
 	}
 
 	// 自動移動
+	switch (state_) // ステートベースで敵AI
 	{
-		if (isArrive_ == false)
-		{
-			SetMove(goPosition_, 1.0f, 2.0f);
-
-			if (VSize(goPosition_ - transform_.position_) < 200.0f)
-			{
-				isArrive_ = true;
-			}
-		}
+	case E_STATE::WALK:
+		UpdateWalk();
+		break;
+	case E_STATE::STAY:
+		UpdateStay();
+		break;
+	case E_STATE::ATTACK:
+		UpdateAttack();
+		break;
 	}
 
 	// 回転
@@ -112,9 +114,6 @@ void Enemy::Update()
 		isAlive_ = false;
 	}
 
-	MV1SetMatrix(hitModel_, transform_.GetLocalMatrix());
-	MV1RefreshCollInfo(hitModel_);
-
 	stage_->SetOnGround(transform_.position_, time_, ENEMY::G); // 重力をかける
 	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform_.rotation_.y), ENEMY::DISTANCE_R); // めり込みを確認する
 	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform_.rotation_.y), ENEMY::DISTANCE_R);
@@ -137,4 +136,33 @@ void Enemy::Draw()
 			Object3D::Draw();
 		}
 	}
+}
+
+void Enemy::UpdateWalk()
+{
+	// 移動
+	{
+		if (isArrive_ == false)
+		{
+			SetMove(goPosition_, 1.0f, 2.0f);
+
+			// 壁があって、まっすぐに進めない、、、
+
+
+			// 壁がなくてまっすぐに進める
+			if (VSize(goPosition_ - transform_.position_) < 200.0f)
+			{
+				isArrive_ = true;
+			}
+		}
+	}
+
+}
+
+void Enemy::UpdateStay()
+{
+}
+
+void Enemy::UpdateAttack()
+{
 }

@@ -15,7 +15,20 @@ public:
 	bool isAttacked_;
 
 private:
+	void UpdateWalk();
+	void UpdateStay();
+	void UpdateAttack();
+
+
+	enum E_STATE {
+		WALK,
+		STAY,
+		ATTACK,
+		MAX_STATE
+	};
+
 	VECTOR3 goPosition_;
 	bool isArrive_;
-
+	E_STATE state_;
+	float timer_;
 };

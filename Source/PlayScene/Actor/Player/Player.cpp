@@ -15,6 +15,7 @@ namespace PLAYER
 
 	const VECTOR3 CAPSULE_POS1 = { 0,  50, 0 };
 	const VECTOR3 CAPSULE_POS2 = { 0, 150, 0 };
+	const float DISTANCE_R = 25.0f;
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -221,10 +222,9 @@ void Player::Update()
 
 	
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
-	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), 50.0f); // めり込みを確認する
-	//stage_->CheckPush(transform_.position_, transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2, 50.0f, 50.0f);
-	DrawCapsule3D(transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2,
-		50.0f, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
+	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), PLAYER::DISTANCE_R); // めり込みを確認する
+	/*DrawCapsule3D(transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2,
+		50.0f, 10, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);*/
 
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 

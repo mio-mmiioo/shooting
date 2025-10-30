@@ -69,39 +69,18 @@ void Stage::SetOnGround(VECTOR3& pos, float& time, VECTOR3 Gravity)
 	}
 }
 
-void Stage::CheckPush(VECTOR3& pos, VECTOR3 capsulePos1, VECTOR3 capsulePos2, float r, float minDistance)
-{
-	float distance;
-	VECTOR3 direction;
-	std::list<StageObject*> objs = FindGameObjects<StageObject>();
-	for (StageObject* ob : objs)
-	{
-		// モデルと確認したいものがぶつかっていた場合
-		if (ob->CheckHit(capsulePos1, capsulePos2, r) == true)
-		{
-			// めり込んでいる分押し返す
-			direction = VNorm(pos - ob->GetTransform().position_);
-			distance = VSize(ob->GetTransform().position_ - pos) - minDistance;
-			pos += direction * distance;
-		}
-	}
-}
-
 void Stage::CheckPush(VECTOR3& pos1, VECTOR3 pos2, float minDistance)
 {
-	// 線を伸ばす
 	VECTOR3 hit;
 	VECTOR3 direction;
-	if (CollideLine(pos1, pos2, &hit))
+	if (CollideLine(pos1, pos2, &hit)) // 正面にオブジェクトがある
 	{
-		if (VSize(pos1 - hit) < minDistance)
+		if (VSize(pos1 - hit) < minDistance) // めり込んでいる→めり込んでいる距離押し返す
 		{
-			direction = VNorm(hit - pos1);
-			pos1 -= direction * (minDistance - VSize(pos1 - hit));
+			direction = VNorm(hit - pos1); // 押し返す方向のベクトル
+			pos1 -= direction * (minDistance - VSize(pos1 - hit)); // ( 押し返す方向 ) * ( 押し返したい距離 )
 		}
 	}
-	
-	// 当たった場所が、minDistanceよりも小さい場合押し返す
 }
 
 void Stage::ReadMappingData(std::string filename)

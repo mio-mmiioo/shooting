@@ -87,6 +87,23 @@ void Stage::CheckPush(VECTOR3& pos, VECTOR3 capsulePos1, VECTOR3 capsulePos2, fl
 	}
 }
 
+void Stage::CheckPush(VECTOR3& pos1, VECTOR3 pos2, float minDistance)
+{
+	// ê¸ÇêLÇŒÇ∑
+	VECTOR3 hit;
+	VECTOR3 direction;
+	if (CollideLine(pos1, pos2, &hit))
+	{
+		if (VSize(pos1 - hit) < minDistance)
+		{
+			direction = VNorm(hit - pos1);
+			pos1 -= direction * (minDistance - VSize(pos1 - hit));
+		}
+	}
+	
+	// ìñÇΩÇ¡ÇΩèÍèäÇ™ÅAminDistanceÇÊÇËÇ‡è¨Ç≥Ç¢èÍçáâüÇµï‘Ç∑
+}
+
 void Stage::ReadMappingData(std::string filename)
 {
 	const std::string folder = "data/stage/";

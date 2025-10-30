@@ -221,8 +221,8 @@ void Player::Update()
 
 	
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
-	
-	stage_->CheckPush(transform_.position_, transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2, 50.0f, 50.0f);
+	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), 50.0f); // めり込みを確認する
+	//stage_->CheckPush(transform_.position_, transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2, 50.0f, 50.0f);
 	DrawCapsule3D(transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2,
 		50.0f, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);
 

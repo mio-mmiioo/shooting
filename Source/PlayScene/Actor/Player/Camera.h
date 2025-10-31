@@ -13,10 +13,11 @@ private:
 	int prevX, prevY;//前のマウスを取っておく
 
 	enum CAM_STATE {
-		FIRST, // 一人称視点
-		THIRD, // 三人称視点
-		FREE,  // 自由に動かせるカメラ
-		FIX	   // 固定カメラ
+		FIRST,		// 一人称視点
+		FIRST_FREE, // 一人称で注視点を動かせるカメラ
+		THIRD,		// 三人称視点
+		FREE,		// 自由に動かせるカメラ
+		FIX			// 固定カメラ
 	};
 
 	CAM_STATE state_; // カメラの状態

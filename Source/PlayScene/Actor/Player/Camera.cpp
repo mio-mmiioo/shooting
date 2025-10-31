@@ -26,7 +26,7 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	SetCameraNearFar(100.0f, 2000.0f); // ここにいらないかも
+	SetCameraNearFar(50.0f, 2000.0f); // ここにいらないかも
 	// カメラのセットを切り替える
 	{
 		if (Input::IsKeyDown(KEY_INPUT_0))
@@ -46,6 +46,10 @@ void Camera::Update()
 		{
 			state_ = CAM_STATE::FIX;
 		}
+		else if (Input::IsKeyDown(KEY_INPUT_4))
+		{
+			state_ = CAM_STATE::FIRST_FREE;
+		}
 
 	}
 
@@ -54,6 +58,9 @@ void Camera::Update()
 	{
 	case CAM_STATE::FIRST:
 		FirstCamera();
+		break;
+	case CAM_STATE::FIRST_FREE:
+		FirstFreeCamera();
 		break;
 	case CAM_STATE::THIRD:
 		ThirdCamera();
@@ -91,7 +98,33 @@ void Camera::FirstFreeCamera()
 	cameraPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0); // 目線の高さに合わせてる
 
 	// 注視点を動かすプログラム
+	int mouseX, mouseY;
 
+	GetMousePoint(&mouseX, &mouseY);
+	int moveX = mouseX - prevX;
+	int moveY = mouseY - prevY;
+
+	VECTOR3& rot = transform_.rotation_;
+
+	rot.y += CAMERA_SPEED * moveX;
+	rot.x -= CAMERA_SPEED * moveY;
+
+	if (rot.x >= 80 * DegToRad)
+	{
+		rot.x = 80 * DegToRad;
+	}
+	if (rot.x < -25 * DegToRad)
+	{
+		rot.x = -25 * DegToRad;
+	}
+
+	VECTOR3 playerHeadPos = VECTOR3(0, 180.0f, 0);
+	VECTOR3 camPos = VECTOR3(0, 0, -500.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
+
+	targetPosition_ = look_.position_ + camPos + playerHeadPos;
+
+	prevX = mouseX;
+	prevY = mouseY;
 
 }
 

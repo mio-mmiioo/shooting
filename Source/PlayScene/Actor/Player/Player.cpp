@@ -109,7 +109,7 @@ void Player::Update()
 
 	// 自動移動 他の処理書くために、一時的にコメントアウト
 	{
-		if (isArrive_ == false)
+		/*if (isArrive_ == false)
 		{
 			SetMove(goPosition_, 1.0f, 2.0f);
 
@@ -117,7 +117,7 @@ void Player::Update()
 			{
 				isArrive_ = true;
 			}
-		}
+		}*/
 	}
 	
 	// 手動回転 開発時のみ　他の処理書くために、一時的にコメントアウト

@@ -109,7 +109,7 @@ void Player::Update()
 
 	// 自動移動 他の処理書くために、一時的にコメントアウト
 	{
-		/*if (isArrive_ == false)
+		if (isArrive_ == false)
 		{
 			SetMove(goPosition_, 1.0f, 2.0f);
 
@@ -117,34 +117,34 @@ void Player::Update()
 			{
 				isArrive_ = true;
 			}
-		}*/
+		}
 	}
 	
 	// 手動回転 開発時のみ　他の処理書くために、一時的にコメントアウト
 	{
-		//if (Input::IsKeepKeyDown(KEY_INPUT_D))
-		//{
-		//	transform_.rotation_.y += PLAYER::rotateSpeed * DegToRad;
-		//}
-		//if (Input::IsKeepKeyDown(KEY_INPUT_A))
-		//{
-		//	transform_.rotation_.y -= PLAYER::rotateSpeed * DegToRad;
-		//}
+		if (Input::IsKeepKeyDown(KEY_INPUT_D))
+		{
+			transform_.rotation_.y += PLAYER::rotateSpeed * DegToRad;
+		}
+		if (Input::IsKeepKeyDown(KEY_INPUT_A))
+		{
+			transform_.rotation_.y -= PLAYER::rotateSpeed * DegToRad;
+		}
 	}
 
 	// 手動移動 開発時のみ　他の処理書くために、一時的にコメントアウト
 	{
-		//VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-		//velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+		VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
+		velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 
-		//if (Input::IsKeepKeyDown(KEY_INPUT_W))
-		//{
-		//	transform_.position_ += velocity;
-		//}
-		//else if (Input::IsKeepKeyDown(KEY_INPUT_S))
-		//{
-		//	transform_.position_ -= velocity;
-		//}
+		if (Input::IsKeepKeyDown(KEY_INPUT_W))
+		{
+			transform_.position_ += velocity;
+		}
+		else if (Input::IsKeepKeyDown(KEY_INPUT_S))
+		{
+			transform_.position_ -= velocity;
+		}
 	}
 
 	// 銃弾

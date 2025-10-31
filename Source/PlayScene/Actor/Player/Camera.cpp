@@ -86,6 +86,15 @@ void Camera::FirstCamera()
 	targetPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0) + VECTOR3(0, 0, 1) * 1000 * MGetRotY(look_.rotation_.y);
 }
 
+void Camera::FirstFreeCamera()
+{
+	cameraPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0); // –Úü‚Ì‚‚³‚É‡‚í‚¹‚Ä‚é
+
+	// ’‹“_‚ğ“®‚©‚·ƒvƒƒOƒ‰ƒ€
+
+
+}
+
 void Camera::ThirdCamera()
 {
 	int mouseX, mouseY;

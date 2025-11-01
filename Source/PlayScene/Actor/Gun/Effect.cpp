@@ -35,10 +35,10 @@ void Effect::Draw()
 
 void Effect::Hand()
 {
-	DrawSphere3D(transform_.position_, 20, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
+	DrawSphere3D(transform_.position_, 40, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
 }
 
 void Effect::Machine()
 {
-	DrawSphere3D(transform_.position_, 20, 20, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
+	DrawSphere3D(transform_.position_, 40, 20, GetColor(0, 0, 0), GetColor(0, 0, 0), TRUE);
 }

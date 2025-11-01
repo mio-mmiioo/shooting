@@ -8,6 +8,7 @@ public:
 	void Update() override;
 
 	void SetPlayerPosition(const Transform& transform);
+	VECTOR3 GetTargetPosition() { return targetPosition_; }
 private:
 	Transform look_;
 	int prevX, prevY;//前のマウスを取っておく

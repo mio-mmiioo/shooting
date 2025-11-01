@@ -18,6 +18,8 @@ Camera::Camera()
 	SetCameraPositionAndTarget_UpVecY(cameraPosition_, targetPosition_);
 
 	state_ = CAM_STATE::FIX;
+
+	SetCameraNearFar(50.0f, 2000.0f);
 }
 
 Camera::~Camera()
@@ -26,7 +28,6 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	SetCameraNearFar(50.0f, 2000.0f); // ここにいらないかも
 	// カメラのセットを切り替える
 	{
 		if (Input::IsKeyDown(KEY_INPUT_0))
@@ -118,10 +119,9 @@ void Camera::FirstFreeCamera()
 		rot.x = -25 * DegToRad;
 	}
 
-	VECTOR3 playerHeadPos = VECTOR3(0, 180.0f, 0);
-	VECTOR3 camPos = VECTOR3(0, 0, -500.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
+	VECTOR3 camPos = VECTOR3(0, 0, 1) * MGetRotX(rot.x) * MGetRotY(rot.y);
 
-	targetPosition_ = look_.position_ + camPos + playerHeadPos;
+	targetPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0) + camPos * 1000;
 
 	prevX = mouseX;
 	prevY = mouseY;

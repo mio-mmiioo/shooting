@@ -177,16 +177,16 @@ void Player::Update()
 	{
 		VECTOR3 hit;
 		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
-		//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
+		DrawLine3D(startPos_, wPointerPos_, GetColor(255, 255, 255));
 
-		//if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
-		//{
-		//	// stageObject‚É“–‚½‚éê‡‚Ìˆ—
-		//	if (isAttack_ == true)
-		//	{
-		//		new Effect(hit, currentGun_);
-		//	}
-		//}
+		if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
+		{
+			// stageObject‚É“–‚½‚éê‡‚Ìˆ—
+			if (isAttack_ == true)
+			{
+				new Effect(hit, currentGun_);
+			}
+		}
 
 		enemy_ = FindGameObjects<Enemy>();
 
@@ -194,6 +194,7 @@ void Player::Update()
 		{
 			if (enemy->Object3D::CollideLine(startPos_, wPointerPos_, &hit))
 			{
+				DrawSphere3D(hit, 20.0f, 20, GetColor(255, 255, 255), GetColor(255, 255, 255), TRUE);
 				hitEnemy_.push_back(enemy);
 			}
 		}

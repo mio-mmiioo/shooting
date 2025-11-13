@@ -233,7 +233,7 @@ void Player::Update()
 		// 雑にHPを減らす
 		if (Input::IsKeyDown(KEY_INPUT_K))
 		{
-			hp_->AddHP(-1);
+			hp_->AddHP(-3);
 		}
 	}
 
@@ -260,7 +260,7 @@ void Player::Draw()
 	// 残弾数の表示
 	gun_->Draw();
 
-	DrawFormatString(10, 30, GetColor(255, 255, 255), "HP:%d", hp_->GetHP());
+	DrawFormatString(10, 60, GetColor(255, 255, 255), "HP:%d", hp_->GetHP());
 
 	// ポインターの描画
 	if (isHit_ == true)

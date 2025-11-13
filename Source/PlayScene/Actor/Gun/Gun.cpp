@@ -4,8 +4,8 @@
 
 namespace GUN
 {
-	int gaugePosX = 100;
-	int gaugePosY = 200;
+	int gaugePosX = 80;
+	int gaugePosY = 140;
 }
 
 Gun::Gun()

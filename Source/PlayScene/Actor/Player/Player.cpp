@@ -16,6 +16,11 @@ namespace PLAYER
 	const VECTOR3 CAPSULE_POS1 = { 0,  50, 0 };
 	const VECTOR3 CAPSULE_POS2 = { 0, 150, 0 };
 	const float DISTANCE_R = 25.0f;
+
+	int mouseX;
+	int mouseY;
+	int prevMouseX;
+	int prevMouseY;
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -56,6 +61,8 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	time_ = 0;
 
 	SetDrawOrder(-1);
+
+	GetMousePoint(&PLAYER::prevMouseX, &PLAYER::prevMouseY);
 }
 
 Player::~Player()

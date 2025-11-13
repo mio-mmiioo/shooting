@@ -1,6 +1,14 @@
 #pragma once
 #include "../../../../Library/Object3D.h"
 
+enum CAM_STATE {
+	FIRST,		// 一人称視点
+	FIRST_FREE, // 一人称で注視点を動かせるカメラ
+	THIRD,		// 三人称視点
+	FREE,		// 自由に動かせるカメラ
+	FIX			// 固定カメラ
+};
+
 class Camera : public Object3D {
 public:
 	Camera();
@@ -8,17 +16,12 @@ public:
 	void Update() override;
 
 	void SetPlayerPosition(const Transform& transform);
+	
+	CAM_STATE GetCameraState() { return state_; };
+
 private:
 	Transform look_;
 	int prevX, prevY;//前のマウスを取っておく
-
-	enum CAM_STATE {
-		FIRST,		// 一人称視点
-		FIRST_FREE, // 一人称で注視点を動かせるカメラ
-		THIRD,		// 三人称視点
-		FREE,		// 自由に動かせるカメラ
-		FIX			// 固定カメラ
-	};
 
 	CAM_STATE state_; // カメラの状態
 

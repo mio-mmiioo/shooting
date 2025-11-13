@@ -106,22 +106,22 @@ void Camera::FirstFreeCamera()
 
 	VECTOR3& rot = transform_.rotation_;
 
-	rot.y += CAMERA_SPEED * moveX;
-	rot.x -= CAMERA_SPEED * moveY;
+	//rot.y += CAMERA_SPEED * moveX;
+	//rot.x -= CAMERA_SPEED * moveY;
 
-	if (rot.x >= 80 * DegToRad)
-	{
-		rot.x = 80 * DegToRad;
-	}
-	if (rot.x < -25 * DegToRad)
-	{
-		rot.x = -25 * DegToRad;
-	}
+	//if (rot.x >= 80 * DegToRad)
+	//{
+	//	rot.x = 80 * DegToRad;
+	//}
+	//if (rot.x < -25 * DegToRad)
+	//{
+	//	rot.x = -25 * DegToRad;
+	//}
 
 	VECTOR3 playerHeadPos = VECTOR3(0, 180.0f, 0);
 	VECTOR3 camPos = VECTOR3(0, 0, -500.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
-
-	targetPosition_ = look_.position_ + camPos + playerHeadPos;
+	
+	targetPosition_ = look_.position_ + playerHeadPos + VECTOR3(0, 0, 1) * 100 * MGetRotY(look_.rotation_.y);
 
 	prevX = mouseX;
 	prevY = mouseY;

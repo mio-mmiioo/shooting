@@ -24,8 +24,8 @@ PlayScene::~PlayScene()
 void PlayScene::Update()
 {
 	GameMaster::Update();
-	if (Input::IsKeyDown(KEY_INPUT_T) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
-		SceneManager::ChangeScene("TITLE");
+	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
+		SceneManager::ChangeScene("RESULT");
 	}
 }
 

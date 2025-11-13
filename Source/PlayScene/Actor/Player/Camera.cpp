@@ -89,43 +89,16 @@ void Camera::SetFreeCamera()
 
 void Camera::FirstCamera()
 {
+	// 自動で動かす予定
 	cameraPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0); // 目線の高さに合わせてる
 	targetPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0) + VECTOR3(0, 0, 1) * 1000 * MGetRotY(look_.rotation_.y);
 }
 
 void Camera::FirstFreeCamera()
 {
+	// 自由に動かす
 	cameraPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0); // 目線の高さに合わせてる
-
-	// 注視点を動かすプログラム
-	int mouseX, mouseY;
-
-	GetMousePoint(&mouseX, &mouseY);
-	int moveX = mouseX - prevX;
-	int moveY = mouseY - prevY;
-
-	VECTOR3& rot = transform_.rotation_;
-
-	//rot.y += CAMERA_SPEED * moveX;
-	//rot.x -= CAMERA_SPEED * moveY;
-
-	//if (rot.x >= 80 * DegToRad)
-	//{
-	//	rot.x = 80 * DegToRad;
-	//}
-	//if (rot.x < -25 * DegToRad)
-	//{
-	//	rot.x = -25 * DegToRad;
-	//}
-
-	VECTOR3 playerHeadPos = VECTOR3(0, 180.0f, 0);
-	VECTOR3 camPos = VECTOR3(0, 0, -500.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
-	
-	targetPosition_ = look_.position_ + playerHeadPos + VECTOR3(0, 0, 1) * 100 * MGetRotY(look_.rotation_.y);
-
-	prevX = mouseX;
-	prevY = mouseY;
-
+	targetPosition_ = look_.position_ + VECTOR3(0, LOOK_HIEGHT, 0) + VECTOR3(0, 0, 1) * 1000 * MGetRotY(look_.rotation_.y);
 }
 
 void Camera::ThirdCamera()

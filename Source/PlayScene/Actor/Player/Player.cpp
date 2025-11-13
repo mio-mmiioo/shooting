@@ -184,7 +184,8 @@ void Player::Update()
 	{
 		VECTOR3 hit;
 		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
-		//DrawLine3D(startPos, wPointerPos_, GetColor(255, 255, 255));
+		//startPos_ = transform_.position_ + VECTOR3(0, 180, 0) + VECTOR3(0, 0, 1) * 50 * MGetRotY(transform_.rotation_.y);
+		DrawLine3D(startPos_, wPointerPos_, GetColor(255, 255, 255));
 
 		//if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
 		//{

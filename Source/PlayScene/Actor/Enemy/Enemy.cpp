@@ -114,6 +114,9 @@ void Enemy::Update()
 		isAlive_ = false;
 	}
 
+	MV1SetMatrix(hitModel_, transform_.GetLocalMatrix());
+	MV1RefreshCollInfo(hitModel_);
+
 	stage_->SetOnGround(transform_.position_, time_, ENEMY::G); // d—Í‚ð‚©‚¯‚é
 	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform_.rotation_.y), ENEMY::DISTANCE_R); // ‚ß‚èž‚Ý‚ðŠm”F‚·‚é
 	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform_.rotation_.y), ENEMY::DISTANCE_R);

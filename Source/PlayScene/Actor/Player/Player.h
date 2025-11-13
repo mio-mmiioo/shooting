@@ -26,6 +26,8 @@ private:
 	std::list<Enemy*> enemy_;
 	std::list<Enemy*> hitEnemy_;
 
+	int hp_;
+
 	float time_;
 	int mouseX_, mouseY_;
 	VECTOR3 wPointerPos_; // スクリーン座標のポインターをワールド座標に変換したものを代入する変数

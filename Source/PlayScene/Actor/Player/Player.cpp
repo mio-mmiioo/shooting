@@ -29,6 +29,8 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	hModel_ = MV1LoadModel("data/model/player02.mv1");
 	assert(hModel_ > 0);
 
+	hp_ = hp;
+
 	// ポインター
 	// 標準時のポインター
 	hImagePointer_ = LoadGraph("data/image/pointer1.png");
@@ -226,6 +228,12 @@ void Player::Update()
 				// ここにプレイヤーのダメージ処理
 			}
 		}
+
+		// 雑にHPを減らす
+		if (Input::IsKeyDown(KEY_INPUT_K))
+		{
+			hp_ -= 1;
+		}
 	}
 
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
@@ -250,6 +258,8 @@ void Player::Draw()
 
 	// 残弾数の表示
 	gun_->Draw();
+
+	DrawFormatString(10, 30, GetColor(255, 255, 255), "HP:%d", hp_);
 
 	// ポインターの描画
 	if (isHit_ == true)

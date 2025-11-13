@@ -78,6 +78,12 @@
     <ClCompile Include="Source\ResultScene\ResultScene.cpp">
       <Filter>ResultScene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\ResultScene\Observer.cpp">
+      <Filter>ResultScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResultScene\Result.cpp">
+      <Filter>ResultScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -162,6 +168,12 @@
       <Filter>PlayScene\Map</Filter>
     </ClInclude>
     <ClInclude Include="Source\ResultScene\ResultScene.h">
+      <Filter>ResultScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResultScene\Observer.h">
+      <Filter>ResultScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\ResultScene\Result.h">
       <Filter>ResultScene</Filter>
     </ClInclude>
   </ItemGroup>

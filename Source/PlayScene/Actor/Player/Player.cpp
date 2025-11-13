@@ -185,7 +185,7 @@ void Player::Update()
 		VECTOR3 hit;
 		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
 		//startPos_ = transform_.position_ + VECTOR3(0, 180, 0) + VECTOR3(0, 0, 1) * 50 * MGetRotY(transform_.rotation_.y);
-		DrawLine3D(startPos_, wPointerPos_, GetColor(255, 255, 255));
+		//DrawLine3D(startPos_, wPointerPos_, GetColor(255, 255, 255));
 
 		//if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
 		//{
@@ -228,7 +228,6 @@ void Player::Update()
 		}
 	}
 
-	
 	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
 	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform_.rotation_.y), PLAYER::DISTANCE_R); // めり込みを確認する
 	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform_.rotation_.y), PLAYER::DISTANCE_R);

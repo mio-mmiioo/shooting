@@ -2,6 +2,7 @@
 #include <assert.h>
 #include "../../Map/Stage.h"
 #include "../../../../Library/Input.h"
+#include "../../../ResultScene/Observer.h"
 
 namespace ENEMY
 {
@@ -57,6 +58,8 @@ Enemy::~Enemy()
 	{
 		MV1DeleteModel(hitModel_);
 	}
+
+	Observer::EnemyKilled();
 }
 
 void Enemy::Update()

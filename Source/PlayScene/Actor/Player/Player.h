@@ -5,6 +5,7 @@
 class Camera;
 class Enemy;
 class Stage;
+class HP;
 
 class Player : public Object3D
 {
@@ -23,10 +24,9 @@ private:
 	Camera* camera_;
 	Stage* stage_;
 	Gun* gun_;
+	HP* hp_;
 	std::list<Enemy*> enemy_;
 	std::list<Enemy*> hitEnemy_;
-
-	int hp_;
 
 	float time_;
 	int mouseX_, mouseY_;

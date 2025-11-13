@@ -4,6 +4,7 @@
 #include "../../Map/Stage.h"
 #include "../../../../Library/Input.h"
 #include "../Gun/Gun.h"
+#include "../HP.h"
 #include "../Gun/Effect.h"
 #include "../Enemy/Enemy.h"
 
@@ -29,8 +30,6 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	hModel_ = MV1LoadModel("data/model/player02.mv1");
 	assert(hModel_ > 0);
 
-	hp_ = hp;
-
 	// ポインター
 	// 標準時のポインター
 	hImagePointer_ = LoadGraph("data/image/pointer1.png");
@@ -51,6 +50,8 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	goPosition_ = VECTOR3(0, 0, 0);
 	isArrive_ = true;
 	isHit_ = false;
+
+	hp_ = new HP(hp);
 
 	// 銃弾関連
 	gun_ = new Gun();
@@ -232,7 +233,7 @@ void Player::Update()
 		// 雑にHPを減らす
 		if (Input::IsKeyDown(KEY_INPUT_K))
 		{
-			hp_ -= 1;
+			hp_->AddHP(-1);
 		}
 	}
 
@@ -259,7 +260,7 @@ void Player::Draw()
 	// 残弾数の表示
 	gun_->Draw();
 
-	DrawFormatString(10, 30, GetColor(255, 255, 255), "HP:%d", hp_);
+	DrawFormatString(10, 30, GetColor(255, 255, 255), "HP:%d", hp_->GetHP());
 
 	// ポインターの描画
 	if (isHit_ == true)

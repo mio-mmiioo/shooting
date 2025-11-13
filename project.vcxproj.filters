@@ -84,6 +84,12 @@
     <ClCompile Include="Source\ResultScene\Result.cpp">
       <Filter>ResultScene</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Actor\HP.cpp">
+      <Filter>PlayScene\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Library\Object2D.cpp">
+      <Filter>Library</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -175,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="Source\ResultScene\Result.h">
       <Filter>ResultScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\PlayScene\Actor\HP.h">
+      <Filter>PlayScene\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Library\Object2D.h">
+      <Filter>Library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

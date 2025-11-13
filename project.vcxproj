@@ -141,6 +141,7 @@
     <ClInclude Include="Library\Input.h" />
     <ClInclude Include="Library\Light.h" />
     <ClInclude Include="Library\myDxLib.h" />
+    <ClInclude Include="Library\Object2D.h" />
     <ClInclude Include="Library\Object3D.h" />
     <ClInclude Include="Library\ObjectManager.h" />
     <ClInclude Include="Library\SceneBase.h" />
@@ -152,6 +153,7 @@
     <ClInclude Include="Source\PlayScene\Actor\Enemy\Enemy.h" />
     <ClInclude Include="Source\PlayScene\Actor\Gun\Effect.h" />
     <ClInclude Include="Source\PlayScene\Actor\Gun\Gun.h" />
+    <ClInclude Include="Source\PlayScene\Actor\HP.h" />
     <ClInclude Include="Source\PlayScene\Actor\Player\Camera.h" />
     <ClInclude Include="Source\PlayScene\Actor\Player\Player.h" />
     <ClInclude Include="Source\PlayScene\Development\Axis.h" />
@@ -174,6 +176,7 @@
     <ClCompile Include="Library\Input.cpp" />
     <ClCompile Include="Library\Light.cpp" />
     <ClCompile Include="Library\main.cpp" />
+    <ClCompile Include="Library\Object2D.cpp" />
     <ClCompile Include="Library\Object3D.cpp" />
     <ClCompile Include="Library\ObjectManager.cpp" />
     <ClCompile Include="Library\SceneManager.cpp" />
@@ -184,6 +187,7 @@
     <ClCompile Include="Source\PlayScene\Actor\Enemy\Enemy.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Gun\Effect.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Gun\Gun.cpp" />
+    <ClCompile Include="Source\PlayScene\Actor\HP.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Player\Camera.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Player\Player.cpp" />
     <ClCompile Include="Source\PlayScene\Development\Axis.cpp" />

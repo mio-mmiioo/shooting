@@ -58,14 +58,13 @@ Enemy::~Enemy()
 	{
 		MV1DeleteModel(hitModel_);
 	}
-
-	Observer::EnemyKilled();
 }
 
 void Enemy::Update()
 {
 	if (isAlive_ == false)
 	{
+		Observer::EnemyKilled();
 		DestroyMe();
 	}
 

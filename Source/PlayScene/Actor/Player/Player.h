@@ -3,7 +3,6 @@
 #include "../Gun/Gun.h"
 
 class Camera;
-class Enemy;
 class Stage;
 class HP;
 
@@ -25,8 +24,6 @@ private:
 	Stage* stage_;
 	Gun* gun_;
 	HP* hp_;
-	std::list<Enemy*> enemy_;
-	std::list<Enemy*> hitEnemy_;
 
 	float time_;
 	int mouseX_, mouseY_;

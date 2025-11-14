@@ -8,15 +8,49 @@
 namespace GameMaster {
 	Player* player = nullptr;
 	std::list<Enemy*> enemy;
+	std::list<Enemy*> hitEnemy;
 }
 
 void GameMaster::Init()
 {
 	Area::SetStage(); // Å‰‚ÌƒXƒe[ƒW‚ğƒZƒbƒg
+	player = FindGameObject<Player>();
+	enemy = FindGameObjects<Enemy>();
 }
 
 void GameMaster::Update()
 {
+	// “G‚Ée’e‚ğ“–‚Ä‚éˆ—
+	{
+		VECTOR3 ret = { 10000, 10000, 10000 };
+		float distance = ((VECTOR3)(player->GetTransform().position_ - ret)).Size();
+		Enemy* attackedEnemy = nullptr;
+		for (Enemy* enemy : hitEnemy)
+		{
+			VECTOR3 ePos = enemy->GetTransform().position_;
+			float d = ((VECTOR3)(player->GetTransform().position_ - ePos)).Size();
+
+			if (player->Attack() > 0) // UŒ‚‚ª0‚æ‚è‘å‚«‚¢¨UŒ‚‚µ‚Ä‚éê‡
+			{
+				if (distance > d)
+				{
+					distance = d;
+					attackedEnemy = enemy;
+				}
+			}
+		}
+
+		if (player->Attack() > 0)
+		{
+			if (attackedEnemy != nullptr) // ƒ|ƒCƒ“ƒ^[‚ª“G‚É‚ ‚Á‚Ä‚¢‚È‚¢ê‡AattackedEnemy‚ªnullptr‚É‚È‚Á‚Ä‚¢‚é
+			{
+				attackedEnemy->addHp(-player->Attack());
+			}
+		}
+
+		hitEnemy.clear();
+	}
+
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
 
@@ -55,4 +89,22 @@ void GameMaster::SetEnemyPos()
 			}
 		}
 	}
+}
+
+bool GameMaster::IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos)
+{
+	VECTOR3 hit;
+	for (Enemy* enemy : enemy) // e’e‚ª“–‚½‚éêŠ‚É‚¢‚é“G‚ÌƒŠƒXƒg‚ğì¬‚·‚é
+	{
+		if (enemy->Object3D::CollideLine(startPos, endPos, &hit))
+		{
+			hitEnemy.push_back(enemy);
+		}
+	}
+
+	if (hitEnemy.size() > 0) // 1ˆÈã‚È‚ç“–‚½‚é
+	{
+		return true;
+	}
+	return false;
 }

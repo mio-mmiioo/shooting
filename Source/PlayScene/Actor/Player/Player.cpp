@@ -6,7 +6,7 @@
 #include "../Gun/Gun.h"
 #include "../HP.h"
 #include "../Gun/Effect.h"
-#include "../Enemy/Enemy.h"
+#include "../../GameMaster.h"
 
 namespace PLAYER
 {
@@ -79,43 +79,9 @@ Player::~Player()
 
 void Player::Update()
 {
-	// 前回の情報をもとに攻撃される対象を特定する
-	{
-		VECTOR3 ret = { 10000, 10000, 10000 };
-		float distance = ((VECTOR3)(transform_.position_ - ret)).Size();
-		Enemy* attackedEnemy = nullptr;
-		for (Enemy* enemy : hitEnemy_)
-		{
-			VECTOR3 ePos = enemy->GetTransform().position_;
-			float d = ((VECTOR3)(transform_.position_ - ePos)).Size();
-
-			if (isAttack_ == true)
-			{
-				if (distance > d)
-				{
-					distance = d;
-					attackedEnemy = enemy;
-				}
-			}
-		}
-
-		if (isAttack_ == true)
-		{
-			if (attackedEnemy != nullptr) // ポインターが敵にあっていない場合、attackedEnemyがnullptrになっている
-			{
-				attackedEnemy->addHp(-Attack());
-			}
-		}
-
-		hitEnemy_.clear();
-	}
-
 	isAttack_ = false;
 
 	GetMousePoint(&mouseX_, &mouseY_);
-
-	VECTOR ScreenPos = { (float)mouseX_, (float)mouseY_, 1.0f };
-	wPointerPos_ = ConvScreenPosToWorldPos(ScreenPos);
 
 	// 自動移動 他の処理書くために、一時的にコメントアウト
 	{
@@ -193,33 +159,12 @@ void Player::Update()
 		}
 	}
 
-	// 当たり判定　弾が当たる敵のリストを作成 isHit_を変更
+	// 当たり判定
 	{
-		VECTOR3 hit;
+		VECTOR ScreenPos = { (float)mouseX_, (float)mouseY_, 1.0f };
+		wPointerPos_ = ConvScreenPosToWorldPos(ScreenPos);
 		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
-		//startPos_ = transform_.position_ + VECTOR3(0, 180, 0) + VECTOR3(0, 0, 1) * 50 * MGetRotY(transform_.rotation_.y);
-		//DrawLine3D(startPos_, wPointerPos_, GetColor(255, 255, 255));
-
-		//if (stage_->CollideLine(startPos_, wPointerPos_, &hit))
-		//{
-		//	// stageObjectに当たる場合の処理
-		//	if (isAttack_ == true)
-		//	{
-		//		new Effect(hit, currentGun_);
-		//	}
-		//}
-
-		enemy_ = FindGameObjects<Enemy>();
-
-		for (Enemy* enemy : enemy_)
-		{
-			if (enemy->Object3D::CollideLine(startPos_, wPointerPos_, &hit))
-			{
-				hitEnemy_.push_back(enemy);
-			}
-		}
-
-		if (hitEnemy_.size() > 0)
+		if (GameMaster::IsBulletHitEnemy(startPos_, wPointerPos_) == true)
 		{
 			isHit_ = true;
 		}
@@ -231,15 +176,6 @@ void Player::Update()
 
 	// 当たり判定　敵と自分の距離を確認
 	{
-		for (Enemy* enemy : enemy_)
-		{
-			float d = VSize(transform_.position_ - enemy->GetTransform().position_);
-			if (d < 100.0f)
-			{
-				// ここにプレイヤーのダメージ処理
-			}
-		}
-
 		// 雑にHPを減らす
 		if (Input::IsKeyDown(KEY_INPUT_K))
 		{

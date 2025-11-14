@@ -24,6 +24,8 @@ private:
 	int barGreenImage_; // HPゲージ・緑色
 	int barRedImage_;	// HPゲージ・赤色
 
+	int effectDamageImage_; // 画面の枠付近を赤く点滅させるための画像
+
 	enum State {
 		NORMAL,
 		HEAL,

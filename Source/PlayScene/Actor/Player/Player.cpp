@@ -159,6 +159,16 @@ void Player::Update()
 
 	// 銃弾
 	{
+		if (Input::IsMouseDown(MOUSE_HWHEELED))
+		{
+			// 銃切り替えの処理
+			// 画像を表示するためのmouseの位置を引数で渡す
+		}
+		if (Input::IsMouseKeep(MOUSE_HWHEELED))
+		{
+			// 現在のマウスの位置からどこを選択しているのか割り出す
+		}
+
 		if (Input::IsKeyDown(KEY_INPUT_6))
 		{
 			currentGun_ = GUN::TYPE::HAND;

@@ -5,6 +5,9 @@ namespace {
 	int LEFT_TOP_X = 20;
 	int LEFT_TOP_Y = 20;
 
+	const int IMAGE_WIDTH = 400;
+	const int IMAGE_HEIGHT = 43;
+
 	const float DAMAGE_TIME = 1.5f;
 }
 
@@ -21,6 +24,8 @@ HP::HP(int hp)
 	assert(barGreenImage_ > 0);
 	barRedImage_ = LoadGraph("data/image/hpBarRed.png");
 	assert(barRedImage_ > 0);
+	effectDamageImage_ = LoadGraph("data/image/effectDamageHp.png");
+	assert(effectDamageImage_ > 0);
 
 	damageTimer_ = 0.0f;
 	hpRaitio_ = 0.0f;
@@ -50,7 +55,6 @@ void HP::Update()
 			hpRaitio_ = 0.0f;
 			state_ = State::NORMAL;
 		}
-
 		break;
 	}
 }
@@ -64,23 +68,16 @@ void HP::Draw()
 	{
 	case State::NORMAL:
 	case State::HEAL:
-		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * raitio), 43, barRedImage_, TRUE);
-		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * raitio), 43, barGreenImage_, TRUE);
+		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(IMAGE_WIDTH * raitio), IMAGE_HEIGHT, barRedImage_, TRUE);
 		break;
+
 	case State::DAMAGE:
-
-		//float hpRaitio = (float)addHp_ / maxHp_;
-		//float tRaitio = damageTimer_ / DAMAGE_TIME;
-
 		timeRaitio_ = damageTimer_ / DAMAGE_TIME;
-
-		//DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * (raitio + hpRaitio * tRaitio)), 43, barRedImage_, TRUE);
-		
-		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * (raitio + hpRaitio_ * timeRaitio_)), 43, barRedImage_, TRUE);
-		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * raitio), 43, barGreenImage_, TRUE);
-
+		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(IMAGE_WIDTH * (raitio + hpRaitio_ * timeRaitio_)), IMAGE_HEIGHT, barRedImage_, TRUE);
 		break;
 	}
+
+	DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(IMAGE_WIDTH * raitio), IMAGE_HEIGHT, barGreenImage_, TRUE);
 }
 
 void HP::AddHP(int addHp)

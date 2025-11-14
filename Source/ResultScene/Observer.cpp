@@ -2,10 +2,16 @@
 
 namespace Observer {
 	int enemyKilledCounter = 0;
+	int point = 0;
 }
 
 void Observer::Input()
 {
+}
+
+void Observer::AddPoint(int addPoint)
+{
+	point += addPoint;
 }
 
 void Observer::EnemyKilled()
@@ -16,6 +22,11 @@ void Observer::EnemyKilled()
 int Observer::GetEnemyKillled()
 {
 	return enemyKilledCounter;
+}
+
+int Observer::GetPoint()
+{
+	return point;
 }
 
 

@@ -65,6 +65,7 @@ void Enemy::Update()
 	if (isAlive_ == false)
 	{
 		Observer::EnemyKilled();
+		Observer::AddPoint(100);
 		DestroyMe();
 	}
 

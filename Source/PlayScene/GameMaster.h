@@ -6,4 +6,6 @@ namespace GameMaster {
 	void Update();
 	void SetPlayerPos();
 	void SetEnemyPos();
+
+
 }

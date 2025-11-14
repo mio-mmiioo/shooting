@@ -90,6 +90,9 @@
     <ClCompile Include="Library\Object2D.cpp">
       <Filter>Library</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Map\DestructibleObject.cpp">
+      <Filter>PlayScene\Map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -188,6 +191,9 @@
     <ClInclude Include="Library\Object2D.h">
       <Filter>Library</Filter>
     </ClInclude>
+    <ClInclude Include="Source\PlayScene\Map\DestructibleObject.h">
+      <Filter>PlayScene\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">
@@ -205,9 +211,6 @@
     <Filter Include="PlayScene\Map">
       <UniqueIdentifier>{4e7a4392-3f03-48af-8e16-a640bc311a52}</UniqueIdentifier>
     </Filter>
-    <Filter Include="PlayScene\Development">
-      <UniqueIdentifier>{358f7ce9-eed7-44c3-ae24-eb6785fc68bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PlayScene\Actor">
       <UniqueIdentifier>{29f00bea-33f2-481d-b2aa-829d0598fa2e}</UniqueIdentifier>
     </Filter>
@@ -222,6 +225,9 @@
     </Filter>
     <Filter Include="ResultScene">
       <UniqueIdentifier>{53c2a8f6-d760-4818-9e25-245498f2e1a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PlayScene\Development">
+      <UniqueIdentifier>{358f7ce9-eed7-44c3-ae24-eb6785fc68bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

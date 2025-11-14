@@ -159,6 +159,7 @@
     <ClInclude Include="Source\PlayScene\Development\Axis.h" />
     <ClInclude Include="Source\PlayScene\GameMaster.h" />
     <ClInclude Include="Source\PlayScene\Map\Area.h" />
+    <ClInclude Include="Source\PlayScene\Map\DestructibleObject.h" />
     <ClInclude Include="Source\PlayScene\Map\Stage.h" />
     <ClInclude Include="Source\PlayScene\Map\StageObject.h" />
     <ClInclude Include="Source\PlayScene\PlayScene.h" />
@@ -193,6 +194,7 @@
     <ClCompile Include="Source\PlayScene\Development\Axis.cpp" />
     <ClCompile Include="Source\PlayScene\GameMaster.cpp" />
     <ClCompile Include="Source\PlayScene\Map\Area.cpp" />
+    <ClCompile Include="Source\PlayScene\Map\DestructibleObject.cpp" />
     <ClCompile Include="Source\PlayScene\Map\Stage.cpp" />
     <ClCompile Include="Source\PlayScene\Map\StageObject.cpp" />
     <ClCompile Include="Source\PlayScene\PlayScene.cpp" />

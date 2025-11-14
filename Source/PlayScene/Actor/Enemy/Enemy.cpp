@@ -109,6 +109,9 @@ void Enemy::Update()
 		//}
 	}
 
+	// 位置情報の修正
+
+
 	// 攻撃する
 
 	if (hp_ <= 0)
@@ -116,6 +119,7 @@ void Enemy::Update()
 		isAlive_ = false;
 	}
 
+	// 位置情報の更新　これがないと、当たり判定の場所が更新されない
 	MV1SetMatrix(hitModel_, transform_.GetLocalMatrix());
 	MV1RefreshCollInfo(hitModel_);
 

@@ -233,7 +233,7 @@ void Player::Update()
 		// ŽG‚ÉHP‚ðŒ¸‚ç‚·
 		if (Input::IsKeyDown(KEY_INPUT_K))
 		{
-			hp_->AddHP(-3);
+			hp_->AddHP(-2);
 		}
 	}
 

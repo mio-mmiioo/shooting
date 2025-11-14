@@ -23,6 +23,7 @@ HP::HP(int hp)
 	assert(barRedImage_ > 0);
 
 	damageTimer_ = 0.0f;
+	hpRaitio_ = 0.0f;
 
 	state_ = State::NORMAL;
 	
@@ -46,6 +47,7 @@ void HP::Update()
 		if (damageTimer_ <= 0.0f)
 		{
 			addHp_ = 0;
+			hpRaitio_ = 0.0f;
 			state_ = State::NORMAL;
 		}
 
@@ -67,18 +69,24 @@ void HP::Draw()
 		break;
 	case State::DAMAGE:
 
-		float hpRaitio = (float)addHp_ / maxHp_;
-		float tRaitio = damageTimer_ / DAMAGE_TIME;
+		//float hpRaitio = (float)addHp_ / maxHp_;
+		//float tRaitio = damageTimer_ / DAMAGE_TIME;
 
-		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * (raitio + hpRaitio * tRaitio)), 43, barRedImage_, TRUE);
+		timeRaitio_ = damageTimer_ / DAMAGE_TIME;
+
+		//DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * (raitio + hpRaitio * tRaitio)), 43, barRedImage_, TRUE);
+		
+		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * (raitio + hpRaitio_ * timeRaitio_)), 43, barRedImage_, TRUE);
 		DrawRectGraph(LEFT_TOP_X, LEFT_TOP_Y, 0, 0, (int)(400 * raitio), 43, barGreenImage_, TRUE);
+
 		break;
 	}
 }
 
 void HP::AddHP(int addHp)
 {
-	addHp_ += std::abs(addHp);
+	addHp_ = std::abs(addHp);
+	hpRaitio_ = (float)std::abs(addHp_) / (float)maxHp_ + hpRaitio_ * timeRaitio_;
 	hp_ += addHp;
 	if (hp_ > maxHp_) // Å‘å’l‚æ‚è‘å‚«‚­‚È‚Á‚Ä‚¢‚½ê‡
 	{

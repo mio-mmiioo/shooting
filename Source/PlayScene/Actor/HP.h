@@ -16,6 +16,8 @@ private:
 	int maxHp_; // 体力の最大値
 
 	float damageTimer_; // ダメージを食らった演出に使用する時間
+	float hpRaitio_;
+	float timeRaitio_;
 
 	// 画像
 	int barFrameImage_; // HPゲージの枠

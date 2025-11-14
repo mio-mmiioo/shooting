@@ -6,7 +6,11 @@
 #include "Map/Stage.h"
 
 namespace GameMaster {
+	void SetPlayerPos();
+	void SetEnemyPos();
+
 	Player* player = nullptr;
+	Stage* stage = nullptr;
 	std::list<Enemy*> enemy;
 	std::list<Enemy*> hitEnemy;
 }
@@ -16,6 +20,7 @@ void GameMaster::Init()
 	Area::SetStage(); // 最初のステージをセット
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
+	stage = FindGameObject<Stage>();
 }
 
 void GameMaster::Update()
@@ -107,4 +112,13 @@ bool GameMaster::IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos)
 		return true;
 	}
 	return false;
+}
+
+void GameMaster::CheckSetPosition(Transform& transform, float time, VECTOR3 gravity, float distanceR)
+{
+	stage->SetOnGround(transform.position_, time, gravity); // ステージの位置を確認し、空中に浮いていないか確認する 浮いていたら重力をかける
+	VECTOR3 front = transform.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform.rotation_.y);
+	VECTOR3 back  = transform.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform.rotation_.y);
+	stage->CheckPush(transform.position_, front, distanceR); // めり込みを確認する
+	stage->CheckPush(transform.position_, back, distanceR);
 }

@@ -123,7 +123,7 @@ void Player::Update()
 		}
 	}
 
-	// 銃弾
+	// 銃弾の入力処理
 	{
 		if (Input::IsMouseDown(MOUSE_HWHEELED))
 		{
@@ -159,7 +159,7 @@ void Player::Update()
 		}
 	}
 
-	// 当たり判定
+	// 銃弾の当たり判定
 	{
 		VECTOR ScreenPos = { (float)mouseX_, (float)mouseY_, 1.0f };
 		wPointerPos_ = ConvScreenPosToWorldPos(ScreenPos);
@@ -183,14 +183,8 @@ void Player::Update()
 		}
 	}
 
-	stage_->SetOnGround(transform_.position_, time_, PLAYER::G); // ステージの位置を確認し、空中に浮いていないか確認する
-	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform_.rotation_.y), PLAYER::DISTANCE_R); // めり込みを確認する
-	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform_.rotation_.y), PLAYER::DISTANCE_R);
-	/*DrawCapsule3D(transform_.position_ + PLAYER::CAPSULE_POS1, transform_.position_ + PLAYER::CAPSULE_POS2,
-		50.0f, 10, GetColor(255, 255, 255), GetColor(255, 255, 255), FALSE);*/
-
+	GameMaster::CheckSetPosition(transform_, time_, PLAYER::G, PLAYER::DISTANCE_R);
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
-
 }
 
 void Player::Draw()

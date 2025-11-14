@@ -3,6 +3,7 @@
 #include "../../Map/Stage.h"
 #include "../../../../Library/Input.h"
 #include "../../../ResultScene/Observer.h"
+#include "../../GameMaster.h"
 
 namespace ENEMY
 {
@@ -44,7 +45,7 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	MV1RefreshCollInfo(hitModel_);
 
 	stage_ = FindGameObject<Stage>();
-	time_ = 0;
+	time_ = 0.0f;
 	state_ = E_STATE::WALK;
 }
 
@@ -124,9 +125,7 @@ void Enemy::Update()
 	MV1SetMatrix(hitModel_, transform_.GetLocalMatrix());
 	MV1RefreshCollInfo(hitModel_);
 
-	stage_->SetOnGround(transform_.position_, time_, ENEMY::G); // d—Í‚ð‚©‚¯‚é
-	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform_.rotation_.y), ENEMY::DISTANCE_R); // ‚ß‚èž‚Ý‚ðŠm”F‚·‚é
-	stage_->CheckPush(transform_.position_, transform_.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform_.rotation_.y), ENEMY::DISTANCE_R);
+	GameMaster::CheckSetPosition(transform_, time_, ENEMY::G, ENEMY::DISTANCE_R);
 }
 
 void Enemy::Draw()

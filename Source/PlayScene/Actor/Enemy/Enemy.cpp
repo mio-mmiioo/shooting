@@ -4,6 +4,7 @@
 #include "../../../../Library/Input.h"
 #include "../../../ResultScene/Observer.h"
 #include "../../GameMaster.h"
+#include "../../../Sound.h"
 
 namespace ENEMY
 {
@@ -65,6 +66,7 @@ void Enemy::Update()
 {
 	if (isAlive_ == false)
 	{
+		PlaySoundMem(Sound::se["BreakEnemy"], DX_PLAYTYPE_BACK, TRUE);
 		Observer::EnemyKilled();
 		Observer::AddPoint(100);
 		DestroyMe();

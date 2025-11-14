@@ -4,6 +4,7 @@
 #include "Actor/Player/Player.h"
 #include "Map/Area.h"
 #include "Map/Stage.h"
+#include "../Sound.h"
 
 namespace GameMaster {
 	void SetPlayerPos();
@@ -49,6 +50,7 @@ void GameMaster::Update()
 		{
 			if (attackedEnemy != nullptr) // ポインターが敵にあっていない場合、attackedEnemyがnullptrになっている
 			{
+				PlaySoundMem(Sound::se["AttackEnemy"], DX_PLAYTYPE_BACK, TRUE);
 				attackedEnemy->addHp(-player->Attack());
 			}
 		}

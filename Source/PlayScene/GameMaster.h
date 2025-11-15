@@ -4,6 +4,7 @@
 namespace GameMaster {
 	void Init();
 	void Update();
+	void Release();
 
 	// ŒÄ‚Ño‚³‚ê‚éŠÖ”
 	bool IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos); // e’e‚ª“G‚É“–‚½‚é‚© ‚ ‚½‚é‚È‚çtrue

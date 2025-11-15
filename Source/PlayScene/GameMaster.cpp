@@ -65,6 +65,11 @@ void GameMaster::Update()
 	SetEnemyPos();
 }
 
+void GameMaster::Release()
+{
+	Area::Release();
+}
+
 void GameMaster::SetPlayerPos()
 {
 	if (enemy.empty()) // ƒvƒŒƒCƒ„[‚ÌˆÚ“®ğŒ‚ğ‘‚â‚µ‚Ä‚¢‚­—\’è

@@ -18,6 +18,7 @@ PlayScene::PlayScene()
 
 PlayScene::~PlayScene()
 {
+	GameMaster::Release();
 	Shadow::Release(); // ƒVƒƒƒhƒE‚ÌŒãˆ—
 }
 

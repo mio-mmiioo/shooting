@@ -35,3 +35,8 @@ void Area::SetNextPosition()
 	}
 	currentPosition = nextPosition[nextPositionNumber];
 }
+
+void Area::Release()
+{
+	nextPositionNumber = 0;
+}

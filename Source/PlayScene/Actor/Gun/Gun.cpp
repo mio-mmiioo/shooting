@@ -48,6 +48,11 @@ Gun::Gun()
 
 Gun::~Gun()
 {
+	if (hImageEffectOutBullet_ > 0)
+	{
+		DeleteGraph(hImageEffectOutBullet_);
+		hImageEffectOutBullet_ = -1;
+	}
 }
 
 void Gun::Update()

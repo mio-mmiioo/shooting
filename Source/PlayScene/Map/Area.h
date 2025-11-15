@@ -5,4 +5,5 @@ namespace Area {
 	void SetStage();
 	VECTOR3 GetCurrentPosition();
 	void SetNextPosition();
+	void Release();
 }

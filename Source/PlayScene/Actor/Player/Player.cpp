@@ -16,7 +16,7 @@ namespace PLAYER
 
 	const VECTOR3 CAPSULE_POS1 = { 0,  50, 0 };
 	const VECTOR3 CAPSULE_POS2 = { 0, 150, 0 };
-	const float DISTANCE_R = 25.0f;
+	const float DISTANCE_R = 50.0f;
 
 	int mouseX;
 	int mouseY;

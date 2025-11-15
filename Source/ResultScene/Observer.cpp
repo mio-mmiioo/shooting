@@ -5,8 +5,14 @@ namespace Observer {
 	int point = 0;
 }
 
-void Observer::Input()
+void Observer::Init()
 {
+}
+
+void Observer::Release()
+{
+	enemyKilledCounter = 0;
+	point = 0;
 }
 
 void Observer::AddPoint(int addPoint)

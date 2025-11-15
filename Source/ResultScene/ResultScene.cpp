@@ -1,6 +1,7 @@
 #include "ResultScene.h"
 #include "../../Library/Input.h"
 #include "Result.h"
+#include "Observer.h"
 
 ResultScene::ResultScene()
 {
@@ -8,6 +9,7 @@ ResultScene::ResultScene()
 
 ResultScene::~ResultScene()
 {
+	Observer::Release();
 }
 
 void ResultScene::Update()

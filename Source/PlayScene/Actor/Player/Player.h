@@ -44,6 +44,14 @@ private:
 	int hImageReload_;							// リロードするときのポインター
 	int imageReloadX_, imageReloadY_;			// 画像のサイズを代入する変数
 
+	// 銃の切り替え関連
+	void ChangeGun(int currentMouseX, int currentMouseY); // 銃を切り替える処理
+	bool isChangeGun_;  // 銃を切り替え中か trueなら切り替えてる最中
+	int changeGunPosX_; // 銃の切り替え表示の座標x
+	int changeGunPosY_; // 銃の切り替え表示の座標y
+	int hImageGunCircle_;
+
+
 	// 銃弾関連
 	bool IsAttackInput(); // 銃によって攻撃の入力処理を変更する
 	bool isAttack_;

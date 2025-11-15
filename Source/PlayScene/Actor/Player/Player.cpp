@@ -7,6 +7,7 @@
 #include "../HP.h"
 #include "../Gun/Effect.h"
 #include "../../GameMaster.h"
+#include "../../../Sound.h"
 
 namespace PLAYER
 {
@@ -44,6 +45,11 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	hImageReload_ = LoadGraph("data/image/reload.png");
 	assert(hImageReload_ > 0);
 	GetGraphSize(hImageReload_, &imageReloadX_, &imageReloadY_);
+
+	// e‚ðØ‚è‘Ö‚¦‚é‚Æ‚«‚Ì‰æ‘œ
+	hImageGunCircle_ = LoadGraph("data/image/gunCircle.png");
+	assert(hImageGunCircle_ > 0);
+	isChangeGun_ = false;
 
 	GetMousePoint(&mouseX_, &mouseY_);
 
@@ -125,14 +131,22 @@ void Player::Update()
 
 	// e’e‚Ì“ü—Íˆ—
 	{
-		if (Input::IsMouseDown(MOUSE_HWHEELED))
+		if (Input::IsMouseDown(MOUSE_INPUT_MIDDLE))
 		{
 			// eØ‚è‘Ö‚¦‚Ìˆ—
 			// ‰æ‘œ‚ð•\Ž¦‚·‚é‚½‚ß‚Ìmouse‚ÌˆÊ’u‚ðˆø”‚Å“n‚·
+			changeGunPosX_ = mouseX_;
+			changeGunPosY_ = mouseY_;
 		}
-		if (Input::IsMouseKeep(MOUSE_HWHEELED))
+		if (Input::IsMouseKeep(MOUSE_INPUT_MIDDLE))
 		{
 			// Œ»Ý‚Ìƒ}ƒEƒX‚ÌˆÊ’u‚©‚ç‚Ç‚±‚ð‘I‘ð‚µ‚Ä‚¢‚é‚Ì‚©Š„‚èo‚·
+			isChangeGun_ = true;
+			ChangeGun(mouseX_, mouseY_);
+		}
+		else
+		{
+			isChangeGun_ = false;
 		}
 
 		if (Input::IsKeyDown(KEY_INPUT_6))
@@ -202,6 +216,13 @@ void Player::Draw()
 
 	DrawFormatString(10, 60, GetColor(255, 255, 255), "HP:%d", hp_->GetHP());
 
+	// e‚ÌØ‚è‘Ö‚¦
+	if (isChangeGun_ == true)
+	{
+		DrawCircleGauge(changeGunPosX_, changeGunPosY_, 100.0f, hImageGunCircle_, 0.0f, TRUE);
+		return; // e‚ðØ‚è‘Ö‚¦‚é‚Æ‚«‚ÍAƒ|ƒCƒ“ƒ^[‚ð•`‰æ‚µ‚È‚¢
+	}
+
 	// ƒ|ƒCƒ“ƒ^[‚Ì•`‰æ
 	if (isHit_ == true)
 	{
@@ -226,6 +247,21 @@ int Player::Attack()
 		return gun_->GetAttack();
 	}
 	return -1;
+}
+
+void Player::ChangeGun(int currentMouseX, int currentMouseY)
+{
+
+	if (changeGunPosX_ <= currentMouseX)
+	{
+		currentGun_ = GUN::TYPE::HAND;
+	}
+	else if (changeGunPosX_ >= currentMouseX)
+	{
+		currentGun_ = GUN::TYPE::MACHINE;
+	}
+
+	gun_->SetGunType(currentGun_);
 }
 
 bool Player::IsAttackInput()

@@ -93,19 +93,25 @@ void Gun::DrawRemainingSetting()
 
 bool Gun::OutBullet()
 {
-	if (current.remainingSetting <= 0 || current.coolDownTimer > 0 || current.reloadTimer > 0) // 残弾数が0以下 or クールダウン中
+	if (current.coolDownTimer > 0 || current.reloadTimer > 0) // 残弾数が0以下 or クールダウン中
 	{
 		return false;
 	}
-	else
+	if (current.remainingSetting <= 0)
 	{
-		current.remainingSetting -= 1;
-		current.coolDownTimer = current.coolDownTime;
-		PlaySoundMem(Sound::se["OutBullet1"], DX_PLAYTYPE_BACK, TRUE);
-		StartJoypadVibration(DX_INPUT_PAD1, 300, 120);
-		OutBulletEffect();
-		return true;
+		if (CheckSoundMem(Sound::se["CanNotOutBullet"]) == 0)
+		{
+			PlaySoundMem(Sound::se["CanNotOutBullet"], DX_PLAYTYPE_BACK, TRUE);
+		}
+		return false;
 	}
+	
+	current.remainingSetting -= 1;
+	current.coolDownTimer = current.coolDownTime;
+	PlaySoundMem(Sound::se["OutBullet1"], DX_PLAYTYPE_BACK, TRUE);
+	StartJoypadVibration(DX_INPUT_PAD1, 300, 120);
+	OutBulletEffect();
+	return true;
 }
 
 void Gun::OutBulletEffect()

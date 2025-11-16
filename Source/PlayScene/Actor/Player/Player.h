@@ -1,12 +1,13 @@
 #pragma once
-#include "../../../../Library/Object3D.h"
+//#include "../../../../Library/Object3D.h"
+#include "../Actor.h"
 #include "../Gun/Gun.h"
 
 class Camera;
 class Stage;
 class HP;
 
-class Player : public Object3D
+class Player : public Actor
 {
 public:
 	Player(const VECTOR3& position, float ang, int hp);

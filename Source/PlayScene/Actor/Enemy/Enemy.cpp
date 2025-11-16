@@ -13,7 +13,7 @@ namespace ENEMY
 
 	const float MOVE_SPEED = 3.0f;
 	const float ROTATE_SPEED = 3.0f;
-	const float DISTANCE_R = 25.0f;
+	const float DISTANCE_R = 50.0f;
 
 	VECTOR3 headshotPos = { 0, 170, 0 };
 	float headshotR = 25;
@@ -47,6 +47,8 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 
 	stage_ = FindGameObject<Stage>();
 	time_ = 0.0f;
+	gravity_ = ENEMY::G;
+	distanceR_ = ENEMY::DISTANCE_R;
 	state_ = E_STATE::WALK;
 }
 
@@ -127,7 +129,7 @@ void Enemy::Update()
 	MV1SetMatrix(hitModel_, transform_.GetLocalMatrix());
 	MV1RefreshCollInfo(hitModel_);
 
-	GameMaster::CheckSetPosition(transform_, time_, ENEMY::G, ENEMY::DISTANCE_R);
+	GameMaster::CheckSetPosition(transform_, time_, gravity_, distanceR_);
 }
 
 void Enemy::Draw()

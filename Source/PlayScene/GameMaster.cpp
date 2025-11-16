@@ -126,6 +126,8 @@ void GameMaster::CheckSetPosition(Transform& transform, float time, VECTOR3 grav
 	stage->SetOnGround(transform.position_, time, gravity); // ステージの位置を確認し、空中に浮いていないか確認する 浮いていたら重力をかける
 	VECTOR3 front = transform.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform.rotation_.y);
 	VECTOR3 back  = transform.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform.rotation_.y);
-	stage->CheckPush(transform.position_, front, distanceR); // めり込みを確認する
-	stage->CheckPush(transform.position_, back, distanceR);
+	stage->CheckPush(transform.position_, front, distanceR); // ステージへのめり込みを確認する(前方)
+	stage->CheckPush(transform.position_, back, distanceR);  // ステージへのめり込みを確認する(後方)
+
+	// Actorどうしの当たり判定
 }

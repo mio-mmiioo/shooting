@@ -18,11 +18,6 @@ namespace PLAYER
 	const VECTOR3 CAPSULE_POS1 = { 0,  50, 0 };
 	const VECTOR3 CAPSULE_POS2 = { 0, 150, 0 };
 	const float DISTANCE_R = 50.0f;
-
-	int mouseX;
-	int mouseY;
-	int prevMouseX;
-	int prevMouseY;
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -69,9 +64,10 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	stage_ = FindGameObject<Stage>();
 	time_ = 0;
 
-	SetDrawOrder(-1);
+	gravity_ = PLAYER::G;
+	distanceR_ = PLAYER::DISTANCE_R;
 
-	GetMousePoint(&PLAYER::prevMouseX, &PLAYER::prevMouseY);
+	SetDrawOrder(-1);
 }
 
 Player::~Player()
@@ -149,17 +145,6 @@ void Player::Update()
 			isChangeGun_ = false;
 		}
 
-		if (Input::IsKeyDown(KEY_INPUT_6))
-		{
-			currentGun_ = GUN::TYPE::HAND;
-			gun_->SetGunType(currentGun_);
-		}
-		else if (Input::IsKeyDown(KEY_INPUT_7))
-		{
-			currentGun_ = GUN::TYPE::MACHINE;
-			gun_->SetGunType(currentGun_);
-		}
-
 		if (Input::IsMouseDown(MOUSE_INPUT_RIGHT) || Input::IsJoypadDown(XINPUT_BUTTON_RIGHT_SHOULDER))
 		{
 			gun_->ReloadBullet(); // リロードの処理
@@ -197,7 +182,7 @@ void Player::Update()
 		}
 	}
 
-	GameMaster::CheckSetPosition(transform_, time_, PLAYER::G, PLAYER::DISTANCE_R);
+	GameMaster::CheckSetPosition(transform_, time_, gravity_, distanceR_);
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 }
 
@@ -251,7 +236,6 @@ int Player::Attack()
 
 void Player::ChangeGun(int currentMouseX, int currentMouseY)
 {
-
 	if (changeGunPosX_ <= currentMouseX)
 	{
 		currentGun_ = GUN::TYPE::HAND;

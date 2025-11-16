@@ -59,3 +59,17 @@ bool Actor::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
 	}
 	return found;
 }
+
+void Actor::CheckPush(VECTOR3& pos1, VECTOR3 pos2, float minDistance)
+{
+	VECTOR3 hit;
+	VECTOR3 direction;
+	if (CollideLine(pos1, pos2, &hit)) // 正面にオブジェクトがある
+	{
+		if (VSize(pos1 - hit) < minDistance) // めり込んでいる→めり込んでいる距離押し返す
+		{
+			direction = VNorm(hit - pos1); // 押し返す方向のベクトル
+			pos1 -= direction * (minDistance - VSize(pos1 - hit)); // ( 押し返す方向 ) * ( 押し返したい距離 )
+		}
+	}
+}

@@ -31,4 +31,7 @@ private:
 	bool isArrive_;
 	E_STATE state_;
 	float timer_;
+
+	// UŒ‚ŠÖ˜A
+	float attackTimer_; // UŒ‚‚ÌŠÔŠu
 };

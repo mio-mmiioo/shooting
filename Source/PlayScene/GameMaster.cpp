@@ -131,3 +131,21 @@ void GameMaster::CheckSetPosition(Transform& transform, float time, VECTOR3 grav
 
 	// Actor‚Ç‚¤‚µ‚Ì“–‚½‚è”»’è
 }
+
+bool GameMaster::IsCanAttackPlayer(Enemy* enemy)
+{
+	float min = (*enemy).GetDistanceR() + player->GetDistanceR(); // ‚Ô‚Â‚©‚é‹——£
+	VECTOR3 aCap2 = (*enemy).GetTransform().position_ + VECTOR3(0, 1, 0) * 180 * (*enemy).GetTransform().GetRotationMatrix();
+	VECTOR3 pCap2 = player->GetTransform().position_ + VECTOR3(0, 1, 0) * 180 * player->GetTransform().GetRotationMatrix();
+	float checkDistance = Segment_Segment_MinLength(player->GetTransform().position_, pCap2, (*enemy).GetTransform().position_, aCap2); // “ñ‚Â‚Ìü•ª‚ÌÅ‹ß“_ŠÔ‚Ì‹——£‚ğ“¾‚é
+	if (checkDistance < min) // ‚Ô‚Â‚©‚Á‚Ä‚¢‚é
+	{
+		return true;
+	}
+	return false;
+}
+
+void GameMaster::AttackPlayer(int atackPower)
+{
+	player->Attacked(atackPower);
+}

@@ -200,14 +200,7 @@ void Player::Update()
 
 	GameMaster::CheckSetPosition(transform_, time_, gravity_, distanceR_);
 	VECTOR3 cap2 = transform_.position_ + VECTOR3(0, 1, 0) * 180 * transform_.GetRotationMatrix();
-	if (CollideCapsule(transform_.position_, cap2, distanceR_, this) == true)
-	{
-		DrawCapsule3D(transform_.position_, cap2, distanceR_, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
-	}
-	else
-	{
-		DrawCapsule3D(transform_.position_, cap2, distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
-	}
+	DrawCapsule3D(transform_.position_, cap2, distanceR_, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
 
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 }
@@ -258,6 +251,11 @@ int Player::Attack()
 		return gun_->GetAttack();
 	}
 	return -1;
+}
+
+void Player::Attacked(int atackPower)
+{
+	hp_->AddHP(atackPower);
 }
 
 void Player::ChangeGun(int currentMouseX, int currentMouseY)

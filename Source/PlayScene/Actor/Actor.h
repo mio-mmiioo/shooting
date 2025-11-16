@@ -14,9 +14,7 @@ public:
 	virtual void addHp(int num) { hp_ += num; } // ëÃóÕÇÃëùå∏ÇÕÇ±ÇÍÇ≈ä«óù
 
 	bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const override;
-	bool CollideCapsule(VECTOR3 pos1, VECTOR3 pos2, float minDistance, Actor* act);
 	void CheckLinePush(VECTOR3& pos1, VECTOR3 pos2, float minDistance);
-	void CheckCapsulePush(VECTOR3 pos1, VECTOR3 pos2, float minDistance, Actor* act);
 	VECTOR3 GetGravity() { return gravity_; }
 	float GetDistanceR() { return distanceR_; }
 

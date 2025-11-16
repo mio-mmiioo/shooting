@@ -18,6 +18,9 @@ namespace ENEMY
 	VECTOR3 headshotPos = { 0, 170, 0 };
 	float headshotR = 25;
 	int headshotBonus = 2;
+
+	// çUåÇä÷òA
+	const float ATTACK_TIME = 6.0f;
 }
 
 Enemy::Enemy(const VECTOR3& position, float ang, int hp)
@@ -50,6 +53,9 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	gravity_ = ENEMY::G;
 	distanceR_ = ENEMY::DISTANCE_R;
 	state_ = E_STATE::WALK;
+
+	// çUåÇä÷òA
+	attackTimer_ = ENEMY::ATTACK_TIME;
 }
 
 Enemy::~Enemy()
@@ -119,6 +125,15 @@ void Enemy::Update()
 
 
 	// çUåÇÇ∑ÇÈ
+	if (GameMaster::IsCanAttackPlayer(this) == true)
+	{
+		attackTimer_ -= Time::DeltaTime();
+		if (attackTimer_ <= 0)
+		{
+			GameMaster::AttackPlayer(-2);
+			attackTimer_ += ENEMY::ATTACK_TIME;
+		}
+	}
 
 	if (hp_ <= 0)
 	{
@@ -150,6 +165,8 @@ void Enemy::Draw()
 			Object3D::Draw();
 		}
 	}
+
+	DrawFormatString(500, 10, GetColor(255, 255, 255), "AttackTimer:%f", attackTimer_);
 }
 
 void Enemy::UpdateWalk()

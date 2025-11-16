@@ -60,26 +60,6 @@ bool Actor::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
 	return found;
 }
 
-bool Actor::CollideCapsule(VECTOR3 pos1, VECTOR3 pos2, float minDistance, Actor* act)
-{
-	bool found = false;
-	std::list<Actor*> actor = FindGameObjects<Actor>();
-	for (Actor* ac : actor)
-	{
-		if (ac != act)
-		{
-			float min = ac->GetDistanceR() + minDistance; // ‚Ô‚Â‚©‚é‹——£
-			VECTOR3 cap2 = ac->transform_.position_ + VECTOR3(0, 1, 0) * 180 * ac->transform_.GetRotationMatrix();
-			float checkDistance = Segment_Segment_MinLength(pos1, pos2, ac->transform_.position_, cap2); // “ñ‚Â‚Ìü•ª‚ÌÅ‹ß“_ŠÔ‚Ì‹——£‚ğ“¾‚é
-			if (checkDistance < minDistance) // ‚Ô‚Â‚©‚Á‚Ä‚¢‚é
-			{
-				found = true;
-			}
-		}
-	}
-	return found;
-}
-
 void Actor::CheckLinePush(VECTOR3& pos1, VECTOR3 pos2, float minDistance)
 {
 	VECTOR3 hit;
@@ -94,7 +74,3 @@ void Actor::CheckLinePush(VECTOR3& pos1, VECTOR3 pos2, float minDistance)
 	}
 }
 
-void Actor::CheckCapsulePush(VECTOR3 pos1, VECTOR3 pos2, float minDistance, Actor* act)
-{
-	
-}

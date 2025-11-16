@@ -190,22 +190,13 @@ void Player::Update()
 		}
 	}
 
-	// 当たり判定　敵と自分の距離を確認
-	{
-		// 雑にHPを減らす
-		if (Input::IsKeyDown(KEY_INPUT_K))
-		{
-			HP_->AddHP(-2);
-		}
-	}
-
 	// 位置情報の更新
 	MV1SetMatrix(hModel_, transform_.GetLocalMatrix());
 	MV1RefreshCollInfo(hModel_);
 
 	GameMaster::CheckSetPosition(transform_, time_, gravity_, distanceR_);
-	VECTOR3 cap2 = transform_.position_ + VECTOR3(0, 1, 0) * 180 * transform_.GetRotationMatrix();
-	DrawCapsule3D(transform_.position_, cap2, distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
+	/*VECTOR3 cap2 = transform_.position_ + VECTOR3(0, 1, 0) * 180 * transform_.GetRotationMatrix();
+	DrawCapsule3D(transform_.position_, cap2, distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);*/
 
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 }

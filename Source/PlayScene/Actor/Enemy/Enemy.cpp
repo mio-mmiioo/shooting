@@ -153,14 +153,14 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
-	if (GameMaster::IsCanAttackPlayer(this) == true)
+	/*if (GameMaster::IsCanAttackPlayer(this) == true)
 	{
 		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
 	}
 	else
 	{
 		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
-	}
+	}*/
 
 	// Œü‚¢‚Ä‚é•ûŒü‚ğ¦‚·@‚±‚êƒJƒƒ‰•ÏX‚µ‚È‚­‚È‚Á‚½‚çÁ‚·‚±‚Æ
 	VECTOR3 addPlayerHeight = { 0, 180, 0 };
@@ -178,7 +178,7 @@ void Enemy::Draw()
 		}
 	}
 
-	DrawFormatString(500, 10, GetColor(255, 255, 255), "AttackTimer:%f", attackTimer_);
+	//DrawFormatString(500, 10, GetColor(255, 255, 255), "AttackTimer:%f", attackTimer_);
 }
 
 void Enemy::UpdateWalk()

@@ -94,7 +94,7 @@ void GameMaster::SetEnemyPos()
 	{
 		for (auto e : enemy)
 		{
-			if (VSize(e->GetTransform().position_ - player->GetTransform().position_) > 200.0f)
+			if (VSize(e->GetTransform().position_ - player->GetTransform().position_) > e->GetDistanceR() + player->GetDistanceR())
 			{
 				e->SetToGo(player->GetTransform().position_);
 				e->SetIsArrive(false);
@@ -148,4 +148,9 @@ bool GameMaster::IsCanAttackPlayer(Enemy* enemy)
 void GameMaster::AttackPlayer(int atackPower)
 {
 	player->Attacked(atackPower);
+}
+
+float GameMaster::GetPlayerDistanceR()
+{
+	return player->GetDistanceR();
 }

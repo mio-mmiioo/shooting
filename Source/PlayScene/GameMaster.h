@@ -13,4 +13,5 @@ namespace GameMaster {
 	void CheckSetPosition(Transform& transform, float time, VECTOR3 gravity, float distanceR); // ˆÊ’u’²®‚ğ‚·‚é
 	bool IsCanAttackPlayer(Enemy* enemy);
 	void AttackPlayer(int atackPower);
+	float GetPlayerDistanceR();
 }

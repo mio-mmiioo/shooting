@@ -13,7 +13,7 @@ namespace ENEMY
 
 	const float MOVE_SPEED = 3.0f;
 	const float ROTATE_SPEED = 3.0f;
-	const float DISTANCE_R = 50.0f;
+	const float DISTANCE_R = 100.0f;
 
 	VECTOR3 headshotPos = { 0, 170, 0 };
 	float headshotR = 25;
@@ -134,6 +134,10 @@ void Enemy::Update()
 			attackTimer_ += ENEMY::ATTACK_TIME;
 		}
 	}
+	else
+	{
+		attackTimer_ = ENEMY::ATTACK_TIME;
+	}
 
 	if (hp_ <= 0)
 	{
@@ -149,7 +153,15 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
-	DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
+	if (GameMaster::IsCanAttackPlayer(this) == true)
+	{
+		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
+	}
+	else
+	{
+		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
+	}
+
 	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
 	VECTOR3 addPlayerHeight = { 0, 180, 0 };
 	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
@@ -181,7 +193,7 @@ void Enemy::UpdateWalk()
 
 
 			// 壁がなくてまっすぐに進める
-			if (VSize(goPosition_ - transform_.position_) < 200.0f)
+			if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
 			{
 				isArrive_ = true;
 			}

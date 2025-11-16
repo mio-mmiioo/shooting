@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Library\Animator.h" />
     <ClInclude Include="Library\App.h" />
     <ClInclude Include="Library\CsvReader.h" />
     <ClInclude Include="Library\GameObject.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Source\TitleScene.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Library\Animator.cpp" />
     <ClCompile Include="Library\App.cpp" />
     <ClCompile Include="Library\csvReader.cpp" />
     <ClCompile Include="Library\Input.cpp" />

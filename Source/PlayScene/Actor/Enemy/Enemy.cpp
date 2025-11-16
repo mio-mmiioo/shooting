@@ -134,6 +134,7 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
+	DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
 	// Œü‚¢‚Ä‚é•ûŒü‚ğ¦‚·@‚±‚êƒJƒƒ‰•ÏX‚µ‚È‚­‚È‚Á‚½‚çÁ‚·‚±‚Æ
 	VECTOR3 addPlayerHeight = { 0, 180, 0 };
 	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));

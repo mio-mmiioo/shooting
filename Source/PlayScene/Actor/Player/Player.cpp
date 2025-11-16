@@ -26,6 +26,10 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	hModel_ = MV1LoadModel("data/model/player02.mv1");
 	assert(hModel_ > 0);
 
+	MV1SetupCollInfo(hModel_);
+	MV1SetMatrix(hModel_, transform_.GetLocalMatrix());
+	MV1RefreshCollInfo(hModel_);
+
 	// ポインター
 	// 標準時のポインター
 	hImagePointer_ = LoadGraph("data/image/pointer1.png");
@@ -108,6 +112,14 @@ void Player::Update()
 		{
 			transform_.rotation_.y -= PLAYER::rotateSpeed * DegToRad;
 		}
+		if (Input::IsKeepKeyDown(KEY_INPUT_X))
+		{
+			transform_.rotation_.x -= PLAYER::rotateSpeed * DegToRad;
+		}
+		if (Input::IsKeepKeyDown(KEY_INPUT_Z))
+		{
+			transform_.rotation_.z -= PLAYER::rotateSpeed * DegToRad;
+		}
 	}
 
 	// 手動移動 開発時のみ　他の処理書くために、一時的にコメントアウト
@@ -182,7 +194,21 @@ void Player::Update()
 		}
 	}
 
+	// 位置情報の更新
+	MV1SetMatrix(hModel_, transform_.GetLocalMatrix());
+	MV1RefreshCollInfo(hModel_);
+
 	GameMaster::CheckSetPosition(transform_, time_, gravity_, distanceR_);
+	VECTOR3 cap2 = transform_.position_ + VECTOR3(0, 1, 0) * 180 * transform_.GetRotationMatrix();
+	if (CollideCapsule(transform_.position_, cap2, distanceR_, this) == true)
+	{
+		DrawCapsule3D(transform_.position_, cap2, distanceR_, 8, GetColor(255, 0, 0), GetColor(255, 255, 255), FALSE);
+	}
+	else
+	{
+		DrawCapsule3D(transform_.position_, cap2, distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
+	}
+
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 }
 
@@ -191,8 +217,8 @@ void Player::Draw()
 	Object3D::Draw();
 
 	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
-	VECTOR3 addPlayerHeight = { 0, 180, 0 };
-	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
+	VECTOR3 addPlayerHeight = VECTOR3(0, 180, 0) * transform_.GetRotationMatrix();
+	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * transform_.GetRotationMatrix(), GetColor(255, 255, 255));
 
 	// 2Dの描画
 

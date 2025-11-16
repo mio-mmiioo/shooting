@@ -100,7 +100,7 @@ void Animator::AddFile(int id, std::string filename, bool loop, float speed)
     if (fileInfos.count(id) > 0)
     {
         MessageBox(nullptr,
-            (std::string("ID=") + std::to_string(id) + "???g????????????").c_str(),
+            (std::string("ID=") + std::to_string(id) + "‚ÍŽg‚í‚ê‚Ä‚¢‚Ü‚·").c_str(),
             "Animator", MB_OK);
         assert(false);
     }

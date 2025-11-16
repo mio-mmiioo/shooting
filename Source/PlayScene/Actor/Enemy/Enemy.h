@@ -1,5 +1,6 @@
 #pragma once
 #include "../Actor.h"
+#include "../../../../Library/Animator.h"
 
 class Enemy : public Actor
 {
@@ -19,10 +20,19 @@ private:
 	void UpdateStay();
 	void UpdateAttack();
 
+	enum ANIM_ID {
+		A_NEUTRAL = 0,
+		A_IDLE,
+		A_WALK,
+		A_ATTACK,
+		A_MAX
+	};
+
+	Animator* animator_;
 
 	enum E_STATE {
-		WALK,
 		STAY,
+		WALK,
 		ATTACK,
 		MAX_STATE
 	};

@@ -34,11 +34,26 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	goPosition_ = VECTOR3(0, 0, 0);
 	isArrive_ = true;
 
-	hModel_ = MV1LoadModel("data/model/enemy01.mv1");
-	assert(hModel_ > 0);
+	/*hModel_ = MV1LoadModel("data/model/enemy01.mv1");
+	assert(hModel_ > 0);*/
 
 	hitModel_ = MV1LoadModel("data/model/enemy01_c.mv1");
 	assert(hitModel_ > 0);
+
+	const std::string folder = "data/model/Enemy/";
+	// キャラモデルを読む
+	hModel_ = MV1LoadModel((folder + "BASE.mv1").c_str());
+	assert(hModel_ > 0);
+	// ルートノードをY軸回転する
+	int root = MV1SearchFrame(hModel_, "root");
+	MV1SetFrameUserLocalMatrix(hModel_, root, MGetRotY(DX_PI_F));
+
+	animator_ = new Animator(hModel_);
+	assert(animator_ != nullptr);
+	animator_->AddFile(A_NEUTRAL,	folder + "Anim_Neutral.mv1" , true);
+	animator_->AddFile(A_IDLE,		folder + "Anim_Idle.mv1"	, true);
+	animator_->AddFile(A_WALK,		folder + "Anim_Walking.mv1" , true);
+	animator_->AddFile(A_ATTACK,	folder + "Anim_Attack.mv1"  , false);
 
 	transform_.MakeLocalMatrix();
 
@@ -53,7 +68,7 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	gravity_ = ENEMY::G;
 	distanceR_ = ENEMY::DISTANCE_R;
 	state_ = E_STATE::WALK;
-
+	
 	// 攻撃関連
 	attackTimer_ = ENEMY::ATTACK_TIME;
 }
@@ -79,7 +94,10 @@ void Enemy::Update()
 		Observer::AddPoint(100);
 		DestroyMe();
 	}
+	animator_->Play(ANIM_ID::A_WALK);
+	animator_->Update();
 
+	return;
 	// 自動移動
 	switch (state_) // ステートベースで敵AI
 	{
@@ -122,22 +140,6 @@ void Enemy::Update()
 	}
 
 	// 位置情報の修正
-
-
-	// 攻撃する
-	if (GameMaster::IsCanAttackPlayer(this) == true)
-	{
-		attackTimer_ -= Time::DeltaTime();
-		if (attackTimer_ <= 0)
-		{
-			GameMaster::AttackPlayer(-2);
-			attackTimer_ += ENEMY::ATTACK_TIME;
-		}
-	}
-	else
-	{
-		attackTimer_ = ENEMY::ATTACK_TIME;
-	}
 
 	if (hp_ <= 0)
 	{
@@ -196,16 +198,46 @@ void Enemy::UpdateWalk()
 			if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
 			{
 				isArrive_ = true;
+				state_ = E_STATE::STAY;
+
 			}
 		}
 	}
-
 }
 
 void Enemy::UpdateStay()
 {
+	animator_->Play(ANIM_ID::A_IDLE);
+	// 攻撃する
+	if (GameMaster::IsCanAttackPlayer(this) == true)
+	{
+		attackTimer_ -= Time::DeltaTime();
+		if (attackTimer_ <= 0)
+		{
+			state_ = E_STATE::ATTACK;
+			GameMaster::AttackPlayer(-2);
+			attackTimer_ += ENEMY::ATTACK_TIME;
+		}
+	}
+	else
+	{
+		attackTimer_ = ENEMY::ATTACK_TIME;
+	}
+
+	if (isArrive_ == false)
+	{
+		state_ = E_STATE::WALK;
+	}
+
 }
 
 void Enemy::UpdateAttack()
 {
+	animator_->Play(ANIM_ID::A_ATTACK);
+
+	if (animator_->IsFinish())
+	{
+		state_ = E_STATE::WALK;
+	}
+
 }

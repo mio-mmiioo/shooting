@@ -56,7 +56,7 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	isArrive_ = true;
 	isHit_ = false;
 
-	hp_ = new HP(hp);
+	HP_ = new HP(hp);
 
 	// e’eŠÖ˜A
 	gun_ = new Gun();
@@ -85,6 +85,11 @@ Player::~Player()
 
 void Player::Update()
 {
+	if (HP_->GetHP() <= 0)
+	{
+		GameMaster::PlayerDeath();
+	}
+
 	isAttack_ = false;
 
 	GetMousePoint(&mouseX_, &mouseY_);
@@ -190,7 +195,7 @@ void Player::Update()
 		// ŽG‚ÉHP‚ðŒ¸‚ç‚·
 		if (Input::IsKeyDown(KEY_INPUT_K))
 		{
-			hp_->AddHP(-2);
+			HP_->AddHP(-2);
 		}
 	}
 
@@ -218,7 +223,7 @@ void Player::Draw()
 	// Žc’e”‚Ì•\Ž¦
 	gun_->Draw();
 
-	DrawFormatString(10, 60, GetColor(255, 255, 255), "HP:%d", hp_->GetHP());
+	DrawFormatString(10, 60, GetColor(255, 255, 255), "HP:%d", HP_->GetHP());
 
 	// e‚ÌØ‚è‘Ö‚¦
 	if (isChangeGun_ == true)
@@ -255,7 +260,7 @@ int Player::Attack()
 
 void Player::Attacked(int atackPower)
 {
-	hp_->AddHP(atackPower);
+	HP_->AddHP(atackPower);
 }
 
 void Player::ChangeGun(int currentMouseX, int currentMouseY)

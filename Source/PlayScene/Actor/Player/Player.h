@@ -25,7 +25,7 @@ private:
 	Camera* camera_;
 	Stage* stage_;
 	Gun* gun_;
-	HP* hp_;
+	HP* HP_;
 
 	float time_;
 	int mouseX_, mouseY_;

@@ -6,6 +6,9 @@
 #include "Map/Stage.h"
 #include "../Sound.h"
 
+#include "../../Library/Input.h"
+
+
 namespace GameMaster {
 	void SetPlayerPos();
 	void SetEnemyPos();
@@ -63,6 +66,10 @@ void GameMaster::Update()
 
 	SetPlayerPos(); // ğŒ‚ğ–‚½‚³‚È‚«‚áƒZƒbƒg‚³‚ê‚È‚¢
 	SetEnemyPos();
+
+	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
+		SceneManager::ChangeScene("RESULT");
+	}
 }
 
 void GameMaster::Release()
@@ -101,6 +108,11 @@ void GameMaster::SetEnemyPos()
 			}
 		}
 	}
+}
+
+void GameMaster::PlayerDeath()
+{
+	SceneManager::ChangeScene("RESULT");
 }
 
 bool GameMaster::IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos)

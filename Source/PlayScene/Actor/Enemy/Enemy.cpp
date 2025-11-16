@@ -97,20 +97,19 @@ void Enemy::Update()
 	animator_->Play(ANIM_ID::A_WALK);
 	animator_->Update();
 
-	return;
 	// 自動移動
-	switch (state_) // ステートベースで敵AI
-	{
-	case E_STATE::WALK:
-		UpdateWalk();
-		break;
-	case E_STATE::STAY:
-		UpdateStay();
-		break;
-	case E_STATE::ATTACK:
-		UpdateAttack();
-		break;
-	}
+	//switch (state_) // ステートベースで敵AI
+	//{
+	//case E_STATE::WALK:
+	//	UpdateWalk();
+	//	break;
+	//case E_STATE::STAY:
+	//	UpdateStay();
+	//	break;
+	//case E_STATE::ATTACK:
+	//	UpdateAttack();
+	//	break;
+	//}
 
 	// 回転
 	{
@@ -139,18 +138,49 @@ void Enemy::Update()
 		//}
 	}
 
-	// 位置情報の修正
+	if (isArrive_ == false)
+	{
+		SetMove(goPosition_, 1.0f, 2.0f);
+
+		// 壁があって、まっすぐに進めない、、、
+
+
+		// 壁がなくてまっすぐに進める
+		if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
+		{
+			isArrive_ = true;
+			state_ = E_STATE::STAY;
+
+		}
+	}
 
 	if (hp_ <= 0)
 	{
 		isAlive_ = false;
 	}
 
+	// 攻撃する
+	if (GameMaster::IsCanAttackPlayer(this) == true)
+	{
+		attackTimer_ -= Time::DeltaTime();
+		if (attackTimer_ <= 0)
+		{
+			state_ = E_STATE::ATTACK;
+			GameMaster::AttackPlayer(-2);
+			attackTimer_ += ENEMY::ATTACK_TIME;
+		}
+	}
+	else
+	{
+		attackTimer_ = ENEMY::ATTACK_TIME;
+	}
+
+	// 位置情報の修正
+	GameMaster::CheckSetPosition(transform_, time_, gravity_, distanceR_);
+
 	// 位置情報の更新　これがないと、当たり判定の場所が更新されない
 	MV1SetMatrix(hitModel_, transform_.GetLocalMatrix());
 	MV1RefreshCollInfo(hitModel_);
-
-	GameMaster::CheckSetPosition(transform_, time_, gravity_, distanceR_);
 }
 
 void Enemy::Draw()
@@ -237,7 +267,7 @@ void Enemy::UpdateAttack()
 
 	if (animator_->IsFinish())
 	{
-		state_ = E_STATE::WALK;
+		state_ = E_STATE::STAY;
 	}
 
 }

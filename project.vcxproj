@@ -163,6 +163,7 @@
     <ClInclude Include="Source\PlayScene\Map\DestructibleObject.h" />
     <ClInclude Include="Source\PlayScene\Map\Stage.h" />
     <ClInclude Include="Source\PlayScene\Map\StageObject.h" />
+    <ClInclude Include="Source\PlayScene\Map\WayInfo.h" />
     <ClInclude Include="Source\PlayScene\PlayScene.h" />
     <ClInclude Include="Source\ResultScene\Observer.h" />
     <ClInclude Include="Source\ResultScene\Result.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="Source\PlayScene\Map\DestructibleObject.cpp" />
     <ClCompile Include="Source\PlayScene\Map\Stage.cpp" />
     <ClCompile Include="Source\PlayScene\Map\StageObject.cpp" />
+    <ClCompile Include="Source\PlayScene\Map\WayInfo.cpp" />
     <ClCompile Include="Source\PlayScene\PlayScene.cpp" />
     <ClCompile Include="Source\ResultScene\Observer.cpp" />
     <ClCompile Include="Source\ResultScene\Result.cpp" />

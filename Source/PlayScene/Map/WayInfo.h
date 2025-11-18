@@ -1,29 +1,23 @@
 #pragma once
 #include "../../../Library/Object3D.h"
+#include <vector>
 
-// 移動可能なActorが、経路探索をするのに必要な情報をもらうためのクラス
-class WayInfo : public Object3D 
-{
-public:
-	WayInfo();
-	~WayInfo();
-	void Update();
-	void Draw();
-
-private:
-	enum DIR { // 方向
-		RIGHT,
-		DOWN,
-		LEFT,
-		UP,
-		MAX_DIR
-	};
-
-	enum MAP_NUM { // csvから読み込まれるマップの情報
-		EMPTY,
-		WALL,
-		BRANCH,
-		OBJECT_SPACE,
-		MAX_MAP_NUM
-	};
+struct vertex {
+	VECTOR2 position; // 位置情報
+	int distance; // 距離
+	int number;
+	bool isDicision; // 決定しているか
+	std::vector<vertex> next; // つながってる頂点リスト
+	std::vector<vertex> posList; // 最短経路の道情報
 };
+
+struct way {
+	VECTOR2 startPos = { 0, 0 };
+	VECTOR2 endPos = { 0, 0 };
+	int cost = 0;
+};
+
+namespace WayInfo {
+	void Init();
+}
+

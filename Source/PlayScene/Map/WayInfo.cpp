@@ -2,15 +2,17 @@
 #include "../../../Library/CsvReader.h"
 
 namespace WayInfo{
-	enum DIR { // 方向
+	// 方向
+	enum DIR {
 		RIGHT,
 		DOWN,
 		LEFT,
 		UP,
 		MAX_DIR
 	};
-
-	enum MAP_NUM { // csvから読み込まれるマップの情報
+	
+	// csvから読み込まれるマップの情報
+	enum MAP_NUM {
 		EMPTY,
 		WALL,
 		BRANCH,
@@ -24,6 +26,9 @@ namespace WayInfo{
 
 	void InitVertexList(); // 頂点情報リストを初期化
 	bool CheckVertex(int x, int y); // 頂点ならtrue
+	vertex FindStartVertex(); // 頂点リストの最初の頂点を求める
+	void SetShortestWay(vertex start);
+	int GetCost(VECTOR2 startPos, VECTOR2 endPos);
 
 	VECTOR2 startPos_; // 経路探索を開始したい位置
 	std::vector<vertex> vertexList_; // 頂点情報のリスト
@@ -153,4 +158,100 @@ bool WayInfo::CheckVertex(int x, int y)
 	}
 
 	return false;
+}
+
+vertex WayInfo::FindStartVertex()
+{
+	for (int i = 0; i < vertexList_.size(); i++)
+	{
+		if (startPos_.x == vertexList_[i].position.x && startPos_.y == vertexList_[i].position.y)
+		{
+			vertexList_[i].distance = 0;
+			vertexList_[i].isDicision = true;
+			return vertexList_[i];
+		}
+	}
+	return vertex();
+}
+
+void WayInfo::SetShortestWay(vertex start)
+{
+	// 今確認中の頂点を決定済みにする
+	for (int i = 0; i < vertexList_.size(); i++)
+	{
+		if (vertexList_[i].position.x == start.position.x && vertexList_[i].position.y == start.position.y)
+		{
+			vertexList_[i].isDicision = true;
+			vertexList_[i].posList.push_back(start);
+		}
+	}
+
+	// 次の場所に距離(cost)を入れる
+	for (int i = 0; i < vertexList_[start.number].next.size(); i++)
+	{
+		int checkDistance = vertexList_[start.number].distance + GetCost(vertexList_[start.number].position, vertexList_[start.number].next[i].position);
+		if (vertexList_[start.number].next[i].distance > checkDistance)
+		{
+			for (int j = 0; j < vertexList_.size(); j++)
+			{
+				if (vertexList_[j].isDicision == false)
+				{
+					if (vertexList_[j].position.x == vertexList_[start.number].next[i].position.x && vertexList_[j].position.y == vertexList_[start.number].next[i].position.y)
+					{
+						vertexList_[j].distance = checkDistance;
+						vertexList_[j].posList.resize(vertexList_[start.number].posList.size());
+						vertexList_[j].posList.assign(vertexList_[start.number].posList.begin(), vertexList_[start.number].posList.end());
+					}
+				}
+			}
+		}
+	}
+
+	// 現時点で最も近い場所を探す
+	{
+		std::vector<vertex> sortMinDistance;
+		for (int i = 0; i < vertexList_[start.number].next.size(); i++)
+		{
+			if (vertexList_[vertexList_[start.number].next[i].number].isDicision == false)
+			{
+				sortMinDistance.push_back(vertexList_[start.number].next[i]);
+			}
+			// サイズが2以上ならソートする
+			for (int j = sortMinDistance.size() - 2; j >= 0; j--)
+			{
+				if (sortMinDistance[j].distance > sortMinDistance[j + 1].distance)
+				{
+					std::swap(sortMinDistance[j], sortMinDistance[j + 1]);
+				}
+			}
+		}
+
+		for (int i = 0; i < sortMinDistance.size(); i++)
+		{
+			checkVertexList_.push_back(sortMinDistance[i]);
+
+			for (int j = checkVertexList_.size() - 2; j >= 0; j--)
+			{
+				if (checkVertexList_[j].distance > checkVertexList_[j + 1].distance)
+				{
+					std::swap(checkVertexList_[j].distance, checkVertexList_[j + 1].distance);
+				}
+			}
+		}
+	}
+}
+
+int WayInfo::GetCost(VECTOR2 startPos, VECTOR2 endPos)
+{
+	for (int i = 0; i < wayList_.size(); i++)
+	{
+		if (wayList_[i].startPos.x == startPos.x && wayList_[i].startPos.y == startPos.y)
+		{
+			if (wayList_[i].endPos.x == endPos.x && wayList_[i].endPos.y == endPos.y)
+			{
+				return wayList_[i].cost;
+			}
+		}
+	}
+	return MAX_DISTANCE;
 }

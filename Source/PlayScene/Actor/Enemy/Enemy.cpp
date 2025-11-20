@@ -34,26 +34,26 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	goPosition_ = VECTOR3(0, 0, 0);
 	isArrive_ = true;
 
-	/*hModel_ = MV1LoadModel("data/model/enemy01.mv1");
-	assert(hModel_ > 0);*/
+	hModel_ = MV1LoadModel("data/model/enemy01.mv1");
+	assert(hModel_ > 0);
 
 	hitModel_ = MV1LoadModel("data/model/enemy01_c.mv1");
 	assert(hitModel_ > 0);
 
 	const std::string folder = "data/model/Enemy/";
-	// キャラモデルを読む
-	hModel_ = MV1LoadModel((folder + "BASE.mv1").c_str());
-	assert(hModel_ > 0);
-	// ルートノードをY軸回転する
-	int root = MV1SearchFrame(hModel_, "root");
-	MV1SetFrameUserLocalMatrix(hModel_, root, MGetRotY(DX_PI_F));
+	//// キャラモデルを読む
+	//hModel_ = MV1LoadModel((folder + "BASE.mv1").c_str());
+	//assert(hModel_ > 0);
+	//// ルートノードをY軸回転する
+	//int root = MV1SearchFrame(hModel_, "root");
+	//MV1SetFrameUserLocalMatrix(hModel_, root, MGetRotY(DX_PI_F));
 
-	animator_ = new Animator(hModel_);
-	assert(animator_ != nullptr);
-	animator_->AddFile(A_NEUTRAL,	folder + "Anim_Neutral.mv1" , true);
-	animator_->AddFile(A_IDLE,		folder + "Anim_Idle.mv1"	, true);
-	animator_->AddFile(A_WALK,		folder + "Anim_Walking.mv1" , true);
-	animator_->AddFile(A_ATTACK,	folder + "Anim_Attack.mv1"  , false);
+	//animator_ = new Animator(hModel_);
+	//assert(animator_ != nullptr);
+	//animator_->AddFile(A_NEUTRAL,	folder + "Anim_Neutral.mv1" , true);
+	//animator_->AddFile(A_IDLE,		folder + "Anim_Idle.mv1"	, true);
+	//animator_->AddFile(A_WALK,		folder + "Anim_Walking.mv1" , true);
+	//animator_->AddFile(A_ATTACK,	folder + "Anim_Attack.mv1"  , false);
 
 	transform_.MakeLocalMatrix();
 
@@ -94,8 +94,8 @@ void Enemy::Update()
 		Observer::AddPoint(100);
 		DestroyMe();
 	}
-	animator_->Play(ANIM_ID::A_WALK);
-	animator_->Update();
+	//animator_->Play(ANIM_ID::A_WALK);
+	//animator_->Update();
 
 	// 自動移動
 	//switch (state_) // ステートベースで敵AI
@@ -138,20 +138,21 @@ void Enemy::Update()
 		//}
 	}
 
+	// 経路探索AIを使用して移動予定
 	if (isArrive_ == false)
 	{
-		SetMove(goPosition_, 1.0f, 2.0f);
+		//SetMove(goPosition_, 1.0f, 2.0f);
 
-		// 壁があって、まっすぐに進めない、、、
+		//// 壁があって、まっすぐに進めない、、、
 
 
-		// 壁がなくてまっすぐに進める
-		if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
-		{
-			isArrive_ = true;
-			state_ = E_STATE::STAY;
+		//// 壁がなくてまっすぐに進める
+		//if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
+		//{
+		//	isArrive_ = true;
+		//	state_ = E_STATE::STAY;
 
-		}
+		//}
 	}
 
 	if (hp_ <= 0)

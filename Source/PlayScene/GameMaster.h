@@ -6,6 +6,7 @@ class Enemy;
 namespace GameMaster {
 	void Init();
 	void Update();
+	void Draw();
 	void Release();
 
 	// ŒÄ‚Ño‚³‚ê‚éŠÖ”

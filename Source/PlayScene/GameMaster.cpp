@@ -4,6 +4,7 @@
 #include "Actor/Player/Player.h"
 #include "Map/Area.h"
 #include "Map/Stage.h"
+#include "Map/WayInfo.h"
 #include "../Sound.h"
 
 #include "../../Library/Input.h"
@@ -21,7 +22,9 @@ namespace GameMaster {
 
 void GameMaster::Init()
 {
+	WayInfo::Init();
 	Area::SetStage(); // 最初のステージをセット
+	//new Stage(6);
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
 	stage = FindGameObject<Stage>();
@@ -70,6 +73,11 @@ void GameMaster::Update()
 	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
 		SceneManager::ChangeScene("RESULT");
 	}
+}
+
+void GameMaster::Draw()
+{
+	WayInfo::WayDraw();
 }
 
 void GameMaster::Release()

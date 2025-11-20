@@ -26,7 +26,7 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	SetCameraNearFar(50.0f, 2000.0f); // ここにいらないかも
+	SetCameraNearFar(50.0f, 10000.0f); // ここにいらないかも
 	// カメラのセットを切り替える
 	{
 		if (Input::IsKeyDown(KEY_INPUT_0))
@@ -190,6 +190,9 @@ void Camera::FreeCamera()
 
 void Camera::FixCamera()
 {
-	cameraPosition_ = VECTOR3(0, 0, -1000);
+	//cameraPosition_ = VECTOR3(0, 0, -1000);
+	//targetPosition_ = VECTOR3(0, 0, 0);
+
+	cameraPosition_ = VECTOR3(0, 9000.0f, -1000.0f);
 	targetPosition_ = VECTOR3(0, 0, 0);
 }

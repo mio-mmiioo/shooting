@@ -1,6 +1,21 @@
 #include "WayInfo.h"
 #include "../../../Library/CsvReader.h"
 
+struct vertex {
+	VECTOR2 position; // 位置情報
+	int distance; // 距離
+	int number;
+	bool isDicision; // 決定しているか
+	std::vector<vertex> next; // つながってる頂点リスト
+	std::vector<VECTOR2> posList; // 最短経路の道情報
+};
+
+struct way {
+	VECTOR2 startPos = { 0, 0 };
+	VECTOR2 endPos = { 0, 0 };
+	int cost = 0;
+};
+
 namespace WayInfo{
 	// 方向
 	enum DIR {
@@ -47,7 +62,7 @@ void WayInfo::Init()
 	dir_[UP] = { 0, -1 };
 
 	char filename[64];
-	sprintf_s<64>(filename, "data/stage%02d.csv", 1);
+	sprintf_s<64>(filename, "data/stage/wayInfo/wayInfo%02d.csv", 0);
 	wayInfo_.clear();
 
 	// ステージデータの読み込み
@@ -64,6 +79,41 @@ void WayInfo::Init()
 
 	startPos_ = VECTOR2(-1, -1);
 	InitVertexList();
+}
+
+void WayInfo::WayDraw()
+{
+	VECTOR3 add = { 5000.0f, 0.0f, 5000.0f };
+	int color = 0;
+	for (int i = 0; i < wayInfo_.size(); i++)
+	{
+		for (int j = 0; j < wayInfo_[i].size(); j++)
+		{
+			VECTOR3 topLeft = VECTOR3(i * BOX_SIZE, 5.0f, j * BOX_SIZE);
+			VECTOR3 topRight = VECTOR3(i * BOX_SIZE + BOX_SIZE, 5.0f, j * BOX_SIZE);
+			VECTOR3 downLeft = VECTOR3(i * BOX_SIZE, 5.0f, j * BOX_SIZE + BOX_SIZE);
+			VECTOR3 downRight = VECTOR3(i * BOX_SIZE + BOX_SIZE, 5.0f, j * BOX_SIZE + BOX_SIZE);
+
+			if (wayInfo_[i][j] == 1)
+			{
+				color = GetColor(0, 0, 0);
+			}
+			else if (wayInfo_[i][j] == 2)
+			{
+				color = GetColor(0, 0, 255);
+			}
+			else if (wayInfo_[i][j] == 0)
+			{
+				color = GetColor(100, 255, 100);
+			}
+			else
+			{
+				color = GetColor(100, 100, 100);
+			}
+			DrawTriangle3D(topLeft - add, topRight - add, downRight - add, color, TRUE);
+			DrawTriangle3D(downRight - add, downLeft - add, topLeft - add, color, TRUE);
+		}
+	}
 }
 
 std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos)

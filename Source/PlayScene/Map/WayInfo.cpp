@@ -1,18 +1,23 @@
 #include "WayInfo.h"
 #include "../../../Library/CsvReader.h"
 
+struct point {
+	int x;
+	int y;
+};
+
 struct vertex {
-	VECTOR2 position; // 位置情報
-	int distance; // 距離
-	int number;
-	bool isDicision; // 決定しているか
+	point position = {0, 0}; // 位置情報
+	int distance = -1; // 距離
+	int number = -1;
+	bool isDicision = false; // 決定しているか
 	std::vector<vertex> next; // つながってる頂点リスト
 	std::vector<VECTOR2> posList; // 最短経路の道情報
 };
 
 struct way {
-	VECTOR2 startPos = { 0, 0 };
-	VECTOR2 endPos = { 0, 0 };
+	point startPos = { 0, 0 };
+	point endPos = { 0, 0 };
 	int cost = 0;
 };
 
@@ -36,15 +41,16 @@ namespace WayInfo{
 	};
 
 	void InitVertexList(); // 頂点情報リストを初期化
-	bool CheckVertex(int x, int y); // 頂点ならtrue
+	bool CheckVertex(point p); // 頂点ならtrue
 	vertex FindStartVertex(); // 頂点リストの最初の頂点を求める
 	void SetShortestWay(vertex start); // 最短経路を求める
 	int GetCost(VECTOR2 startPos, VECTOR2 endPos); // 距離(cost)を求める
+	int GetCost(point startPos, point endPos);
 	std::vector<VECTOR2> GetShortestWay(VECTOR2 pos);
 
 	const int MAX_DISTANCE = 5000;
 	const int BOX_SIZE = 100;
-	VECTOR2 dir_[4]; // 方向
+	point dir_[4]; // 方向
 	std::vector<std::vector<int>> wayInfo_; // 通れる場所の情報
 
 	VECTOR2 startPos_; // 経路探索を開始したい位置
@@ -89,10 +95,10 @@ void WayInfo::WayDraw()
 	{
 		for (int j = 0; j < wayInfo_[i].size(); j++)
 		{
-			VECTOR3 topLeft = VECTOR3(i * BOX_SIZE, 5.0f, j * BOX_SIZE);
-			VECTOR3 topRight = VECTOR3(i * BOX_SIZE + BOX_SIZE, 5.0f, j * BOX_SIZE);
-			VECTOR3 downLeft = VECTOR3(i * BOX_SIZE, 5.0f, j * BOX_SIZE + BOX_SIZE);
-			VECTOR3 downRight = VECTOR3(i * BOX_SIZE + BOX_SIZE, 5.0f, j * BOX_SIZE + BOX_SIZE);
+			VECTOR3 topLeft = VECTOR3(i * (float)BOX_SIZE, 5.0f, j * (float)BOX_SIZE);
+			VECTOR3 topRight = VECTOR3(i * (float)BOX_SIZE + (float)BOX_SIZE, 5.0f, j * (float)BOX_SIZE);
+			VECTOR3 downLeft = VECTOR3(i * (float)BOX_SIZE, 5.0f, j * (float)BOX_SIZE + (float)BOX_SIZE);
+			VECTOR3 downRight = VECTOR3(i * (float)BOX_SIZE + (float)BOX_SIZE, 5.0f, j * (float)BOX_SIZE + (float)BOX_SIZE);
 
 			if (wayInfo_[i][j] == 0)
 			{
@@ -127,7 +133,7 @@ std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 	}
 
 	// スタートの位置を代入
-	startPos_ = VECTOR2(currentPos.x, currentPos.y);
+	startPos_ = VECTOR2(currentPos.x / BOX_SIZE + wayInfo_.size() / 2, currentPos.y / BOX_SIZE + wayInfo_.size() / 2);
 	vertex start = FindStartVertex(); // 最初の位置を distance = 0 にする
 	SetShortestWay(start);
 
@@ -151,10 +157,10 @@ void WayInfo::InitVertexList()
 	{
 		for (int x = 0; x < wayInfo_.size(); x++)
 		{
-			if (CheckVertex(x, y) == true) // 分岐点
+			if (CheckVertex(point{ x, y }) == true) // 分岐点
 			{
 				wayInfo_[y][x] = MAP_NUM::BRANCH;
-				vertex v = { VECTOR2(x, y), MAX_DISTANCE, vertexList_.size(), false, std::vector<vertex>() };
+				vertex v = { point{x, y}, MAX_DISTANCE, (int)vertexList_.size(), false, std::vector<vertex>() };
 				vertexList_.push_back(v);
 			}
 		}
@@ -165,15 +171,16 @@ void WayInfo::InitVertexList()
 	{
 		for (int direction = 0; direction < DIR::MAX_DIR; direction++)
 		{
-			VECTOR2 check = vertexList_[i].position + dir_[direction];
+			point check = { vertexList_[i].position.x + dir_[direction].x, vertexList_[i].position.y + dir_[direction].y };
 
 			int distance = 1;
 			// 距離(cost)を求める
-			if (wayInfo_[(int)check.y][(int)check.x] != MAP_NUM::WALL && wayInfo_[(int)check.y][(int)check.x] != MAP_NUM::OBJECT_SPACE)
+			if (wayInfo_[check.y][check.x] != MAP_NUM::WALL && wayInfo_[check.y][check.x] != MAP_NUM::OBJECT_SPACE)
 			{
-				while (wayInfo_[(int)check.y][(int)check.x] != MAP_NUM::BRANCH)
+				while (wayInfo_[check.y][check.x] != MAP_NUM::BRANCH)
 				{
-					check = check + dir_[direction];
+					check.x = check.x + dir_[direction].x;
+					check.y = check.y + dir_[direction].y;
 					distance += 1;
 				}
 
@@ -191,15 +198,15 @@ void WayInfo::InitVertexList()
 	}
 }
 
-bool WayInfo::CheckVertex(int x, int y)
+bool WayInfo::CheckVertex(point p)
 {
 	bool ret = false;
-	if (x == 0 || y == 0 || x == 100 - 1 || y == 100 - 1)
+	if (p.x == 0 || p.y == 0 || p.x == 100 - 1 || p.y == 100 - 1)
 	{
 		return ret;
 	}
 
-	if (wayInfo_[y][x] != MAP_NUM::EMPTY)
+	if (wayInfo_[p.y][p.x] != MAP_NUM::EMPTY)
 	{
 		return ret;
 	}
@@ -209,8 +216,8 @@ bool WayInfo::CheckVertex(int x, int y)
 
 	for (int i = 0; i < DIR::MAX_DIR; i++)
 	{
-		int checkX = x + (int)dir_[i].x;
-		int checkY = y + (int)dir_[i].y;
+		int checkX = p.x + (int)dir_[i].x;
+		int checkY = p.y + (int)dir_[i].y;
 		if (wayInfo_[checkY][checkX] == MAP_NUM::EMPTY || wayInfo_[checkY][checkX] == MAP_NUM::BRANCH)
 		{
 			checkDir[i] = true;
@@ -241,7 +248,7 @@ bool WayInfo::CheckVertex(int x, int y)
 		{
 			if (checkDir[i] == checkDir[0])
 			{
-				ret == true;
+				ret = true;
 			}
 		}
 	}
@@ -253,7 +260,7 @@ vertex WayInfo::FindStartVertex()
 {
 	for (int i = 0; i < vertexList_.size(); i++)
 	{
-		if (startPos_.x == vertexList_[i].position.x && startPos_.y == vertexList_[i].position.y)
+		if ((int)startPos_.x == (int)vertexList_[i].position.x && (int)startPos_.y == (int)vertexList_[i].position.y)
 		{
 			vertexList_[i].distance = 0;
 			vertexList_[i].isDicision = true;
@@ -271,7 +278,7 @@ void WayInfo::SetShortestWay(vertex start)
 		if (vertexList_[i].position.x == start.position.x && vertexList_[i].position.y == start.position.y)
 		{
 			vertexList_[i].isDicision = true;
-			vertexList_[i].posList.push_back(start.position);
+			vertexList_[i].posList.push_back(VECTOR2((float)start.position.x, (float)start.position.y));
 		}
 	}
 
@@ -306,7 +313,7 @@ void WayInfo::SetShortestWay(vertex start)
 				sortMinDistance.push_back(vertexList_[start.number].next[i]);
 			}
 			// サイズが2以上ならソートする
-			for (int j = sortMinDistance.size() - 2; j >= 0; j--)
+			for (int j = (int)sortMinDistance.size() - 2; j >= 0; j--)
 			{
 				if (sortMinDistance[j].distance > sortMinDistance[j + 1].distance)
 				{
@@ -319,7 +326,7 @@ void WayInfo::SetShortestWay(vertex start)
 		{
 			checkVertexList_.push_back(sortMinDistance[i]);
 
-			for (int j = checkVertexList_.size() - 2; j >= 0; j--)
+			for (int j = (int)checkVertexList_.size() - 2; j >= 0; j--)
 			{
 				if (checkVertexList_[j].distance > checkVertexList_[j + 1].distance)
 				{
@@ -345,10 +352,25 @@ int WayInfo::GetCost(VECTOR2 startPos, VECTOR2 endPos)
 	return MAX_DISTANCE;
 }
 
+int WayInfo::GetCost(point startPos, point endPos)
+{
+	for (int i = 0; i < wayList_.size(); i++)
+	{
+		if (wayList_[i].startPos.x == startPos.x && wayList_[i].startPos.y == startPos.y)
+		{
+			if (wayList_[i].endPos.x == endPos.x && wayList_[i].endPos.y == endPos.y)
+			{
+				return wayList_[i].cost;
+			}
+		}
+	}
+	return MAX_DISTANCE;
+}
+
 std::vector<VECTOR2> WayInfo::GetShortestWay(VECTOR2 pos)
 {
-	int x = pos.x / BOX_SIZE;
-	int y = pos.y / BOX_SIZE;
+	int x = (int)pos.x / BOX_SIZE;
+	int y = (int)pos.y / BOX_SIZE;
 
 	for (int i = 0; i < vertexList_.size(); i++)
 	{
@@ -356,7 +378,7 @@ std::vector<VECTOR2> WayInfo::GetShortestWay(VECTOR2 pos)
 		{
 			if (vertexList_[i].position.y == y)
 			{
-				int checkNum = vertexList_[i].posList.size() - 1;
+				int checkNum = (int)vertexList_[i].posList.size() - 1;
 				while (vertexList_[i].posList[checkNum].x == vertexList_[i].posList[checkNum - 1].x &&
 					vertexList_[i].posList[checkNum].y == vertexList_[i].posList[checkNum - 1].y)
 				{

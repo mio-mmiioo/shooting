@@ -92,7 +92,6 @@ void GameMaster::SetPlayerPos()
 		Area::SetNextPosition();
 		Area::SetStage(); // Area::SetNextPosition()‚ÌŒã‚É‚©‚­
 	}
-
 	if (player != nullptr)
 	{
 		if (VSize(player->GetTransform().position_ - Area::GetCurrentPosition()) > 50.0f)
@@ -105,10 +104,13 @@ void GameMaster::SetPlayerPos()
 
 void GameMaster::SetEnemyPos()
 {
+	std::vector<VECTOR2> setWay;
 	if (!enemy.empty())
 	{
 		for (auto e : enemy)
 		{
+			setWay = WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_);
+
 			if (VSize(e->GetTransform().position_ - player->GetTransform().position_) > e->GetDistanceR() + player->GetDistanceR())
 			{
 				e->SetToGo(player->GetTransform().position_);

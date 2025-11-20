@@ -25,7 +25,7 @@ namespace WayInfo{
 	vertex FindStartVertex(); // 頂点リストの最初の頂点を求める
 	void SetShortestWay(vertex start); // 最短経路を求める
 	int GetCost(VECTOR2 startPos, VECTOR2 endPos); // 距離(cost)を求める
-	std::vector<vertex> GetShortestWay(VECTOR2 pos);
+	std::vector<VECTOR2> GetShortestWay(VECTOR2 pos);
 
 	const int MAX_DISTANCE = 5000;
 	const int BOX_SIZE = 100;
@@ -89,11 +89,9 @@ std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 	}
 
 	// goalPosに一番近い頂点をvertexListから探す
-	
+	std::vector<VECTOR2> ret = GetShortestWay(VECTOR2(goalPos.x, goalPos.y));
 
-	// 探したvertexListのposListを返す
-
-	return std::vector<VECTOR2>();
+	return ret;
 }
 
 void WayInfo::InitVertexList()
@@ -214,7 +212,7 @@ void WayInfo::SetShortestWay(vertex start)
 		if (vertexList_[i].position.x == start.position.x && vertexList_[i].position.y == start.position.y)
 		{
 			vertexList_[i].isDicision = true;
-			vertexList_[i].posList.push_back(start);
+			vertexList_[i].posList.push_back(start.position);
 		}
 	}
 
@@ -288,7 +286,29 @@ int WayInfo::GetCost(VECTOR2 startPos, VECTOR2 endPos)
 	return MAX_DISTANCE;
 }
 
-std::vector<vertex> WayInfo::GetShortestWay(VECTOR2 pos)
+std::vector<VECTOR2> WayInfo::GetShortestWay(VECTOR2 pos)
 {
-	return std::vector<vertex>();
+	int x = pos.x / BOX_SIZE;
+	int y = pos.y / BOX_SIZE;
+
+	for (int i = 0; i < vertexList_.size(); i++)
+	{
+		if (vertexList_[i].position.x == x)
+		{
+			if (vertexList_[i].position.y == y)
+			{
+				int checkNum = vertexList_[i].posList.size() - 1;
+				while (vertexList_[i].posList[checkNum].x == vertexList_[i].posList[checkNum - 1].x &&
+					vertexList_[i].posList[checkNum].y == vertexList_[i].posList[checkNum - 1].y)
+				{
+					vertexList_[i].posList.pop_back();
+					checkNum -= 1;
+				}
+
+				return vertexList_[i].posList;
+			}
+		}
+	}
+
+	return std::vector<VECTOR2>();
 }

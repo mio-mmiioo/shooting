@@ -8,7 +8,7 @@ struct vertex {
 	int number;
 	bool isDicision; // 決定しているか
 	std::vector<vertex> next; // つながってる頂点リスト
-	std::vector<vertex> posList; // 最短経路の道情報
+	std::vector<VECTOR2> posList; // 最短経路の道情報
 };
 
 struct way {

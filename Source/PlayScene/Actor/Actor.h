@@ -16,6 +16,7 @@ public:
 	bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const override;
 	void CheckLinePush(VECTOR3& pos1, VECTOR3 pos2, float minDistance);
 	VECTOR3 GetGravity() { return gravity_; }
+	void SetPosition(VECTOR3 newPosition) { transform_.position_ = newPosition; }
 	float GetDistanceR() { return distanceR_; }
 
 protected:

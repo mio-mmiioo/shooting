@@ -50,11 +50,13 @@ namespace WayInfo{
 
 	const int MAX_DISTANCE = 5000;
 	const int BOX_SIZE = 100;
+	const VECTOR3 ADD_WAY_INFO_POS = { 5000, 0, 5000 };
+	const VECTOR3 ADD_HALF_BOX_POS = { BOX_SIZE / 2, 0, BOX_SIZE / 2 };
 	point dir_[4]; // 方向
 	std::vector<std::vector<int>> wayInfo_; // 通れる場所の情報
 
-	VECTOR2 startPos_; // 経路探索を開始したい位置
-	VECTOR2 goalPos_; // 目的地
+	point startPos_; // 経路探索を開始したい位置
+	point goalPos_; // 目的地
 	std::vector<vertex> vertexList_; // 頂点情報のリスト
 	std::vector<vertex> checkVertexList_; // 確認する頂点リスト 最短経路を求めるときに使用
 	std::vector<way> wayList_; // 道情報のリスト
@@ -83,32 +85,31 @@ void WayInfo::Init()
 	}
 	delete csv;
 
-	startPos_ = VECTOR2(-1, -1);
+	startPos_ = { -1,-1 };
 	InitVertexList();
 }
 
 void WayInfo::WayDraw()
 {
-	VECTOR3 add = { 5000.0f, 0.0f, 5000.0f };
 	int color = 0;
-	for (int i = 0; i < wayInfo_.size(); i++)
+	for (int y = 0; y < wayInfo_.size(); y++)
 	{
-		for (int j = 0; j < wayInfo_[i].size(); j++)
+		for (int x = 0; x < wayInfo_[y].size(); x++)
 		{
-			VECTOR3 topLeft = VECTOR3(i * (float)BOX_SIZE, 5.0f, j * (float)BOX_SIZE);
-			VECTOR3 topRight = VECTOR3(i * (float)BOX_SIZE + (float)BOX_SIZE, 5.0f, j * (float)BOX_SIZE);
-			VECTOR3 downLeft = VECTOR3(i * (float)BOX_SIZE, 5.0f, j * (float)BOX_SIZE + (float)BOX_SIZE);
-			VECTOR3 downRight = VECTOR3(i * (float)BOX_SIZE + (float)BOX_SIZE, 5.0f, j * (float)BOX_SIZE + (float)BOX_SIZE);
+			VECTOR3 topLeft = VECTOR3(y * (float)BOX_SIZE, 5.0f, x * (float)BOX_SIZE) - ADD_WAY_INFO_POS;
+			VECTOR3 topRight = VECTOR3(y * (float)BOX_SIZE + (float)BOX_SIZE, 5.0f, x * (float)BOX_SIZE) - ADD_WAY_INFO_POS;
+			VECTOR3 downLeft = VECTOR3(y * (float)BOX_SIZE, 5.0f, x * (float)BOX_SIZE + (float)BOX_SIZE) - ADD_WAY_INFO_POS;
+			VECTOR3 downRight = VECTOR3(y * (float)BOX_SIZE + (float)BOX_SIZE, 5.0f, x * (float)BOX_SIZE + (float)BOX_SIZE) - ADD_WAY_INFO_POS;
 
-			if (wayInfo_[i][j] == 0)
+			if (wayInfo_[x][y] == 0)
 			{
 				color = GetColor(100, 255, 100);
 			}
-			else if (wayInfo_[i][j] == 1)
+			else if (wayInfo_[x][y] == 1)
 			{
 				color = GetColor(0, 0, 0);
 			}
-			else if (wayInfo_[i][j] == 2)
+			else if (wayInfo_[x][y] == 2)
 			{
 				color = GetColor(0, 0, 255);
 			}
@@ -116,10 +117,42 @@ void WayInfo::WayDraw()
 			{
 				color = GetColor(100, 100, 100);
 			}
-			DrawTriangle3D(topLeft - add, topRight - add, downRight - add, color, TRUE);
-			DrawTriangle3D(downRight - add, downLeft - add, topLeft - add, color, TRUE);
+			DrawTriangle3D(topLeft, topRight, downRight, color, TRUE);
+			DrawTriangle3D(downRight, downLeft, topLeft, color, TRUE);
 		}
 	}
+}
+
+void WayInfo::DrawVertex()
+{
+	DrawSphere3D(ADD_WAY_INFO_POS * -1.0f, 40, 20, GetColor(255,255,255), GetColor(255, 255, 255), TRUE);
+	VECTOR3 pos;
+	int color = 0;
+	for (int i = 0; i < vertexList_.size(); i++)
+	{
+		pos = VECTOR3(vertexList_[i].position.x * BOX_SIZE, 0.0f, vertexList_[i].position.y * BOX_SIZE);
+		if (i == 0)
+		{
+			color = GetColor(255, 255, 255);
+		}
+		else
+		{
+			color = GetColor(0, 0, 0);
+		}
+
+		DrawSphere3D(pos - ADD_WAY_INFO_POS + ADD_HALF_BOX_POS, 40, 20, color, color, TRUE);
+	}
+}
+
+VECTOR3 WayInfo::SetVertexPosition(VECTOR3 position, int num)
+{
+	VECTOR3 ret = position;
+	//ret.x = (float)((vertexList_[num].position.x - (vertexList_.size() / 2) * BOX_SIZE));
+	//ret.z = (float)((vertexList_[num].position.y - (vertexList_.size() / 2) * BOX_SIZE));
+	ret.x = (float)(vertexList_[num].position.x * BOX_SIZE);
+	ret.z = (float)(vertexList_[num].position.y * BOX_SIZE);
+
+	return ret - ADD_WAY_INFO_POS + ADD_HALF_BOX_POS;
 }
 
 std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos)
@@ -133,21 +166,23 @@ std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 	}
 
 	// スタートの位置を代入
-	startPos_ = VECTOR2(currentPos.x / BOX_SIZE + wayInfo_.size() / 2, currentPos.y / BOX_SIZE + wayInfo_.size() / 2);
-	vertex start = FindStartVertex(); // 最初の位置を distance = 0 にする
-	SetShortestWay(start);
+	//startPos_ = point{ (int)(currentPos.x / BOX_SIZE + wayInfo_.size() / 2), (int)(currentPos.z / BOX_SIZE + wayInfo_.size() / 2) };
+	//vertex start = FindStartVertex(); // 最初の位置を distance = 0 にする
+	//SetShortestWay(start);
 
-	// whileでcheckVertexListが存在する間回す
-	while (!checkVertexList_.empty())
-	{
-		SetShortestWay(checkVertexList_.front());
-		checkVertexList_.erase(checkVertexList_.begin());
-	}
+	//// whileでcheckVertexListが存在する間回す
+	//while (!checkVertexList_.empty())
+	//{
+	//	SetShortestWay(checkVertexList_.front());
+	//	checkVertexList_.erase(checkVertexList_.begin());
+	//}
 
 	// goalPosに一番近い頂点をvertexListから探す
-	std::vector<VECTOR2> ret = GetShortestWay(VECTOR2(goalPos.x, goalPos.y));
+	//std::vector<VECTOR2> ret = GetShortestWay(VECTOR2(goalPos.x, goalPos.y));
 
-	return ret;
+	//return ret;
+
+	return std::vector<VECTOR2>();
 }
 
 void WayInfo::InitVertexList()
@@ -260,7 +295,7 @@ vertex WayInfo::FindStartVertex()
 {
 	for (int i = 0; i < vertexList_.size(); i++)
 	{
-		if ((int)startPos_.x == (int)vertexList_[i].position.x && (int)startPos_.y == (int)vertexList_[i].position.y)
+		if (startPos_.x == vertexList_[i].position.x && startPos_.y == vertexList_[i].position.y)
 		{
 			vertexList_[i].distance = 0;
 			vertexList_[i].isDicision = true;

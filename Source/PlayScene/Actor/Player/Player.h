@@ -16,7 +16,6 @@ public:
 	void Draw() override;
 
 	int Attack(); // UŒ‚—Í‚ğ“ü‚ê‚é -1 ‚Ì‚ÍUŒ‚‚µ‚Ä‚È‚¢
-	void SetPosition(VECTOR3 newPosition) { transform_.position_ = newPosition; }
 	void SetToGo(VECTOR3 goPosition) { goPosition_ = goPosition; }
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
 	void Attacked(int atackPower);

@@ -28,6 +28,12 @@ void GameMaster::Init()
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
 	stage = FindGameObject<Stage>();
+	player->SetPosition(WayInfo::SetVertexPosition(player->GetTransform().position_, 1));
+
+	for (auto e : enemy)
+	{
+		e->SetPosition(WayInfo::SetVertexPosition(e->GetTransform().position_, 2));
+	}
 }
 
 void GameMaster::Update()
@@ -78,6 +84,7 @@ void GameMaster::Update()
 void GameMaster::Draw()
 {
 	WayInfo::WayDraw();
+	WayInfo::DrawVertex();
 }
 
 void GameMaster::Release()

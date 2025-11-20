@@ -94,17 +94,17 @@ void WayInfo::WayDraw()
 			VECTOR3 downLeft = VECTOR3(i * BOX_SIZE, 5.0f, j * BOX_SIZE + BOX_SIZE);
 			VECTOR3 downRight = VECTOR3(i * BOX_SIZE + BOX_SIZE, 5.0f, j * BOX_SIZE + BOX_SIZE);
 
-			if (wayInfo_[i][j] == 1)
+			if (wayInfo_[i][j] == 0)
+			{
+				color = GetColor(100, 255, 100);
+			}
+			else if (wayInfo_[i][j] == 1)
 			{
 				color = GetColor(0, 0, 0);
 			}
 			else if (wayInfo_[i][j] == 2)
 			{
 				color = GetColor(0, 0, 255);
-			}
-			else if (wayInfo_[i][j] == 0)
-			{
-				color = GetColor(100, 255, 100);
 			}
 			else
 			{
@@ -193,16 +193,25 @@ void WayInfo::InitVertexList()
 
 bool WayInfo::CheckVertex(int x, int y)
 {
-	int counter = 0;
 	bool ret = false;
-	
+	if (x == 0 || y == 0 || x == 100 - 1 || y == 100 - 1)
+	{
+		return ret;
+	}
+
+	int counter = 0;	
 	bool checkDir[DIR::MAX_DIR];
+
+	if (x == 3 && y == 3)
+	{
+		int a = 0;
+	}
 
 	for (int i = 0; i < DIR::MAX_DIR; i++)
 	{
 		int checkX = x + (int)dir_[i].x;
 		int checkY = y + (int)dir_[i].y;
-		if (wayInfo_[y][x] == MAP_NUM::EMPTY || wayInfo_[y][x] == MAP_NUM::BRANCH)
+		if (wayInfo_[checkY][checkX] == MAP_NUM::EMPTY || wayInfo_[checkY][checkX] == MAP_NUM::BRANCH)
 		{
 			checkDir[i] = true;
 			counter += 1;
@@ -237,7 +246,7 @@ bool WayInfo::CheckVertex(int x, int y)
 		}
 	}
 
-	return false;
+	return ret;
 }
 
 vertex WayInfo::FindStartVertex()

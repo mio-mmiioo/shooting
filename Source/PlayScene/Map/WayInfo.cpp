@@ -169,7 +169,7 @@ void WayInfo::InitVertexList()
 
 			int distance = 1;
 			// ãóó£(cost)ÇãÅÇﬂÇÈ
-			if (wayInfo_[(int)check.y][(int)check.x] != MAP_NUM::WALL)
+			if (wayInfo_[(int)check.y][(int)check.x] != MAP_NUM::WALL && wayInfo_[(int)check.y][(int)check.x] != MAP_NUM::OBJECT_SPACE)
 			{
 				while (wayInfo_[(int)check.y][(int)check.x] != MAP_NUM::BRANCH)
 				{
@@ -199,13 +199,13 @@ bool WayInfo::CheckVertex(int x, int y)
 		return ret;
 	}
 
+	if (wayInfo_[y][x] != MAP_NUM::EMPTY)
+	{
+		return ret;
+	}
+
 	int counter = 0;	
 	bool checkDir[DIR::MAX_DIR];
-
-	if (x == 3 && y == 3)
-	{
-		int a = 0;
-	}
 
 	for (int i = 0; i < DIR::MAX_DIR; i++)
 	{

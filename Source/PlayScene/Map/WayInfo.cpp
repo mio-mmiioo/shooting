@@ -46,7 +46,7 @@ namespace WayInfo{
 	void SetShortestWay(vertex start); // 最短経路を求める
 	int GetCost(VECTOR2 startPos, VECTOR2 endPos); // 距離(cost)を求める
 	int GetCost(point startPos, point endPos);
-	std::vector<VECTOR2> GetShortestWay(VECTOR2 pos);
+	std::vector<VECTOR2> GetShortestWay(point pos);
 
 	const int MAX_DISTANCE = 5000;
 	const int BOX_SIZE = 100;
@@ -166,23 +166,22 @@ std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 	}
 
 	// スタートの位置を代入
-	//startPos_ = point{ (int)(currentPos.x / BOX_SIZE + wayInfo_.size() / 2), (int)(currentPos.z / BOX_SIZE + wayInfo_.size() / 2) };
-	//vertex start = FindStartVertex(); // 最初の位置を distance = 0 にする
-	//SetShortestWay(start);
+	startPos_ = point{ (int)(currentPos.x / BOX_SIZE + wayInfo_.size() / 2), (int)(currentPos.z / BOX_SIZE + wayInfo_.size() / 2) };
+	vertex start = FindStartVertex(); // 最初の位置を distance = 0 にする
+	SetShortestWay(start);
 
-	//// whileでcheckVertexListが存在する間回す
-	//while (!checkVertexList_.empty())
-	//{
-	//	SetShortestWay(checkVertexList_.front());
-	//	checkVertexList_.erase(checkVertexList_.begin());
-	//}
+	// whileでcheckVertexListが存在する間回す
+	while (!checkVertexList_.empty())
+	{
+		SetShortestWay(checkVertexList_.front());
+		checkVertexList_.erase(checkVertexList_.begin());
+	}
 
 	// goalPosに一番近い頂点をvertexListから探す
-	//std::vector<VECTOR2> ret = GetShortestWay(VECTOR2(goalPos.x, goalPos.y));
+	goalPos_ = point{ (int)(goalPos.x / BOX_SIZE + wayInfo_.size() / 2), (int)(goalPos.z / BOX_SIZE + wayInfo_.size() / 2) };
+	std::vector<VECTOR2> ret = GetShortestWay(goalPos_);
 
-	//return ret;
-
-	return std::vector<VECTOR2>();
+	return ret;
 }
 
 void WayInfo::InitVertexList()
@@ -402,16 +401,14 @@ int WayInfo::GetCost(point startPos, point endPos)
 	return MAX_DISTANCE;
 }
 
-std::vector<VECTOR2> WayInfo::GetShortestWay(VECTOR2 pos)
+std::vector<VECTOR2> WayInfo::GetShortestWay(point pos)
 {
-	int x = (int)pos.x / BOX_SIZE;
-	int y = (int)pos.y / BOX_SIZE;
-
+	// 最終的な経路を探す
 	for (int i = 0; i < vertexList_.size(); i++)
 	{
-		if (vertexList_[i].position.x == x)
+		if (vertexList_[i].position.x == pos.x)
 		{
-			if (vertexList_[i].position.y == y)
+			if (vertexList_[i].position.y == pos.y)
 			{
 				int checkNum = (int)vertexList_[i].posList.size() - 1;
 				while (vertexList_[i].posList[checkNum].x == vertexList_[i].posList[checkNum - 1].x &&

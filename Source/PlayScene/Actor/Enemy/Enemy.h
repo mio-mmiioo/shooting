@@ -1,6 +1,7 @@
 #pragma once
 #include "../Actor.h"
 #include "../../../../Library/Animator.h"
+#include <vector>
 
 class Enemy : public Actor
 {
@@ -12,6 +13,7 @@ public:
 
 	void SetToGo(VECTOR3 goPosition) { goPosition_ = goPosition; }
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
+	void SetPosList(std::vector<VECTOR2> posList) { posList_ = posList; }
 	
 	bool isAttacked_;
 
@@ -37,6 +39,7 @@ private:
 		MAX_STATE
 	};
 
+	std::vector<VECTOR2> posList_; // ÉvÉåÉCÉÑÅ[Ç‹Ç≈ÇÃãóó£
 	VECTOR3 goPosition_;
 	bool isArrive_;
 	E_STATE state_;

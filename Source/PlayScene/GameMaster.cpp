@@ -116,12 +116,13 @@ void GameMaster::SetEnemyPos()
 	{
 		for (auto e : enemy)
 		{
-			setWay = WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_);
+			
+			e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_));
 
 			if (VSize(e->GetTransform().position_ - player->GetTransform().position_) > e->GetDistanceR() + player->GetDistanceR())
 			{
-				e->SetToGo(player->GetTransform().position_);
-				e->SetIsArrive(false);
+				//e->SetToGo(player->GetTransform().position_);
+				//e->SetIsArrive(false);
 			}
 		}
 	}

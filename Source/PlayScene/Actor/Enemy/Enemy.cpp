@@ -141,18 +141,17 @@ void Enemy::Update()
 	// 経路探索AIを使用して移動予定
 	if (isArrive_ == false)
 	{
-		//SetMove(goPosition_, 1.0f, 2.0f);
+		SetMove(goPosition_, 1.0f, 2.0f);
 
-		//// 壁があって、まっすぐに進めない、、、
+		// 壁があって、まっすぐに進めない、、、
 
 
-		//// 壁がなくてまっすぐに進める
-		//if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
-		//{
-		//	isArrive_ = true;
-		//	state_ = E_STATE::STAY;
-
-		//}
+		// 壁がなくてまっすぐに進める
+		if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
+		{
+			isArrive_ = true;
+			//state_ = E_STATE::STAY;
+		}
 	}
 
 	if (hp_ <= 0)

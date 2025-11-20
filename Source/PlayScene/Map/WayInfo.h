@@ -19,5 +19,7 @@ struct way {
 
 namespace WayInfo {
 	void Init();
+
+	std::vector<VECTOR2> GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos); // ( 現在地、目的地 )
 }
 

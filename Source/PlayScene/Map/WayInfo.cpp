@@ -20,21 +20,23 @@ namespace WayInfo{
 		MAX_MAP_NUM
 	};
 
-	const int MAX_DISTANCE = 5000;
-	VECTOR2 dir_[4]; // 方向
-	std::vector<std::vector<int>> wayInfo_; // 通れる場所の情報
-
 	void InitVertexList(); // 頂点情報リストを初期化
 	bool CheckVertex(int x, int y); // 頂点ならtrue
 	vertex FindStartVertex(); // 頂点リストの最初の頂点を求める
-	void SetShortestWay(vertex start);
-	int GetCost(VECTOR2 startPos, VECTOR2 endPos);
+	void SetShortestWay(vertex start); // 最短経路を求める
+	int GetCost(VECTOR2 startPos, VECTOR2 endPos); // 距離(cost)を求める
+	std::vector<vertex> GetShortestWay(VECTOR2 pos);
+
+	const int MAX_DISTANCE = 5000;
+	const int BOX_SIZE = 100;
+	VECTOR2 dir_[4]; // 方向
+	std::vector<std::vector<int>> wayInfo_; // 通れる場所の情報
 
 	VECTOR2 startPos_; // 経路探索を開始したい位置
+	VECTOR2 goalPos_; // 目的地
 	std::vector<vertex> vertexList_; // 頂点情報のリスト
 	std::vector<vertex> checkVertexList_; // 確認する頂点リスト 最短経路を求めるときに使用
 	std::vector<way> wayList_; // 道情報のリスト
-
 }
 
 void WayInfo::Init()
@@ -62,6 +64,36 @@ void WayInfo::Init()
 
 	startPos_ = VECTOR2(-1, -1);
 	InitVertexList();
+}
+
+std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos)
+{
+	// 道情報の初期化
+	for (int i = 0; i < vertexList_.size(); i++)
+	{
+		vertexList_[i].distance = MAX_DISTANCE;
+		vertexList_[i].isDicision = false;
+		vertexList_[i].posList.clear();
+	}
+
+	// スタートの位置を代入
+	startPos_ = VECTOR2(currentPos.x, currentPos.y);
+	vertex start = FindStartVertex(); // 最初の位置を distance = 0 にする
+	SetShortestWay(start);
+
+	// whileでcheckVertexListが存在する間回す
+	while (!checkVertexList_.empty())
+	{
+		SetShortestWay(checkVertexList_.front());
+		checkVertexList_.erase(checkVertexList_.begin());
+	}
+
+	// goalPosに一番近い頂点をvertexListから探す
+	
+
+	// 探したvertexListのposListを返す
+
+	return std::vector<VECTOR2>();
 }
 
 void WayInfo::InitVertexList()
@@ -254,4 +286,9 @@ int WayInfo::GetCost(VECTOR2 startPos, VECTOR2 endPos)
 		}
 	}
 	return MAX_DISTANCE;
+}
+
+std::vector<vertex> WayInfo::GetShortestWay(VECTOR2 pos)
+{
+	return std::vector<vertex>();
 }

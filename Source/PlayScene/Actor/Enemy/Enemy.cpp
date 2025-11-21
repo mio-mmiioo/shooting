@@ -194,6 +194,20 @@ void Enemy::Draw()
 		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
 	}*/
 
+	if (!posList_.empty())
+	{
+		VECTOR3 lineStartPos;
+		VECTOR3 lineEndPos;
+		for (int i = 1; i < posList_.size(); i++)
+		{
+			lineStartPos = VECTOR3(posList_[i - 1].x, 5.0f, posList_[i - 1].y);
+			lineEndPos = VECTOR3(posList_[i].x, 5.0f, posList_[i].y);
+
+			DrawSphere3D(lineStartPos, 20, 20, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+			DrawLine3D(lineStartPos, lineEndPos, GetColor(255, 255, 255));
+		}
+	}
+
 	// Œü‚¢‚Ä‚é•ûŒü‚ðŽ¦‚·@‚±‚êƒJƒƒ‰•ÏX‚µ‚È‚­‚È‚Á‚½‚çÁ‚·‚±‚Æ
 	VECTOR3 addPlayerHeight = { 0, 180, 0 };
 	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));

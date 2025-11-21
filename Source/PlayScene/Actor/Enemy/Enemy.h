@@ -13,7 +13,7 @@ public:
 
 	void SetToGo(VECTOR3 goPosition) { goPosition_ = goPosition; }
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
-	void SetPosList(std::vector<VECTOR2> posList) { posList_ = posList; }
+	void SetPosList(std::vector<VECTOR3> posList) { posList_ = posList; }
 	
 	bool isAttacked_;
 
@@ -39,7 +39,7 @@ private:
 		MAX_STATE
 	};
 
-	std::vector<VECTOR2> posList_; // プレイヤーまでの距離
+	std::vector<VECTOR3> posList_; // プレイヤーまでの距離
 	VECTOR3 goPosition_;
 	bool isArrive_;
 	E_STATE state_;

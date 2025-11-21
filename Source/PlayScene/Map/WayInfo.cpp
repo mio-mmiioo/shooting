@@ -46,7 +46,7 @@ namespace WayInfo{
 	void SetShortestWay(vertex start); // Å’ZŒo˜H‚ğ‹‚ß‚é
 	int GetCost(VECTOR2 startPos, VECTOR2 endPos); // ‹——£(cost)‚ğ‹‚ß‚é
 	int GetCost(point startPos, point endPos);
-	std::vector<VECTOR2> GetShortestWay(point pos);
+	std::vector<VECTOR3> GetShortestWay(point pos);
 
 	const int MAX_DISTANCE = 5000;
 	const int BOX_SIZE = 100;
@@ -155,7 +155,7 @@ VECTOR3 WayInfo::SetVertexPosition(VECTOR3 position, int num)
 	return ret - ADD_WAY_INFO_POS + ADD_HALF_BOX_POS;
 }
 
-std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos)
+std::vector<VECTOR3> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos)
 {
 	// “¹î•ñ‚Ì‰Šú‰»
 	for (int i = 0; i < vertexList_.size(); i++)
@@ -179,7 +179,7 @@ std::vector<VECTOR2> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 
 	// goalPos‚Éˆê”Ô‹ß‚¢’¸“_‚ğvertexList‚©‚ç’T‚·
 	goalPos_ = point{ (int)(goalPos.x / BOX_SIZE + wayInfo_.size() / 2), (int)(goalPos.z / BOX_SIZE + wayInfo_.size() / 2) };
-	std::vector<VECTOR2> ret = GetShortestWay(goalPos_);
+	std::vector<VECTOR3> ret = GetShortestWay(goalPos_);
 
 	return ret;
 }
@@ -401,27 +401,31 @@ int WayInfo::GetCost(point startPos, point endPos)
 	return MAX_DISTANCE;
 }
 
-std::vector<VECTOR2> WayInfo::GetShortestWay(point pos)
+std::vector<VECTOR3> WayInfo::GetShortestWay(point pos)
 {
+	std::vector<VECTOR3> ret;
 	// ÅI“I‚ÈŒo˜H‚ğ’T‚·
 	for (int i = 0; i < vertexList_.size(); i++)
 	{
-		if (vertexList_[i].position.x == pos.x)
+		if (vertexList_[i].position.x == pos.x && vertexList_[i].position.y == pos.y)
 		{
-			if (vertexList_[i].position.y == pos.y)
+			int checkNum = (int)vertexList_[i].posList.size() - 1;
+			while (vertexList_[i].posList[checkNum].x == vertexList_[i].posList[checkNum - 1].x &&
+				vertexList_[i].posList[checkNum].y == vertexList_[i].posList[checkNum - 1].y)
 			{
-				int checkNum = (int)vertexList_[i].posList.size() - 1;
-				while (vertexList_[i].posList[checkNum].x == vertexList_[i].posList[checkNum - 1].x &&
-					vertexList_[i].posList[checkNum].y == vertexList_[i].posList[checkNum - 1].y)
-				{
-					vertexList_[i].posList.pop_back();
-					checkNum -= 1;
-				}
-
-				return vertexList_[i].posList;
+				vertexList_[i].posList.pop_back();
+				checkNum -= 1;
 			}
+
+			for (int j = 0; j < vertexList_[i].posList.size(); j++)
+			{
+				VECTOR3 v = { vertexList_[i].posList[j].x * BOX_SIZE, 0.0f, vertexList_[i].posList[j].y * BOX_SIZE };
+				v -= ADD_WAY_INFO_POS;
+				v.y += 5.0f;
+				ret.push_back(v);
+			}
+			break;
 		}
 	}
-
-	return std::vector<VECTOR2>();
+	return ret;
 }

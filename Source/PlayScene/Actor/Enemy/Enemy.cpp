@@ -149,9 +149,15 @@ void Enemy::Update()
 		// 壁がなくてまっすぐに進める
 		if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
 		{
-			isArrive_ = true;
+			//goPosition_ = posList_[posList_.size()];
 			//state_ = E_STATE::STAY;
 		}
+	}
+	else
+	{
+		//goPosition_ = posList_[posList_.size()];
+		//posList_.erase(posList_.end());
+		//isArrive_ = false;
 	}
 
 	if (hp_ <= 0)
@@ -211,14 +217,13 @@ void Enemy::Draw()
 			}
 		}
 
-		//for (int i = 1; i < posList_.size(); i++)
-		//{
-		//	lineStartPos = VECTOR3(posList_[i - 1].x, 5.0f, posList_[i - 1].y);
-		//	lineEndPos = VECTOR3(posList_[i].x, 5.0f, posList_[i].y);
+		for (int i = 1; i < posList_.size(); i++)
+		{
+			lineStartPos = posList_[i - 1];
+			lineEndPos = posList_[i];
 
-		//	DrawSphere3D(lineStartPos, 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
-		//	DrawLine3D(lineStartPos, lineEndPos, GetColor(255, 255, 255));
-		//}
+			DrawLine3D(lineStartPos, lineEndPos, GetColor(255, 255, 255));
+		}
 	}
 
 	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと

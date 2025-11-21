@@ -42,7 +42,8 @@ private:
 	};
 
 	std::vector<VECTOR3> posList_; // プレイヤーまでの距離
-	VECTOR3 goPosition_;
+	VECTOR3 goPosition_;  // 次に向かう場所
+	VECTOR3 endPosition_; // 最終目的地
 	bool isArrive_;
 	E_STATE state_;
 	float timer_;

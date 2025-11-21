@@ -424,11 +424,14 @@ std::vector<VECTOR3> WayInfo::GetShortestWay(point pos)
 		if (vertexList_[i].position.x == pos.x && vertexList_[i].position.z == pos.z)
 		{
 			int checkNum = (int)vertexList_[i].posList.size() - 1;
-			while (vertexList_[i].posList[checkNum].x == vertexList_[i].posList[checkNum - 1].x &&
-				vertexList_[i].posList[checkNum].y == vertexList_[i].posList[checkNum - 1].y)
+			if (checkNum > 1)
 			{
-				vertexList_[i].posList.pop_back();
-				checkNum -= 1;
+				while (vertexList_[i].posList[checkNum].x == vertexList_[i].posList[checkNum - 1].x &&
+					vertexList_[i].posList[checkNum].y == vertexList_[i].posList[checkNum - 1].y)
+				{
+					vertexList_[i].posList.pop_back();
+					checkNum -= 1;
+				}
 			}
 
 			for (int j = 0; j < vertexList_[i].posList.size(); j++)

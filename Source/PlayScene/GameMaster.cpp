@@ -74,7 +74,10 @@ void GameMaster::Update()
 	enemy = FindGameObjects<Enemy>();
 
 	SetPlayerPos(); // ðŒ‚ð–ž‚½‚³‚È‚«‚áƒZƒbƒg‚³‚ê‚È‚¢
-	SetEnemyPos();
+	if (WayInfo::IsVertexPosition(player->GetTransform().position_) == true)
+	{
+		SetEnemyPos();
+	}
 
 	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
 		SceneManager::ChangeScene("RESULT");
@@ -84,7 +87,7 @@ void GameMaster::Update()
 void GameMaster::Draw()
 {
 	WayInfo::WayDraw();
-	WayInfo::DrawVertex();
+	//WayInfo::DrawVertex();
 }
 
 void GameMaster::Release()
@@ -111,7 +114,6 @@ void GameMaster::SetPlayerPos()
 
 void GameMaster::SetEnemyPos()
 {
-	std::vector<VECTOR2> setWay;
 	if (!enemy.empty())
 	{
 		for (auto e : enemy)

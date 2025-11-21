@@ -8,6 +8,7 @@ namespace WayInfo {
 	void DrawVertex(); // 頂点リストの頂点を描画
 
 	VECTOR3 SetVertexPosition(VECTOR3 position, int num);
+	bool IsVertexPosition(VECTOR3 position);
 	std::vector<VECTOR3> GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos); // ( 現在地、目的地 )
 }
 

@@ -22,6 +22,8 @@ private:
 	void UpdateStay();
 	void UpdateAttack();
 
+	void AutoMove(); // Œo˜H’Tõ‚ğ‚à‚Æ‚É©“®ˆÚ“®‚·‚é
+
 	enum ANIM_ID {
 		A_NEUTRAL = 0,
 		A_IDLE,

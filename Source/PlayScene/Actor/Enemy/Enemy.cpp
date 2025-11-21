@@ -201,7 +201,14 @@ void Enemy::Draw()
 
 		for (int i = 0; i < posList_.size(); i++)
 		{
-			DrawSphere3D(posList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+			if (i == 0)
+			{
+				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+			}
+			else
+			{
+				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 255, 255), GetColor(255, 0, 0), TRUE);
+			}
 		}
 
 		//for (int i = 1; i < posList_.size(); i++)
@@ -289,5 +296,10 @@ void Enemy::UpdateAttack()
 	{
 		state_ = E_STATE::STAY;
 	}
+
+}
+
+void Enemy::AutoMove()
+{
 
 }

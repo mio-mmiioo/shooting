@@ -5,6 +5,8 @@ namespace {
 	static float DISTANCE = 500.0f; // キャラからの距離
 	static float LOOK_HIEGHT = 180.0f; // 視点の高さ
 	const float CAMERA_SPEED = 0.01f; // カメラの回転速度
+
+	int wheelRot = 0;
 };
 
 Camera::Camera()
@@ -193,6 +195,8 @@ void Camera::FixCamera()
 	//cameraPosition_ = VECTOR3(0, 0, -1000);
 	//targetPosition_ = VECTOR3(0, 0, 0);
 
-	cameraPosition_ = VECTOR3(0, 9000.0f, -1000.0f);
+	wheelRot += GetMouseWheelRotVol();
+
+	cameraPosition_ = VECTOR3(0, 9000.0f - (float)(wheelRot * 100), -1000.0f);
 	targetPosition_ = VECTOR3(0, 0, 0);
 }

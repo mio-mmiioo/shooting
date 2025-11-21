@@ -198,14 +198,20 @@ void Enemy::Draw()
 	{
 		VECTOR3 lineStartPos;
 		VECTOR3 lineEndPos;
-		for (int i = 1; i < posList_.size(); i++)
-		{
-			lineStartPos = VECTOR3(posList_[i - 1].x, 5.0f, posList_[i - 1].y);
-			lineEndPos = VECTOR3(posList_[i].x, 5.0f, posList_[i].y);
 
-			DrawSphere3D(lineStartPos, 20, 20, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
-			DrawLine3D(lineStartPos, lineEndPos, GetColor(255, 255, 255));
+		for (int i = 0; i < posList_.size(); i++)
+		{
+			DrawSphere3D(posList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
 		}
+
+		//for (int i = 1; i < posList_.size(); i++)
+		//{
+		//	lineStartPos = VECTOR3(posList_[i - 1].x, 5.0f, posList_[i - 1].y);
+		//	lineEndPos = VECTOR3(posList_[i].x, 5.0f, posList_[i].y);
+
+		//	DrawSphere3D(lineStartPos, 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+		//	DrawLine3D(lineStartPos, lineEndPos, GetColor(255, 255, 255));
+		//}
 	}
 
 	// Œü‚¢‚Ä‚é•ûŒü‚ðŽ¦‚·@‚±‚êƒJƒƒ‰•ÏX‚µ‚È‚­‚È‚Á‚½‚çÁ‚·‚±‚Æ

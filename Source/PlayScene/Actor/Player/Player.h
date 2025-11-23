@@ -18,6 +18,7 @@ public:
 	int Attack(); // 攻撃力を入れる -1 の時は攻撃してない
 	void SetToGo(VECTOR3 goPosition) { goPosition_ = goPosition; }
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
+	bool GetArrive() { return isArrive_; }
 	void Attacked(int atackPower);
 
 private:
@@ -34,7 +35,8 @@ private:
 	bool isHit_; // enemyなどのActorクラスに銃弾がぶつかるかどうか
 
 	// 移動関連
-	VECTOR3 goPosition_; // プレイヤーが次に向かう場所
+	VECTOR3 goPosition_; // プレイヤーが次に向かう場所 目的地までに通る場所
+	VECTOR3 endPosition_; // プレイヤーの目的地
 	bool isArrive_;		 // 一度到着したことを確認する
 
 	// ポインターの画像

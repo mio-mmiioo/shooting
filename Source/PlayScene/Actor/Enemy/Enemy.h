@@ -13,7 +13,8 @@ public:
 
 	void SetToGo(VECTOR3 goPosition) { goPosition_ = goPosition; }
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
-	void SetPosList(std::vector<VECTOR3> posList) { posList_ = posList; }
+	void SetPosList(std::vector<VECTOR3> posList) { wayList_ = posList; }
+	std::vector<VECTOR3> GetWayList() { return wayList_; }
 	
 	bool isAttacked_;
 
@@ -41,10 +42,11 @@ private:
 		MAX_STATE
 	};
 
-	std::vector<VECTOR3> posList_; // プレイヤーまでの距離
+	std::vector<VECTOR3> wayList_; // プレイヤーまでの距離
 	VECTOR3 goPosition_;  // 次に向かう場所
 	VECTOR3 endPosition_; // 最終目的地
 	bool isArrive_;
+	bool isNextSetPosition_;
 	E_STATE state_;
 	float timer_;
 

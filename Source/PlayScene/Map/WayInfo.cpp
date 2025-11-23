@@ -49,7 +49,6 @@ namespace WayInfo{
 	std::vector<VECTOR3> GetShortestWay(point pos);
 
 	const int MAX_DISTANCE = 5000;
-	const int BOX_SIZE = 100;
 	const VECTOR3 ADD_WAY_INFO_POS = { 5000, 0, 5000 };
 	const VECTOR3 ADD_HALF_BOX_POS = { BOX_SIZE / 2, 0, BOX_SIZE / 2 };
 	point dir_[4]; // •ûŒü
@@ -151,6 +150,21 @@ VECTOR3 WayInfo::SetVertexPosition(VECTOR3 position, int num)
 	ret.z = (float)(vertexList_[num].position.z * BOX_SIZE);
 
 	return ret - ADD_WAY_INFO_POS + ADD_HALF_BOX_POS;
+}
+
+int WayInfo::CheckVertexNum(VECTOR3 position)
+{
+	position += ADD_WAY_INFO_POS;
+	int x = position.x / BOX_SIZE;
+	int z = position.z / BOX_SIZE;
+	for (int i = 0; i < vertexList_.size(); i++)
+	{
+		if (x == vertexList_[i].position.x && z == vertexList_[i].position.z)
+		{
+			return i;
+		}
+	}
+	return -1;
 }
 
 bool WayInfo::IsVertexPosition(VECTOR3 position)

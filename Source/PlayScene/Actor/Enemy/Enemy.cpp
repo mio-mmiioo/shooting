@@ -33,6 +33,7 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 
 	goPosition_ = VECTOR3(0, 0, 0);
 	isArrive_ = true;
+	isNextSetPosition_ = false;
 
 	hModel_ = MV1LoadModel("data/model/enemy01.mv1");
 	assert(hModel_ > 0);
@@ -139,9 +140,10 @@ void Enemy::Update()
 	}
 
 	// 経路探索AIを使用して移動予定
+
 	if (isArrive_ == false)
 	{
-		SetMove(goPosition_, 1.0f, 2.0f);
+		//SetMove(goPosition_, 1.0f, 2.0f);
 
 		// 壁があって、まっすぐに進めない、、、
 
@@ -200,29 +202,29 @@ void Enemy::Draw()
 		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
 	}*/
 
-	if (!posList_.empty())
+	if (!wayList_.empty())
 	{
 		VECTOR3 lineStartPos;
 		VECTOR3 lineEndPos;
 
-		for (int i = 0; i < posList_.size(); i++)
+		for (int i = 0; i < wayList_.size(); i++)
 		{
 			if (i == 0)
 			{
-				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+				DrawSphere3D(wayList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
 			}
 			else
 			{
-				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 255, 255), GetColor(255, 0, 0), TRUE);
+				DrawSphere3D(wayList_[i], 50, 50, GetColor(255, 255, 255), GetColor(255, 0, 0), TRUE);
 			}
 		}
 
-		for (int i = 1; i < posList_.size(); i++)
+		for (int i = 1; i < wayList_.size(); i++)
 		{
-			lineStartPos = posList_[i - 1];
-			lineEndPos = posList_[i];
+			lineStartPos = wayList_[i - 1];
+			lineEndPos = wayList_[i];
 
-			DrawLine3D(lineStartPos, lineEndPos, GetColor(255, 255, 255));
+			DrawLine3D(lineStartPos, lineEndPos, GetColor(0, 0, 0));
 		}
 	}
 
@@ -304,7 +306,7 @@ void Enemy::UpdateAttack()
 
 }
 
+// GameMasterに呼んでもらう
 void Enemy::AutoMove()
 {
-
 }

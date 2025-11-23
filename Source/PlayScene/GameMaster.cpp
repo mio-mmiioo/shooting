@@ -9,7 +9,6 @@
 
 #include "../../Library/Input.h"
 
-
 namespace GameMaster {
 	void SetPlayerPos();
 	void SetEnemyPos();
@@ -104,11 +103,32 @@ void GameMaster::SetPlayerPos()
 	}
 	if (player != nullptr)
 	{
-		if (VSize(player->GetTransform().position_ - Area::GetCurrentPosition()) > 50.0f)
+		// 頂点にいる
+		if (WayInfo::IsVertexPosition(player->GetTransform().position_) == true)
 		{
-			player->SetToGo(Area::GetCurrentPosition());
+			if (player->GetArrive() == false)
+			{
+				WayInfo::SetVertexPosition(player->GetTransform().position_, WayInfo::CheckVertexNum(player->GetTransform().position_));
+				for (auto e : enemy)
+				{
+					e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_));
+				}
+				player->SetIsArrive(true);
+			}
+		}
+		// 頂点にいない場合 ( 目的地についていない場合 )
+		else
+		{
 			player->SetIsArrive(false);
 		}
+
+		
+
+		//if (VSize(player->GetTransform().position_ - Area::GetCurrentPosition()) > 50.0f)
+		//{
+		//	player->SetToGo(Area::GetCurrentPosition());
+		//	player->SetIsArrive(false);
+		//}
 	}
 }
 
@@ -118,14 +138,26 @@ void GameMaster::SetEnemyPos()
 	{
 		for (auto e : enemy)
 		{
-			
-			e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_));
+			// wayListのサイズが1以上なら
+			// 今の場所がwayList[wayList.size() -1]のポジションと同じ場合
+			// goPositionを切り替える
+			// 移動する
 
-			if (VSize(e->GetTransform().position_ - player->GetTransform().position_) > e->GetDistanceR() + player->GetDistanceR())
-			{
-				//e->SetToGo(player->GetTransform().position_);
-				//e->SetIsArrive(false);
-			}
+			// playerが位置更新したらエネミーは最短経路を取得する
+			// 最短経路を取得した時は、endPosを設定する
+			
+			int wayListSize = e->GetWayList().size() - 1;
+
+			//if (!((int)e->GetWayList()[wayListSize].x / WayInfo::BOX_SIZE == (int)e->GetTransform().position_.x / WayInfo::BOX_SIZE && (int)e->GetWayList()[wayListSize].z / WayInfo::BOX_SIZE == (int)e->GetTransform().position_.z / WayInfo::BOX_SIZE))
+			//{
+
+			//}
+
+			//if (VSize(e->GetTransform().position_ - player->GetTransform().position_) > e->GetDistanceR() + player->GetDistanceR())
+			//{
+			//	//e->SetToGo(player->GetTransform().position_);
+			//	//e->SetIsArrive(false);
+			//}
 		}
 	}
 }
@@ -153,6 +185,7 @@ bool GameMaster::IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos)
 	return false;
 }
 
+// 現在地がめり込んでないか、地面に足がついているか
 void GameMaster::CheckSetPosition(Transform& transform, float time, VECTOR3 gravity, float distanceR)
 {
 	stage->SetOnGround(transform.position_, time, gravity); // ステージの位置を確認し、空中に浮いていないか確認する 浮いていたら重力をかける

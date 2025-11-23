@@ -73,10 +73,6 @@ void GameMaster::Update()
 	enemy = FindGameObjects<Enemy>();
 
 	SetPlayerPos(); // 条件を満たさなきゃセットされない
-	if (WayInfo::IsVertexPosition(player->GetTransform().position_) == true)
-	{
-		SetEnemyPos();
-	}
 
 	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
 		SceneManager::ChangeScene("RESULT");
@@ -112,6 +108,7 @@ void GameMaster::SetPlayerPos()
 				for (auto e : enemy)
 				{
 					e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_));
+					e->SetIsArrive(false);
 				}
 				player->SetIsArrive(true);
 			}
@@ -138,26 +135,6 @@ void GameMaster::SetEnemyPos()
 	{
 		for (auto e : enemy)
 		{
-			// wayListのサイズが1以上なら
-			// 今の場所がwayList[wayList.size() -1]のポジションと同じ場合
-			// goPositionを切り替える
-			// 移動する
-
-			// playerが位置更新したらエネミーは最短経路を取得する
-			// 最短経路を取得した時は、endPosを設定する
-			
-			int wayListSize = e->GetWayList().size() - 1;
-
-			//if (!((int)e->GetWayList()[wayListSize].x / WayInfo::BOX_SIZE == (int)e->GetTransform().position_.x / WayInfo::BOX_SIZE && (int)e->GetWayList()[wayListSize].z / WayInfo::BOX_SIZE == (int)e->GetTransform().position_.z / WayInfo::BOX_SIZE))
-			//{
-
-			//}
-
-			//if (VSize(e->GetTransform().position_ - player->GetTransform().position_) > e->GetDistanceR() + player->GetDistanceR())
-			//{
-			//	//e->SetToGo(player->GetTransform().position_);
-			//	//e->SetIsArrive(false);
-			//}
 		}
 	}
 }

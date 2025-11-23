@@ -126,6 +126,10 @@ void Enemy::Update()
 
 	// 移動
 	{
+		if (isArrive_ == false)
+		{
+			AutoMove();
+		}
 		//VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
 		//velocity = VECTOR3(0, 0, 1) * ENEMY::MOVE_SPEED * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 
@@ -202,27 +206,27 @@ void Enemy::Draw()
 		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
 	}*/
 
-	if (!wayList_.empty())
+	if (!posList_.empty())
 	{
 		VECTOR3 lineStartPos;
 		VECTOR3 lineEndPos;
 
-		for (int i = 0; i < wayList_.size(); i++)
+		for (int i = 0; i < posList_.size(); i++)
 		{
-			if (i == 0)
+			if (i == posList_.size() - 1)
 			{
-				DrawSphere3D(wayList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
 			}
 			else
 			{
-				DrawSphere3D(wayList_[i], 50, 50, GetColor(255, 255, 255), GetColor(255, 0, 0), TRUE);
+				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 255, 255), GetColor(255, 0, 0), TRUE);
 			}
 		}
 
-		for (int i = 1; i < wayList_.size(); i++)
+		for (int i = 1; i < posList_.size(); i++)
 		{
-			lineStartPos = wayList_[i - 1];
-			lineEndPos = wayList_[i];
+			lineStartPos = posList_[i - 1];
+			lineEndPos = posList_[i];
 
 			DrawLine3D(lineStartPos, lineEndPos, GetColor(0, 0, 0));
 		}
@@ -245,6 +249,13 @@ void Enemy::Draw()
 	}
 
 	//DrawFormatString(500, 10, GetColor(255, 255, 255), "AttackTimer:%f", attackTimer_);
+}
+
+void Enemy::SetPosList(std::vector<VECTOR3> posList)
+{
+	posList_ = posList;
+	endPosition_ = posList_[posList_.size() - 1];
+	goPosition_ = posList_[0];
 }
 
 void Enemy::UpdateWalk()
@@ -309,4 +320,28 @@ void Enemy::UpdateAttack()
 // GameMasterに呼んでもらう
 void Enemy::AutoMove()
 {
+	if (posList_.size() > 0)
+	{
+		// 今いる場所はposList_の位置？
+		if (VSize(transform_.position_ - goPosition_) > 25.0f) // 中継地に到達していない
+		{
+			SetMove(goPosition_, ENEMY::ROTATE_SPEED, ENEMY::MOVE_SPEED);
+		}
+		else // 中継地に到達したので、次の中継地をセット
+		{
+			goPosition_ = posList_[0];
+			posList_.erase(posList_.begin());
+		}
+	}
+	else
+	{
+		if (VSize(transform_.position_ - goPosition_) > 25.0f)
+		{
+			SetMove(goPosition_, ENEMY::ROTATE_SPEED, ENEMY::MOVE_SPEED);
+		}
+		else
+		{
+			isArrive_ = true;
+		}
+	}
 }

@@ -33,8 +33,7 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 
 	goPosition_ = VECTOR3(0, 0, 0);
 	isArrive_ = true;
-	isNextSetPosition_ = false;
-
+	
 	hModel_ = MV1LoadModel("data/model/enemy01.mv1");
 	assert(hModel_ > 0);
 
@@ -112,58 +111,38 @@ void Enemy::Update()
 	//	break;
 	//}
 
-	// 回転
-	{
-		//if (Input::IsKeepKeyDown(KEY_INPUT_D))
-		//{
-		//	transform_.rotation_.y += ENEMY::ROTATE_SPEED * DegToRad;
-		//}
-		//if (Input::IsKeepKeyDown(KEY_INPUT_A))
-		//{
-		//	transform_.rotation_.y -= ENEMY::ROTATE_SPEED * DegToRad;
-		//}
-	}
-
-	// 移動
+	// 移動 経路探索を使用
 	{
 		if (isArrive_ == false)
 		{
 			AutoMove();
 		}
-		//VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-		//velocity = VECTOR3(0, 0, 1) * ENEMY::MOVE_SPEED * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
-
-		//if (Input::IsKeepKeyDown(KEY_INPUT_W))
-		//{
-		//	transform_.position_ += velocity;
-		//}
-		//else if (Input::IsKeepKeyDown(KEY_INPUT_S))
-		//{
-		//	transform_.position_ -= velocity;
-		//}
-	}
-
-	// 経路探索AIを使用して移動予定
-
-	if (isArrive_ == false)
-	{
-		//SetMove(goPosition_, 1.0f, 2.0f);
-
-		// 壁があって、まっすぐに進めない、、、
-
-
-		// 壁がなくてまっすぐに進める
-		if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
+		// 手動
 		{
-			//goPosition_ = posList_[posList_.size()];
-			//state_ = E_STATE::STAY;
+			// 移動
+			//VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
+			//velocity = VECTOR3(0, 0, 1) * ENEMY::MOVE_SPEED * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+
+			//if (Input::IsKeepKeyDown(KEY_INPUT_W))
+			//{
+			//	transform_.position_ += velocity;
+			//}
+			//else if (Input::IsKeepKeyDown(KEY_INPUT_S))
+			//{
+			//	transform_.position_ -= velocity;
+			//}
+			// 
+			
+			// 回転
+			//if (Input::IsKeepKeyDown(KEY_INPUT_D))
+			//{
+			//	transform_.rotation_.y += ENEMY::ROTATE_SPEED * DegToRad;
+			//}
+			//if (Input::IsKeepKeyDown(KEY_INPUT_A))
+			//{
+			//	transform_.rotation_.y -= ENEMY::ROTATE_SPEED * DegToRad;
+			//}
 		}
-	}
-	else
-	{
-		//goPosition_ = posList_[posList_.size()];
-		//posList_.erase(posList_.end());
-		//isArrive_ = false;
 	}
 
 	if (hp_ <= 0)
@@ -197,15 +176,6 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
-	/*if (GameMaster::IsCanAttackPlayer(this) == true)
-	{
-		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 0, 255), GetColor(255, 255, 255), FALSE);
-	}
-	else
-	{
-		DrawCapsule3D(transform_.position_, transform_.position_ + VECTOR3(0, 180, 0), distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);
-	}*/
-
 	if (!posList_.empty())
 	{
 		VECTOR3 lineStartPos;
@@ -254,67 +224,19 @@ void Enemy::Draw()
 void Enemy::SetPosList(std::vector<VECTOR3> posList)
 {
 	posList_ = posList;
-	endPosition_ = posList_[posList_.size() - 1];
 	goPosition_ = posList_[0];
 }
 
 void Enemy::UpdateWalk()
 {
-	// 移動
-	{
-		if (isArrive_ == false)
-		{
-			SetMove(goPosition_, 1.0f, 2.0f);
-
-			// 壁があって、まっすぐに進めない、、、
-
-
-			// 壁がなくてまっすぐに進める
-			if (VSize(goPosition_ - transform_.position_) < ENEMY::DISTANCE_R + GameMaster::GetPlayerDistanceR())
-			{
-				isArrive_ = true;
-				state_ = E_STATE::STAY;
-
-			}
-		}
-	}
 }
 
 void Enemy::UpdateStay()
 {
-	animator_->Play(ANIM_ID::A_IDLE);
-	// 攻撃する
-	if (GameMaster::IsCanAttackPlayer(this) == true)
-	{
-		attackTimer_ -= Time::DeltaTime();
-		if (attackTimer_ <= 0)
-		{
-			state_ = E_STATE::ATTACK;
-			GameMaster::AttackPlayer(-2);
-			attackTimer_ += ENEMY::ATTACK_TIME;
-		}
-	}
-	else
-	{
-		attackTimer_ = ENEMY::ATTACK_TIME;
-	}
-
-	if (isArrive_ == false)
-	{
-		state_ = E_STATE::WALK;
-	}
-
 }
 
 void Enemy::UpdateAttack()
 {
-	animator_->Play(ANIM_ID::A_ATTACK);
-
-	if (animator_->IsFinish())
-	{
-		state_ = E_STATE::STAY;
-	}
-
 }
 
 // GameMasterに呼んでもらう

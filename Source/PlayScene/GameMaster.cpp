@@ -11,7 +11,6 @@
 
 namespace GameMaster {
 	void SetPlayerPos();
-	void SetEnemyPos();
 
 	Player* player = nullptr;
 	Stage* stage = nullptr;
@@ -129,16 +128,6 @@ void GameMaster::SetPlayerPos()
 	}
 }
 
-void GameMaster::SetEnemyPos()
-{
-	if (!enemy.empty())
-	{
-		for (auto e : enemy)
-		{
-		}
-	}
-}
-
 void GameMaster::PlayerDeath()
 {
 	SceneManager::ChangeScene("RESULT");
@@ -192,7 +181,3 @@ void GameMaster::AttackPlayer(int atackPower)
 	player->Attacked(atackPower);
 }
 
-float GameMaster::GetPlayerDistanceR()
-{
-	return player->GetDistanceR();
-}

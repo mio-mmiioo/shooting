@@ -8,15 +8,15 @@
 
 namespace ENEMY
 {
-	VECTOR3 G = { 0, 9.8, 0 };
-	VECTOR3 size = { 50, 200, 50 }; // hitModelのサイズ
+	VECTOR3 G = { 0.0f, 9.8f, 0.0f };
+	VECTOR3 size = { 50.0f, 200.0f, 50.0f }; // hitModelのサイズ
 
 	const float MOVE_SPEED = 3.0f;
 	const float ROTATE_SPEED = 3.0f;
 	const float DISTANCE_R = 100.0f;
 
-	VECTOR3 headshotPos = { 0, 170, 0 };
-	float headshotR = 25;
+	VECTOR3 headshotPos = { 0.0f, 170.0f, 0.0f };
+	float headshotR = 25.0f;
 	int headshotBonus = 2;
 
 	// 攻撃関連
@@ -30,7 +30,7 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 
 	isAlive_ = true;
 	
-	goPosition_ = VECTOR3(0, 0, 0);
+	goPosition_ = VECTOR3(0.0f, 0.0f, 0.0f);
 	isArrive_ = true;
 	
 	hModel_ = MV1LoadModel("data/model/enemy01.mv1");
@@ -38,21 +38,6 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 
 	hitModel_ = MV1LoadModel("data/model/enemy01_c.mv1");
 	assert(hitModel_ > 0);
-
-	const std::string folder = "data/model/Enemy/";
-	//// キャラモデルを読む
-	//hModel_ = MV1LoadModel((folder + "BASE.mv1").c_str());
-	//assert(hModel_ > 0);
-	//// ルートノードをY軸回転する
-	//int root = MV1SearchFrame(hModel_, "root");
-	//MV1SetFrameUserLocalMatrix(hModel_, root, MGetRotY(DX_PI_F));
-
-	//animator_ = new Animator(hModel_);
-	//assert(animator_ != nullptr);
-	//animator_->AddFile(A_NEUTRAL,	folder + "Anim_Neutral.mv1" , true);
-	//animator_->AddFile(A_IDLE,		folder + "Anim_Idle.mv1"	, true);
-	//animator_->AddFile(A_WALK,		folder + "Anim_Walking.mv1" , true);
-	//animator_->AddFile(A_ATTACK,	folder + "Anim_Attack.mv1"  , false);
 
 	transform_.MakeLocalMatrix();
 
@@ -95,10 +80,7 @@ void Enemy::Update()
 		Observer::AddPoint(100);
 		DestroyMe();
 	}
-	//animator_->Play(ANIM_ID::A_WALK);
-	//animator_->Update();
-
-	// 自動移動
+	
 	//switch (state_) // ステートベースで敵AI
 	//{
 	//case E_STATE::WALK:
@@ -177,31 +159,7 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
-	if (!posList_.empty())
-	{
-		VECTOR3 lineStartPos;
-		VECTOR3 lineEndPos;
-
-		for (int i = 0; i < posList_.size(); i++)
-		{
-			if (i == posList_.size() - 1)
-			{
-				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
-			}
-			else
-			{
-				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 255, 255), GetColor(255, 0, 0), TRUE);
-			}
-		}
-
-		for (int i = 1; i < posList_.size(); i++)
-		{
-			lineStartPos = posList_[i - 1];
-			lineEndPos = posList_[i];
-
-			DrawLine3D(lineStartPos, lineEndPos, GetColor(0, 0, 0));
-		}
-	}
+	DrawPosList(); // 開発時のみ使用
 
 	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
 	VECTOR3 addPlayerHeight = { 0, 180, 0 };
@@ -218,8 +176,6 @@ void Enemy::Draw()
 			Object3D::Draw();
 		}
 	}
-
-	//DrawFormatString(500, 10, GetColor(255, 255, 255), "AttackTimer:%f", attackTimer_);
 }
 
 void Enemy::SetPosList(std::vector<VECTOR3> posList)
@@ -241,7 +197,6 @@ void Enemy::UpdateAttack()
 {
 }
 
-// GameMasterに呼んでもらう
 void Enemy::AutoMove()
 {
 	if (posList_.size() > 0)
@@ -266,6 +221,35 @@ void Enemy::AutoMove()
 		else
 		{
 			isArrive_ = true;
+		}
+	}
+}
+
+void Enemy::DrawPosList()
+{
+	if (!posList_.empty())
+	{
+		VECTOR3 lineStartPos;
+		VECTOR3 lineEndPos;
+
+		for (int i = 0; i < posList_.size(); i++)
+		{
+			if (i == posList_.size() - 1)
+			{
+				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+			}
+			else
+			{
+				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 255, 255), GetColor(255, 0, 0), TRUE);
+			}
+		}
+
+		for (int i = 1; i < posList_.size(); i++)
+		{
+			lineStartPos = posList_[i - 1];
+			lineEndPos = posList_[i];
+
+			DrawLine3D(lineStartPos, lineEndPos, GetColor(0, 0, 0));
 		}
 	}
 }

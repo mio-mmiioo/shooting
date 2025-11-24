@@ -15,8 +15,8 @@ namespace PLAYER
 	float ROTATE_SPEED = 3.0f;
 	float MOVE_SPEED = 5.0f;
 
-	const VECTOR3 CAPSULE_POS1 = { 0,  50, 0 };
-	const VECTOR3 CAPSULE_POS2 = { 0, 150, 0 };
+	const VECTOR3 CAPSULE_POS1 = { 0.0f,  50.0f, 0.0f };
+	const VECTOR3 CAPSULE_POS2 = { 0.0f, 150.0f, 0.0f };
 	const float DISTANCE_R = 50.0f;
 }
 
@@ -95,19 +95,6 @@ void Player::Update()
 	isAttack_ = false;
 
 	GetMousePoint(&mouseX_, &mouseY_);
-
-	// 自動移動 他の処理書くために、一時的にコメントアウト
-	{
-		/*if (isArrive_ == false)
-		{
-			SetMove(goPosition_, 1.0f, 2.0f);
-
-			if (VSize(goPosition_ - transform_.position_) < 50.0f)
-			{
-				isArrive_ = true;
-			}
-		}*/
-	}
 	
 	// 手動回転 開発時のみ　他の処理書くために、一時的にコメントアウト
 	{
@@ -197,9 +184,6 @@ void Player::Update()
 	MV1RefreshCollInfo(hModel_);
 
 	GameMaster::CheckSetPosition(transform_, time_, gravity_, distanceR_);
-	/*VECTOR3 cap2 = transform_.position_ + VECTOR3(0, 1, 0) * 180 * transform_.GetRotationMatrix();
-	DrawCapsule3D(transform_.position_, cap2, distanceR_, 8, GetColor(0, 255, 0), GetColor(255, 255, 255), FALSE);*/
-
 	camera_->SetPlayerPosition(transform_);						 // プレイヤーの情報をカメラにセット
 }
 
@@ -215,9 +199,6 @@ void Player::Draw()
 
 	// 残弾数の表示
 	gun_->Draw();
-
-	DrawFormatString(10, 60, GetColor(255, 255, 255), "HP:%d", HP_->GetHP());
-
 	// 銃の切り替え
 	if (isChangeGun_ == true)
 	{

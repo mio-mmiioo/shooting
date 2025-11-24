@@ -5,7 +5,6 @@ enum CAM_STATE {
 	FIRST,		// 一人称視点
 	FIRST_FREE, // 一人称で注視点を動かせるカメラ
 	THIRD,		// 三人称視点
-	FREE,		// 自由に動かせるカメラ
 	FIX			// 固定カメラ
 };
 
@@ -35,6 +34,5 @@ private:
 	void FirstCamera();		// 一人称カメラ
 	void FirstFreeCamera(); // 一人称で注視点を動かせるカメラ
 	void ThirdCamera();		// 三人称カメラ
-	void FreeCamera();		// 自由に動かせるカメラ
 	void FixCamera();		// 固定カメラ
 };

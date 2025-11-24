@@ -1,6 +1,5 @@
 #pragma once
 #include "../Actor.h"
-#include "../../../../Library/Animator.h"
 #include <vector>
 
 class Enemy : public Actor
@@ -24,15 +23,7 @@ private:
 
 	void AutoMove(); // 経路探索をもとに自動移動する
 
-	enum ANIM_ID {
-		A_NEUTRAL = 0,
-		A_IDLE,
-		A_WALK,
-		A_ATTACK,
-		A_MAX
-	};
-
-	Animator* animator_;
+	void DrawPosList(); // 開発時のみ使用
 
 	enum E_STATE {
 		STAY,

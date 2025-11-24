@@ -40,12 +40,11 @@ namespace WayInfo{
 		MAX_MAP_NUM
 	};
 
-	void InitVertexList(); // 頂点情報リストを初期化
-	bool CheckVertex(point p); // 頂点ならtrue
-	vertex FindStartVertex(); // 頂点リストの最初の頂点を求める
-	void SetShortestWay(vertex start); // 最短経路を求める
-	int GetCost(VECTOR2 startPos, VECTOR2 endPos); // 距離(cost)を求める
-	int GetCost(point startPos, point endPos);
+	void InitVertexList();							// 頂点情報リストを初期化
+	bool CheckVertex(point p);						// 頂点ならtrue
+	vertex FindStartVertex();						// 頂点リストの最初の頂点を求める
+	void SetShortestWay(vertex start);				// 最短経路を求める
+	int GetCost(point startPos, point endPos);		// 距離(cost)を求める
 	std::vector<VECTOR3> GetShortestWay(point pos);
 
 	const int MAX_DISTANCE = 5000;
@@ -397,21 +396,6 @@ void WayInfo::SetShortestWay(vertex start)
 			}
 		}
 	}
-}
-
-int WayInfo::GetCost(VECTOR2 startPos, VECTOR2 endPos)
-{
-	for (int i = 0; i < wayList_.size(); i++)
-	{
-		if (wayList_[i].startPos.x == startPos.x && wayList_[i].startPos.z == startPos.y)
-		{
-			if (wayList_[i].endPos.x == endPos.x && wayList_[i].endPos.z == endPos.y)
-			{
-				return wayList_[i].cost;
-			}
-		}
-	}
-	return MAX_DISTANCE;
 }
 
 int WayInfo::GetCost(point startPos, point endPos)

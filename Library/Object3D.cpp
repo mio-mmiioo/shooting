@@ -1,7 +1,7 @@
 #include "Object3D.h"
 
 Object3D::Object3D()
-	:hModel_(-1), parent_(nullptr)
+	:hModel_(-1),hitModel_(-1), parent_(nullptr)
 {
 }
 

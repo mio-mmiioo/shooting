@@ -23,7 +23,6 @@ void GameMaster::Init()
 {
 	WayInfo::Init();
 	Area::SetStage(); // 最初のステージをセット
-	//new Stage(6);
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
 	stage = FindGameObject<Stage>();

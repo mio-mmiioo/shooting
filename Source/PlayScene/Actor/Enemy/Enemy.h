@@ -12,6 +12,7 @@ public:
 	void Draw() override;
 
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
+	bool GetIsArrive() { return isArrive_; }
 	void SetIsSetNextPos(bool isSetNextPos) { IsSetNextPos_ = isSetNextPos; }
 	void SetPosList(std::vector<VECTOR3> posList);
 	bool GetIsSetNextPos() { return IsSetNextPos_; }

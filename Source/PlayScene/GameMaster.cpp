@@ -134,12 +134,26 @@ void GameMaster::SetEnemyPos()
 {
 	for (auto e : enemy)
 	{
-		if (e->GetIsSetNextPos() == true && WayInfo::IsVertexPosition(e->GetTransform().position_) == true)
+		if (WayInfo::IsVertexPosition(e->GetTransform().position_) == true)
 		{
-			e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetPrevVertexPosition()));
-			e->SetIsArrive(false);
-			e->SetIsSetNextPos(false);
+			if (e->GetIsSetNextPos() == true)
+			{
+				e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetPrevVertexPosition()));
+				e->SetIsArrive(false);
+				e->SetIsSetNextPos(false);
+			}
 		}
+		else
+		{
+			float d = player->GetDistanceR() + e->GetDistanceR();
+			if (e->GetIsArrive() == true && VSize(player->GetTransform().position_ - e->GetTransform().position_) > d)
+			{
+				e->SetMove(player->GetTransform().position_);
+			}
+		}
+		// posListはあるが、頂点にいない場合→場所的に問題のない頂点まで誘導する
+
+		// posListのサイズが0、isArriveがtrue、プレイヤーまでの距離が離れている → playerの位置に向かわせる
 	}
 }
 

@@ -12,8 +12,8 @@
 namespace PLAYER
 {
 	VECTOR3 G = { 0, 9.8, 0 };
-	float rotateSpeed = 3.0f;
-	float moveSpeed = 5.0f;
+	float ROTATE_SPEED = 3.0f;
+	float MOVE_SPEED = 5.0f;
 
 	const VECTOR3 CAPSULE_POS1 = { 0,  50, 0 };
 	const VECTOR3 CAPSULE_POS2 = { 0, 150, 0 };
@@ -70,6 +70,8 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 
 	gravity_ = PLAYER::G;
 	distanceR_ = PLAYER::DISTANCE_R;
+	moveSpeed_ = PLAYER::MOVE_SPEED;
+	rotateSpeed_ = PLAYER::ROTATE_SPEED;
 
 	SetDrawOrder(-1);
 }
@@ -111,26 +113,26 @@ void Player::Update()
 	{
 		if (Input::IsKeepKeyDown(KEY_INPUT_D))
 		{
-			transform_.rotation_.y += PLAYER::rotateSpeed * DegToRad;
+			transform_.rotation_.y += rotateSpeed_ * DegToRad;
 		}
 		if (Input::IsKeepKeyDown(KEY_INPUT_A))
 		{
-			transform_.rotation_.y -= PLAYER::rotateSpeed * DegToRad;
+			transform_.rotation_.y -= rotateSpeed_ * DegToRad;
 		}
 		if (Input::IsKeepKeyDown(KEY_INPUT_X))
 		{
-			transform_.rotation_.x -= PLAYER::rotateSpeed * DegToRad;
+			transform_.rotation_.x -= rotateSpeed_ * DegToRad;
 		}
 		if (Input::IsKeepKeyDown(KEY_INPUT_Z))
 		{
-			transform_.rotation_.z -= PLAYER::rotateSpeed * DegToRad;
+			transform_.rotation_.z -= rotateSpeed_ * DegToRad;
 		}
 	}
 
 	// 手動移動 開発時のみ　他の処理書くために、一時的にコメントアウト
 	{
 		VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-		velocity = VECTOR3(0, 0, 1) * PLAYER::moveSpeed * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+		velocity = VECTOR3(0, 0, 1) * moveSpeed_ * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
 
 		if (Input::IsKeepKeyDown(KEY_INPUT_W))
 		{

@@ -18,6 +18,7 @@ public:
 	VECTOR3 GetGravity() { return gravity_; }
 	void SetPosition(VECTOR3 newPosition) { transform_.position_ = newPosition; }
 	float GetDistanceR() { return distanceR_; }
+	void SetMove(VECTOR3 toPosition);
 
 protected:
 	Stage* stage_;
@@ -28,4 +29,6 @@ protected:
 
 	// “–‚½‚è”»’èŠÖ˜A
 	float distanceR_; // “–‚½‚è”»’è‚ÉŽg—p‚·‚é”¼Œa
+	float moveSpeed_;
+	float rotateSpeed_; // ‰ñ“]‘¬“x
 };

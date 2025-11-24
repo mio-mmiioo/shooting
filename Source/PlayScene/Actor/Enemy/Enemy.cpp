@@ -66,6 +66,8 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	time_ = 0.0f;
 	gravity_ = ENEMY::G;
 	distanceR_ = ENEMY::DISTANCE_R;
+	moveSpeed_ = ENEMY::MOVE_SPEED;
+	rotateSpeed_ = ENEMY::ROTATE_SPEED;
 	state_ = E_STATE::WALK;
 	
 	// 攻撃関連
@@ -247,7 +249,7 @@ void Enemy::AutoMove()
 		// 今いる場所はposList_の位置？
 		if (VSize(transform_.position_ - goPosition_) > 25.0f) // 中継地に到達していない
 		{
-			SetMove(goPosition_, ENEMY::ROTATE_SPEED, ENEMY::MOVE_SPEED);
+			SetMove(goPosition_);
 		}
 		else // 中継地に到達したので、次の中継地をセット
 		{
@@ -259,7 +261,7 @@ void Enemy::AutoMove()
 	{
 		if (VSize(transform_.position_ - goPosition_) > 25.0f)
 		{
-			SetMove(goPosition_, ENEMY::ROTATE_SPEED, ENEMY::MOVE_SPEED);
+			SetMove(goPosition_);
 		}
 		else
 		{

@@ -222,6 +222,7 @@ void Enemy::Draw()
 
 void Enemy::SetPosList(std::vector<VECTOR3> posList)
 {
+	posList_.resize(posList.size() - 1);
 	posList_ = posList;
 	goPosition_ = posList_[0];
 }

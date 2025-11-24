@@ -17,6 +17,9 @@ public:
 
 	int Attack(); // 攻撃力を入れる -1 の時は攻撃してない
 	void SetToGo(VECTOR3 goPosition) { goPosition_ = goPosition; }
+
+	void SetPrevVretexPosition(VECTOR3 position) { prevVertexPosition_ = position; }
+	VECTOR3 GetPrevVertexPosition() { return prevVertexPosition_; }
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
 	bool GetArrive() { return isArrive_; }
 	void Attacked(int atackPower);
@@ -35,6 +38,7 @@ private:
 	bool isHit_; // enemyなどのActorクラスに銃弾がぶつかるかどうか
 
 	// 移動関連
+	VECTOR3 prevVertexPosition_; // 前回の頂点の位置
 	VECTOR3 goPosition_; // プレイヤーが次に向かう場所 目的地までに通る場所
 	VECTOR3 endPosition_; // プレイヤーの目的地
 	bool isArrive_;		 // 一度到着したことを確認する

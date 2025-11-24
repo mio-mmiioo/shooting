@@ -105,12 +105,12 @@ void GameMaster::SetPlayerPos()
 		{
 			if (player->GetArrive() == false)
 			{
-				//WayInfo::SetVertexPosition(player->GetTransform().position_, WayInfo::CheckVertexNum(player->GetTransform().position_));
-
 				for (auto e : enemy)
 				{
 					e->SetIsSetNextPos(true);
 				}
+			
+				player->SetPrevVretexPosition(player->GetTransform().position_);
 				player->SetIsArrive(true);
 			}
 		}
@@ -134,14 +134,11 @@ void GameMaster::SetEnemyPos()
 {
 	for (auto e : enemy)
 	{
-		if (e->GetIsSetNextPos() == true)
+		if (e->GetIsSetNextPos() == true && WayInfo::IsVertexPosition(e->GetTransform().position_) == true)
 		{
-			if (WayInfo::IsVertexPosition(e->GetTransform().position_))
-			{
-				e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_));
-				e->SetIsArrive(false);
-				e->SetIsSetNextPos(false);
-			}
+			e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetPrevVertexPosition()));
+			e->SetIsArrive(false);
+			e->SetIsSetNextPos(false);
 		}
 	}
 }

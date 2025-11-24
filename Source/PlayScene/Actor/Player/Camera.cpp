@@ -19,6 +19,7 @@ Camera::Camera()
 	targetPosition_ = VECTOR3(0, 0, 0);
 	SetCameraPositionAndTarget_UpVecY(cameraPosition_, targetPosition_);
 
+	fixAddPosition_ = VECTOR3(0.0f, 0.0f, 0.0f);
 	state_ = CAM_STATE::FIX;
 }
 
@@ -28,7 +29,7 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	SetCameraNearFar(50.0f, 10000.0f); // ここにいらないかも
+	SetCameraNearFar(50.0f, 15000.0f); // ここにいらないかも
 	// カメラのセットを切り替える
 	{
 		if (Input::IsKeyDown(KEY_INPUT_0))
@@ -41,16 +42,11 @@ void Camera::Update()
 		}
 		else if (Input::IsKeyDown(KEY_INPUT_2))
 		{
-			state_ = CAM_STATE::FREE;
-			SetFreeCamera();
+			state_ = CAM_STATE::FIRST_FREE;
 		}
 		else if (Input::IsKeyDown(KEY_INPUT_3))
 		{
 			state_ = CAM_STATE::FIX;
-		}
-		else if (Input::IsKeyDown(KEY_INPUT_4))
-		{
-			state_ = CAM_STATE::FIRST_FREE;
 		}
 
 	}
@@ -82,11 +78,6 @@ void Camera::Update()
 void Camera::SetPlayerPosition(const Transform& transform)
 {
 	look_ = transform;
-}
-
-void Camera::SetFreeCamera()
-{
-	freeTransform_.position_ = VECTOR3(0, 0, -300);
 }
 
 void Camera::FirstCamera()
@@ -125,7 +116,7 @@ void Camera::ThirdCamera()
 		rot.x = -25 * DegToRad;
 	}
 
-	VECTOR3 playerHeadPos = VECTOR3(0, 180.0f, 0);
+	VECTOR3 playerHeadPos = VECTOR3(0, LOOK_HIEGHT, 0);
 	VECTOR3 camPos = VECTOR3(0, 0, -500.0f) * MGetRotX(rot.x) * MGetRotY(rot.y);
 
 	cameraPosition_ = look_.position_ + camPos + playerHeadPos;
@@ -196,7 +187,25 @@ void Camera::FixCamera()
 	//targetPosition_ = VECTOR3(0, 0, 0);
 
 	wheelRot += GetMouseWheelRotVol();
+	
+	if (Input::IsKeepKeyDown(KEY_INPUT_UP))
+	{
+		fixAddPosition_.z += 1.0f;
+	}
+	else if (Input::IsKeepKeyDown(KEY_INPUT_DOWN))
+	{
+		fixAddPosition_.z -= 1.0f;
+	}
+	else if (Input::IsKeepKeyDown(KEY_INPUT_RIGHT))
+	{
+		fixAddPosition_.x += 1.0f;
+	}
+	else if (Input::IsKeepKeyDown(KEY_INPUT_LEFT))
+	{
+		fixAddPosition_.x -= 1.0f;
+	}
 
-	cameraPosition_ = VECTOR3(0, 9000.0f - (float)(wheelRot * 100), -1000.0f);
-	targetPosition_ = VECTOR3(0, 0, 0);
+
+	cameraPosition_ = VECTOR3(0, 9000.0f - (float)(wheelRot * 100), -1000.0f) + fixAddPosition_;
+	targetPosition_ = VECTOR3(0, 0, 0) + fixAddPosition_;
 }

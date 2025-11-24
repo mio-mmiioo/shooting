@@ -95,8 +95,9 @@ void GameMaster::SetPlayerPos()
 {
 	if (enemy.empty()) // プレイヤーの移動条件を増やしていく予定
 	{
-		Area::SetNextPosition();
-		Area::SetStage(); // Area::SetNextPosition()の後にかく
+		new Stage(1);
+		//Area::SetNextPosition();
+		//Area::SetStage(); // Area::SetNextPosition()の後にかく
 	}
 	if (player != nullptr)
 	{
@@ -120,8 +121,6 @@ void GameMaster::SetPlayerPos()
 			player->SetIsArrive(false);
 		}
 
-		
-
 		//if (VSize(player->GetTransform().position_ - Area::GetCurrentPosition()) > 50.0f)
 		//{
 		//	player->SetToGo(Area::GetCurrentPosition());
@@ -141,19 +140,17 @@ void GameMaster::SetEnemyPos()
 				e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetPrevVertexPosition()));
 				e->SetIsArrive(false);
 				e->SetIsSetNextPos(false);
+				return;
 			}
 		}
-		else
+		// 追いかける処理
 		{
-			float d = player->GetDistanceR() + e->GetDistanceR();
-			if (e->GetIsArrive() == true && VSize(player->GetTransform().position_ - e->GetTransform().position_) > d)
-			{
-				e->SetMove(player->GetTransform().position_);
-			}
+			//float d = player->GetDistanceR() + e->GetDistanceR();
+			//if (e->GetIsArrive() == true && VSize(player->GetTransform().position_ - e->GetTransform().position_) > d)
+			//{
+			//	e->SetMove(player->GetTransform().position_);
+			//}
 		}
-		// posListはあるが、頂点にいない場合→場所的に問題のない頂点まで誘導する
-
-		// posListのサイズが0、isArriveがtrue、プレイヤーまでの距離が離れている → playerの位置に向かわせる
 	}
 }
 

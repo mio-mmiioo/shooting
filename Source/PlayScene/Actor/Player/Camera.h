@@ -28,13 +28,9 @@ private:
 	VECTOR3 cameraPosition_; // 最終的にセットされる視点の位置
 	VECTOR3 targetPosition_; // 最終的にセットされる注視点の位置
 
-	Transform firstTransform_;
-	Transform thirdTransform_;
-	Transform freeTransform_;
+	VECTOR3 fixAddPosition_; // 固定カメラを移動させるときに使用する、加算された位置
 
 	float freeDistance_; // カメラとターゲットの距離
-
-	void SetFreeCamera(); // 自由に動かせるカメラを定位置にセットする
 
 	void FirstCamera();		// 一人称カメラ
 	void FirstFreeCamera(); // 一人称で注視点を動かせるカメラ

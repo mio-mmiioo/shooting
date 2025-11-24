@@ -53,7 +53,7 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	GetMousePoint(&mouseX_, &mouseY_);
 
 	goPosition_ = VECTOR3(0, 0, 0);
-	isArrive_ = false;
+	isArrive_ = true;
 	isHit_ = false;
 
 	HP_ = new HP(hp);

@@ -72,8 +72,9 @@ void GameMaster::Update()
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
 
-	SetPlayerPos(); // 条件を満たさなきゃセットされない
 	SetEnemyPos();
+	SetPlayerPos(); // 条件を満たさなきゃセットされない
+
 	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
 		SceneManager::ChangeScene("RESULT");
 	}
@@ -104,7 +105,7 @@ void GameMaster::SetPlayerPos()
 		{
 			if (player->GetArrive() == false)
 			{
-				WayInfo::SetVertexPosition(player->GetTransform().position_, WayInfo::CheckVertexNum(player->GetTransform().position_));
+				//WayInfo::SetVertexPosition(player->GetTransform().position_, WayInfo::CheckVertexNum(player->GetTransform().position_));
 
 				for (auto e : enemy)
 				{
@@ -133,7 +134,7 @@ void GameMaster::SetEnemyPos()
 {
 	for (auto e : enemy)
 	{
-		if (e->GetIsSetNextPos() == true);
+		if (e->GetIsSetNextPos() == true)
 		{
 			if (WayInfo::IsVertexPosition(e->GetTransform().position_))
 			{

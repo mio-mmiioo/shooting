@@ -12,9 +12,9 @@ public:
 	void Draw() override;
 
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
+	void SetIsSetNextPos(bool isSetNextPos) { IsSetNextPos_ = isSetNextPos; }
 	void SetPosList(std::vector<VECTOR3> posList);
-	
-	bool isAttacked_;
+	bool GetIsSetNextPos() { return IsSetNextPos_; }
 
 private:
 	void UpdateWalk();
@@ -43,6 +43,7 @@ private:
 	std::vector<VECTOR3> posList_; // ƒvƒŒƒCƒ„[‚Ü‚Å‚Ì‹——£
 	VECTOR3 goPosition_;  // Ÿ‚ÉŒü‚©‚¤êŠ
 	bool isArrive_;
+	bool IsSetNextPos_;
 	E_STATE state_;
 	float timer_;
 

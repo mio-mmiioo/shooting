@@ -11,6 +11,7 @@
 
 namespace GameMaster {
 	void SetPlayerPos();
+	void SetEnemyPos();
 
 	Player* player = nullptr;
 	Stage* stage = nullptr;
@@ -72,7 +73,7 @@ void GameMaster::Update()
 	enemy = FindGameObjects<Enemy>();
 
 	SetPlayerPos(); // ðŒ‚ð–ž‚½‚³‚È‚«‚áƒZƒbƒg‚³‚ê‚È‚¢
-
+	SetEnemyPos();
 	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
 		SceneManager::ChangeScene("RESULT");
 	}
@@ -104,10 +105,10 @@ void GameMaster::SetPlayerPos()
 			if (player->GetArrive() == false)
 			{
 				WayInfo::SetVertexPosition(player->GetTransform().position_, WayInfo::CheckVertexNum(player->GetTransform().position_));
+
 				for (auto e : enemy)
 				{
-					e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_));
-					e->SetIsArrive(false);
+					e->SetIsSetNextPos(true);
 				}
 				player->SetIsArrive(true);
 			}
@@ -125,6 +126,22 @@ void GameMaster::SetPlayerPos()
 		//	player->SetToGo(Area::GetCurrentPosition());
 		//	player->SetIsArrive(false);
 		//}
+	}
+}
+
+void GameMaster::SetEnemyPos()
+{
+	for (auto e : enemy)
+	{
+		if (e->GetIsSetNextPos() == true);
+		{
+			if (WayInfo::IsVertexPosition(e->GetTransform().position_))
+			{
+				e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetTransform().position_));
+				e->SetIsArrive(false);
+				e->SetIsSetNextPos(false);
+			}
+		}
 	}
 }
 

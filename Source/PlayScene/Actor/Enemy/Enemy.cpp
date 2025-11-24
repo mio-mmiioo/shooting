@@ -29,8 +29,7 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	hp_ = hp;
 
 	isAlive_ = true;
-	isAttacked_ = false;
-
+	
 	goPosition_ = VECTOR3(0, 0, 0);
 	isArrive_ = true;
 	

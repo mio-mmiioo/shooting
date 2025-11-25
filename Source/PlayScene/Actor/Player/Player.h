@@ -25,6 +25,7 @@ public:
 	void Attacked(int atackPower);
 
 private:
+	void DevelopmentInput(); // 開発時のみ使用する、キー入力の処理
 	Camera* camera_;
 	Stage* stage_;
 	Gun* gun_;

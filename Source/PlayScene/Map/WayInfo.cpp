@@ -48,8 +48,8 @@ namespace WayInfo{
 	std::vector<VECTOR3> GetShortestWay(point pos);
 
 	const int MAX_DISTANCE = 5000;
-	const VECTOR3 ADD_WAY_INFO_POS = { 5000, 0, 5000 };
-	const VECTOR3 ADD_HALF_BOX_POS = { BOX_SIZE / 2, 0, BOX_SIZE / 2 };
+	const VECTOR3 ADD_WAY_INFO_POS = { 5000.0f, 0.0f, 5000.0f };
+	const VECTOR3 ADD_HALF_BOX_POS = { (float)(BOX_SIZE / 2), 0.0f, (float)(BOX_SIZE / 2) };
 	point dir_[4]; // ï˚å¸
 	std::vector<std::vector<int>> wayInfo_; // í ÇÍÇÈèÍèäÇÃèÓïÒ
 

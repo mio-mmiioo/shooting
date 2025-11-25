@@ -125,9 +125,6 @@ void Camera::ThirdCamera()
 
 void Camera::FixCamera()
 {
-	//cameraPosition_ = VECTOR3(0, 0, -1000);
-	//targetPosition_ = VECTOR3(0, 0, 0);
-
 	wheelRot += GetMouseWheelRotVol();
 	
 	if (Input::IsKeepKeyDown(KEY_INPUT_UP))

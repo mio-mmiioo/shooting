@@ -13,7 +13,7 @@ namespace ENEMY
 
 	const float MOVE_SPEED = 3.0f;
 	const float ROTATE_SPEED = 3.0f;
-	const float DISTANCE_R = 100.0f;
+	const float DISTANCE_R = 50.0f;
 
 	VECTOR3 headshotPos = { 0.0f, 170.0f, 0.0f };
 	float headshotR = 25.0f;
@@ -202,7 +202,7 @@ void Enemy::AutoMove()
 	if (posList_.size() > 0)
 	{
 		// 今いる場所はposList_の位置？
-		if (VSize(transform_.position_ - goPosition_) > 25.0f) // 中継地に到達していない
+		if (VSize(transform_.position_ - goPosition_) > distanceR_) // 中継地に到達していない
 		{
 			SetMove(goPosition_);
 		}
@@ -214,7 +214,7 @@ void Enemy::AutoMove()
 	}
 	else
 	{
-		if (VSize(transform_.position_ - goPosition_) > 25.0f)
+		if (VSize(transform_.position_ - goPosition_) > GameMaster::GetDistanceToPlayer(distanceR_))
 		{
 			SetMove(goPosition_);
 		}

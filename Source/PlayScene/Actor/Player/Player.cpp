@@ -96,40 +96,8 @@ void Player::Update()
 
 	GetMousePoint(&mouseX_, &mouseY_);
 	
-	// 手動回転 開発時のみ　他の処理書くために、一時的にコメントアウト
-	{
-		if (Input::IsKeepKeyDown(KEY_INPUT_D))
-		{
-			transform_.rotation_.y += rotateSpeed_ * DegToRad;
-		}
-		if (Input::IsKeepKeyDown(KEY_INPUT_A))
-		{
-			transform_.rotation_.y -= rotateSpeed_ * DegToRad;
-		}
-		if (Input::IsKeepKeyDown(KEY_INPUT_X))
-		{
-			transform_.rotation_.x -= rotateSpeed_ * DegToRad;
-		}
-		if (Input::IsKeepKeyDown(KEY_INPUT_Z))
-		{
-			transform_.rotation_.z -= rotateSpeed_ * DegToRad;
-		}
-	}
-
-	// 手動移動 開発時のみ　他の処理書くために、一時的にコメントアウト
-	{
-		VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-		velocity = VECTOR3(0, 0, 1) * moveSpeed_ * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
-
-		if (Input::IsKeepKeyDown(KEY_INPUT_W))
-		{
-			transform_.position_ += velocity;
-		}
-		else if (Input::IsKeepKeyDown(KEY_INPUT_S))
-		{
-			transform_.position_ -= velocity;
-		}
-	}
+	// 手動移動など
+	DevelopmentInput(); // 開発時のみ使用する入力処理
 
 	// 銃弾の入力処理
 	{
@@ -169,7 +137,7 @@ void Player::Update()
 		VECTOR ScreenPos = { (float)mouseX_, (float)mouseY_, 1.0f };
 		wPointerPos_ = ConvScreenPosToWorldPos(ScreenPos);
 		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
-		if (GameMaster::IsBulletHitEnemy(startPos_, wPointerPos_) == true)
+		if (GameMaster::IsBulletHit(startPos_, wPointerPos_) == true)
 		{
 			isHit_ = true;
 		}
@@ -235,6 +203,44 @@ int Player::Attack()
 void Player::Attacked(int atackPower)
 {
 	HP_->AddHP(atackPower);
+}
+
+void Player::DevelopmentInput()
+{
+	// 手動回転 開発時のみ　他の処理書くために、一時的にコメントアウト
+	{
+		if (Input::IsKeepKeyDown(KEY_INPUT_D))
+		{
+			transform_.rotation_.y += rotateSpeed_ * DegToRad;
+		}
+		if (Input::IsKeepKeyDown(KEY_INPUT_A))
+		{
+			transform_.rotation_.y -= rotateSpeed_ * DegToRad;
+		}
+		if (Input::IsKeepKeyDown(KEY_INPUT_X))
+		{
+			transform_.rotation_.x -= rotateSpeed_ * DegToRad;
+		}
+		if (Input::IsKeepKeyDown(KEY_INPUT_Z))
+		{
+			transform_.rotation_.z -= rotateSpeed_ * DegToRad;
+		}
+	}
+
+	// 手動移動 開発時のみ　他の処理書くために、一時的にコメントアウト
+	{
+		VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
+		velocity = VECTOR3(0, 0, 1) * moveSpeed_ * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+
+		if (Input::IsKeepKeyDown(KEY_INPUT_W))
+		{
+			transform_.position_ += velocity;
+		}
+		else if (Input::IsKeepKeyDown(KEY_INPUT_S))
+		{
+			transform_.position_ -= velocity;
+		}
+	}
 }
 
 void Player::ChangeGun(int currentMouseX, int currentMouseY)

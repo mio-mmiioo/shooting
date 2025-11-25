@@ -13,16 +13,24 @@ namespace GameMaster {
 	void SetPlayerPos();
 	void SetEnemyPos();
 
+	// 銃弾の当たり判定関連
+	bool IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos); // 銃弾が敵に当たるか あたるならtrue 今プレイヤーで呼び出してるのは消す
+	bool IsBulletHitObject(VECTOR3& pos1, const VECTOR3& pos2);
+
 	Player* player = nullptr;
 	Stage* stage = nullptr;
 	std::list<Enemy*> enemy;
 	std::list<Enemy*> hitEnemy;
+
+	VECTOR3 stageHit;
+	VECTOR3 enemyHit;
 }
 
 void GameMaster::Init()
 {
 	WayInfo::Init();
-	Area::SetStage(); // 最初のステージをセット
+	//Area::SetStage(); // 最初のステージをセット
+	new Stage(2); // 建物邪魔な場合のステージ
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
 	stage = FindGameObject<Stage>();
@@ -38,8 +46,8 @@ void GameMaster::Update()
 {
 	// 敵に銃弾を当てる処理
 	{
-		VECTOR3 ret = { 10000, 10000, 10000 };
-		float distance = ((VECTOR3)(player->GetTransform().position_ - ret)).Size();
+		//VECTOR3 ret = { 10000, 10000, 10000 };
+		float distance = ((VECTOR3)(player->GetTransform().position_ - stageHit)).Size();
 		Enemy* attackedEnemy = nullptr;
 		for (Enemy* enemy : hitEnemy)
 		{
@@ -81,7 +89,7 @@ void GameMaster::Update()
 
 void GameMaster::Draw()
 {
-	WayInfo::WayDraw();
+	//WayInfo::WayDraw();
 	//WayInfo::DrawVertex();
 }
 
@@ -158,12 +166,33 @@ void GameMaster::PlayerDeath()
 	SceneManager::ChangeScene("RESULT");
 }
 
+bool GameMaster::IsBulletHit(VECTOR3 startPos, VECTOR3 endPos)
+{
+	bool ret = false;
+	if (IsBulletHitEnemy(startPos, endPos) == true)
+	{
+		ret = true;
+	}
+	
+	IsBulletHitObject(startPos, endPos);
+
+	float enemyDistance = VSize(player->GetTransform().position_ - enemyHit);
+	float stageDistance = VSize(player->GetTransform().position_ - stageHit);
+
+	// ( 敵とプレイヤーの距離 ) > ( ステージオブジェクトとプレイヤーの距離 )
+	if (enemyDistance > stageDistance)
+	{
+		ret = false;
+	}
+
+	return ret;
+}
+
 bool GameMaster::IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos)
 {
-	VECTOR3 hit;
 	for (Enemy* enemy : enemy) // 銃弾が当たる場所にいる敵のリストを作成する
 	{
-		if (enemy->Object3D::CollideLine(startPos, endPos, &hit))
+		if (enemy->Object3D::CollideLine(startPos, endPos, &enemyHit))
 		{
 			hitEnemy.push_back(enemy);
 		}
@@ -173,6 +202,17 @@ bool GameMaster::IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos)
 	{
 		return true;
 	}
+	return false;
+}
+
+bool GameMaster::IsBulletHitObject(VECTOR3& pos1, const VECTOR3& pos2)
+{
+	if (stage->CollideLine(pos1, pos2, &stageHit) == true)
+	{
+		return true;
+	}
+	stageHit = VECTOR3(10000.0f, 10000.0f, 10000.0f); // ヒットするものが見つからなかった場合
+
 	return false;
 }
 
@@ -204,5 +244,11 @@ bool GameMaster::IsCanAttackPlayer(Enemy* enemy)
 void GameMaster::AttackPlayer(int atackPower)
 {
 	player->Attacked(atackPower);
+}
+
+float GameMaster::GetDistanceToPlayer(float distance)
+{
+	float ret = player->GetDistanceR() + distance;
+	return ret;
 }
 

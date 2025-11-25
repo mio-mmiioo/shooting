@@ -4,6 +4,7 @@
 #include "../Actor/Player/Player.h"
 #include "../Actor/Enemy/Enemy.h"
 #include "StageObject.h"
+#include "DestructibleObject.h"
 #include "../Actor/Actor.h"
 
 Stage::Stage(int number)
@@ -22,7 +23,7 @@ Stage::~Stage()
 	}
 }
 
-bool Stage::CollideLine(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit) const
+bool Stage::CollideLineStageObject(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit) const
 {
 	bool found = false;
 	VECTOR3 now;
@@ -32,6 +33,34 @@ bool Stage::CollideLine(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit) 
 	{
 		VECTOR3 ret;
 		if (ob->Object3D::CollideLine(pos1, pos2, &ret)) 
+		{
+			found = true;
+			VECTOR3 v = pos1 - ret;
+			float len = v.Size();
+			if (len < nowVal)
+			{
+				nowVal = len;
+				now = ret;
+			}
+		}
+	}
+	if (hit != nullptr)
+	{
+		*hit = now;
+	}
+	return found;
+}
+
+bool Stage::CollideLineDestructibleObject(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit) const
+{
+	bool found = false;
+	VECTOR3 now;
+	float nowVal = ((VECTOR3)(pos2 - pos1)).Size();
+	std::list<DestructibleObject*> objs = FindGameObjects<DestructibleObject>();
+	for (DestructibleObject* ob : objs)
+	{
+		VECTOR3 ret;
+		if (ob->Object3D::CollideLine(pos1, pos2, &ret))
 		{
 			found = true;
 			VECTOR3 v = pos1 - ret;
@@ -113,6 +142,15 @@ void Stage::ReadMappingData(std::string filename)
 			char file[16];
 			sprintf_s<16>(file, "Stage_Obj%03d", csv->GetInt(line, 1));
 			StageObject* obj = new StageObject(file, pos, rot, sca);
+		}
+		else if (com == "OBJ-D") {
+			VECTOR pos = VECTOR3(csv->GetFloat(line, 2), csv->GetFloat(line, 3), csv->GetFloat(line, 4));
+			VECTOR rot = VECTOR3(csv->GetFloat(line, 5), csv->GetFloat(line, 6), csv->GetFloat(line, 7));
+			VECTOR sca = VECTOR3(csv->GetFloat(line, 8), csv->GetFloat(line, 9), csv->GetFloat(line, 10));
+			int hp = csv->GetInt(line, 11);
+			char file[16];
+			sprintf_s<16>(file, "Stage_Obj%03d", csv->GetInt(line, 1));
+			DestructibleObject* obj = new DestructibleObject(file, pos, rot, sca, hp);
 		}
 	}
 	delete csv;

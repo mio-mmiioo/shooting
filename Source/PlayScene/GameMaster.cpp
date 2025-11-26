@@ -37,7 +37,7 @@ void GameMaster::Init()
 {
 	WayInfo::Init();
 	//Area::SetStage(); // 最初のステージをセット
-	new Stage(2); // 建物邪魔な場合のステージ
+	new Stage(5); // 建物邪魔な場合のステージ
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
 	stage = FindGameObject<Stage>();
@@ -130,7 +130,7 @@ void GameMaster::Update()
 
 void GameMaster::Draw()
 {
-	//WayInfo::WayDraw();
+	WayInfo::WayDraw();
 	//WayInfo::DrawVertex();
 }
 

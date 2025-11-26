@@ -40,24 +40,26 @@ namespace WayInfo{
 		MAX_MAP_NUM
 	};
 
+	void InitWayData();								// 道情報をcsvファイルから読み込む
 	void InitVertexList();							// 頂点情報リストを初期化
+	void SetNext(point check, int vertexNum, int direction); // 次に行ける頂点情報をセットする
 	bool CheckVertex(point p);						// 頂点ならtrue
 	vertex FindStartVertex();						// 頂点リストの最初の頂点を求める
 	void SetShortestWay(vertex start);				// 最短経路を求める
 	int GetCost(point startPos, point endPos);		// 距離(cost)を求める
-	std::vector<VECTOR3> GetShortestWay(point pos);
+	std::vector<VECTOR3> GetShortestWay(point pos); // startPosからの最短経路をかえす
 
 	const int MAX_DISTANCE = 5000;
 	const VECTOR3 ADD_WAY_INFO_POS = { 5000.0f, 0.0f, 5000.0f };
 	const VECTOR3 ADD_HALF_BOX_POS = { (float)(BOX_SIZE / 2), 0.0f, (float)(BOX_SIZE / 2) };
 	point dir_[4]; // 方向
-	std::vector<std::vector<int>> wayInfo_; // 通れる場所の情報
+	std::vector<std::vector<int>> wayInfo_;	// 通れる場所の情報
 
-	point startPos_; // 経路探索を開始したい位置
-	point goalPos_; // 目的地
-	std::vector<vertex> vertexList_; // 頂点情報のリスト
-	std::vector<vertex> checkVertexList_; // 確認する頂点リスト 最短経路を求めるときに使用
-	std::vector<way> wayList_; // 道情報のリスト
+	point startPos_;						// 経路探索を開始したい位置
+	point goalPos_;							// 目的地
+	std::vector<vertex> vertexList_;		// 頂点情報のリスト
+	std::vector<vertex> checkVertexList_;	// 確認する頂点リスト 最短経路を求めるときに使用
+	std::vector<way> wayList_;				// 道情報のリスト
 }
 
 void WayInfo::Init()
@@ -67,24 +69,10 @@ void WayInfo::Init()
 	dir_[LEFT] = { -1,  0 };
 	dir_[UP] = { 0, -1 };
 
-	char filename[64];
-	sprintf_s<64>(filename, "data/stage/wayInfo/wayInfo%02d.csv", 0);
-	wayInfo_.clear();
-
-	// ステージデータの読み込み
-	CsvReader* csv = new CsvReader(filename);
-	for (int line = 0; line < csv->GetLines(); line++) {
-		std::vector<int> mapLine;
-		for (int column = 0; column < csv->GetColumns(line); column++) {
-			int c = csv->GetInt(line, column);
-			mapLine.push_back(c);
-		}
-		wayInfo_.push_back(mapLine);
-	}
-	delete csv;
-
 	startPos_ = { -1,-1 };
-	InitVertexList();
+
+	InitWayData();		// csvファイルからデータを読み込んだデータをwayInfo_にセットする
+	InitVertexList();	// 頂点情報と道情報をセットする
 }
 
 void WayInfo::WayDraw()
@@ -99,15 +87,15 @@ void WayInfo::WayDraw()
 			VECTOR3 downLeft = VECTOR3(y * (float)BOX_SIZE, 5.0f, x * (float)BOX_SIZE + (float)BOX_SIZE) - ADD_WAY_INFO_POS;
 			VECTOR3 downRight = VECTOR3(y * (float)BOX_SIZE + (float)BOX_SIZE, 5.0f, x * (float)BOX_SIZE + (float)BOX_SIZE) - ADD_WAY_INFO_POS;
 
-			if (wayInfo_[x][y] == 0)
+			if (wayInfo_[x][y] == MAP_NUM::EMPTY)
 			{
 				color = GetColor(100, 255, 100);
 			}
-			else if (wayInfo_[x][y] == 1)
+			else if (wayInfo_[x][y] == MAP_NUM::WALL)
 			{
 				color = GetColor(0, 0, 0);
 			}
-			else if (wayInfo_[x][y] == 2)
+			else if (wayInfo_[x][y] == MAP_NUM::BRANCH)
 			{
 				color = GetColor(0, 0, 255);
 			}
@@ -197,7 +185,7 @@ std::vector<VECTOR3> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 	vertex start = FindStartVertex(); // 最初の位置を distance = 0 にする
 	SetShortestWay(start);
 
-	// whileでcheckVertexListが存在する間回す
+	// whileでcheckVertexListが存在する間
 	while (!checkVertexList_.empty())
 	{
 		SetShortestWay(checkVertexList_.front());
@@ -209,6 +197,26 @@ std::vector<VECTOR3> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 	std::vector<VECTOR3> ret = GetShortestWay(goalPos_);
 
 	return ret;
+}
+
+void WayInfo::InitWayData()
+{
+	char filename[64];
+	sprintf_s<64>(filename, "data/stage/wayInfo/wayInfo%02d.csv", 0);
+	wayInfo_.clear();
+
+	// ステージデータの読み込み
+	CsvReader* csv = new CsvReader(filename);
+	for (int line = 0; line < csv->GetLines(); line++) {
+		std::vector<int> mapLine;
+		for (int column = 0; column < csv->GetColumns(line); column++) {
+			int c = csv->GetInt(line, column);
+			mapLine.push_back(c);
+		}
+		wayInfo_.push_back(mapLine);
+	}
+	delete csv;
+
 }
 
 void WayInfo::InitVertexList()
@@ -233,28 +241,7 @@ void WayInfo::InitVertexList()
 		for (int direction = 0; direction < DIR::MAX_DIR; direction++)
 		{
 			point check = { vertexList_[i].position.x + dir_[direction].x, vertexList_[i].position.z + dir_[direction].z };
-
-			int distance = 1;
-			// 距離(cost)を求める
-			if (wayInfo_[check.z][check.x] != MAP_NUM::WALL && wayInfo_[check.z][check.x] != MAP_NUM::OBJECT_SPACE)
-			{
-				while (wayInfo_[check.z][check.x] != MAP_NUM::BRANCH)
-				{
-					check.x = check.x + dir_[direction].x;
-					check.z = check.z + dir_[direction].z;
-					distance += 1;
-				}
-
-				for (int j = 0; j < vertexList_.size(); j++)
-				{
-					if (vertexList_[j].position.x == check.x && vertexList_[j].position.z == check.z)
-					{
-						vertexList_[i].next.push_back(vertexList_[j]);
-						wayList_.push_back(way{ vertexList_[i].position, vertexList_[j].position, distance });
-						break;
-					}
-				}
-			}
+			SetNext(check, i, direction);
 		}
 	}
 }
@@ -329,6 +316,32 @@ vertex WayInfo::FindStartVertex()
 		}
 	}
 	return vertex();
+}
+
+void WayInfo::SetNext(point check, int vertexNum, int direction)
+{
+	int distance = 1;
+	if (wayInfo_[check.z][check.x] != MAP_NUM::WALL && wayInfo_[check.z][check.x] != MAP_NUM::OBJECT_SPACE)
+	{
+		// 距離(cost)を求める
+		while (wayInfo_[check.z][check.x] != MAP_NUM::BRANCH)
+		{
+			check.x = check.x + dir_[direction].x;
+			check.z = check.z + dir_[direction].z;
+			distance += 1;
+		}
+
+		// 現在の頂点から行ける頂点をセットし、道情報もセット
+		for (int j = 0; j < vertexList_.size(); j++)
+		{
+			if (vertexList_[j].position.x == check.x && vertexList_[j].position.z == check.z)
+			{
+				vertexList_[vertexNum].next.push_back(vertexList_[j]);
+				wayList_.push_back(way{ vertexList_[vertexNum].position, vertexList_[j].position, distance });
+				break;
+			}
+		}
+	}
 }
 
 void WayInfo::SetShortestWay(vertex start)

@@ -1,6 +1,8 @@
 #pragma once
 #include "../../../../Library/Object3D.h"
 
+static VECTOR3 LOOK_HIEGHT = { 0.0f, 180.0f, 0.0f }; // 視点の高さ
+
 enum CAM_STATE {
 	FIRST,		// 一人称視点
 	FIRST_FREE, // 一人称で注視点を動かせるカメラ

@@ -109,7 +109,6 @@ bool Gun::OutBullet()
 	current.remainingSetting -= 1;
 	current.coolDownTimer = current.coolDownTime;
 	PlaySoundMem(Sound::se["OutBullet1"], DX_PLAYTYPE_BACK, TRUE);
-	StartJoypadVibration(DX_INPUT_PAD1, 300, 120);
 	OutBulletEffect();
 	return true;
 }

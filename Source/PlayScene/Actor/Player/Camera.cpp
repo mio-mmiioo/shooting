@@ -2,7 +2,6 @@
 #include "../../../../Library/Input.h"
 
 namespace {
-	static VECTOR3 LOOK_HIEGHT = { 0.0f, 180.0f, 0.0f }; // 視点の高さ
 	const float CAMERA_MOVE_SPEED = 5.0f;
 	const float CAMERA_ROTATE_SPEED = 0.01f; // カメラの回転速度
 	const float CAMERA_NEAR = 50.0f; // カメラに映る手前の距離

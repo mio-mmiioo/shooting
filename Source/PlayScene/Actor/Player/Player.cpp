@@ -136,7 +136,7 @@ void Player::Update()
 	{
 		VECTOR ScreenPos = { (float)mouseX_, (float)mouseY_, 1.0f };
 		wPointerPos_ = ConvScreenPosToWorldPos(ScreenPos);
-		startPos_ = transform_.position_ + VECTOR3(0, 180, 0);
+		startPos_ = transform_.position_ + LOOK_HIEGHT;
 		if (GameMaster::IsBulletHit(startPos_, wPointerPos_) == true)
 		{
 			isHit_ = true;
@@ -160,7 +160,7 @@ void Player::Draw()
 	Object3D::Draw();
 
 	// Œü‚¢‚Ä‚é•ûŒü‚ğ¦‚·@‚±‚êƒJƒƒ‰•ÏX‚µ‚È‚­‚È‚Á‚½‚çÁ‚·‚±‚Æ
-	VECTOR3 addPlayerHeight = VECTOR3(0, 180, 0) * transform_.GetRotationMatrix();
+	VECTOR3 addPlayerHeight = LOOK_HIEGHT * transform_.GetRotationMatrix();
 	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * transform_.GetRotationMatrix(), GetColor(255, 255, 255));
 
 	// 2D‚Ì•`‰æ

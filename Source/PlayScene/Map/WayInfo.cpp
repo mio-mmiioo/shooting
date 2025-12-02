@@ -50,7 +50,7 @@ namespace WayInfo{
 	std::vector<VECTOR3> GetShortestWay(point pos); // startPosからの最短経路をかえす
 	bool IsSameVertex(point point1, point point2);	// point1とpoint2が同じ頂点か調べる 同じ→true
 
-	const int MAX_DISTANCE = 5000;
+	const int MAX_DISTANCE = 5000; // 各頂点のコストの初期化に使用
 	const VECTOR3 ADD_WAY_INFO_POS = { 5000.0f, 0.0f, 5000.0f };
 	const VECTOR3 ADD_HALF_BOX_POS = { (float)(BOX_SIZE / 2), 0.0f, (float)(BOX_SIZE / 2) };
 	point dir_[4]; // 方向

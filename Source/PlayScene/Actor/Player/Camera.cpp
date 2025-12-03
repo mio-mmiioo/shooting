@@ -14,7 +14,7 @@ namespace {
 	const float MAX_ROTATE_X = 80.0f;
 	const float MIN_ROTATE_X = -25.0f;
 	const VECTOR3 THIRD_BASE_POSITION = { 0.0f, 0.0f, -500.0f };
-	const VECTOR3 ADD_HEIGHT = LOOK_HIEGHT + VECTOR3(0.0f, 20.0f, 0.0f); // プレイヤーの頭より少し上を見る
+	const VECTOR3 ADD_HEIGHT = LOOK_HEIGHT + VECTOR3(0.0f, 20.0f, 0.0f); // プレイヤーの頭より少し上を見る
 
 	// 固定視点関連
 	const VECTOR3 FIX_BASE_POSITION = { 0, 9000.0f, -1000.0f };
@@ -84,8 +84,8 @@ void Camera::SetPlayerPosition(const Transform& transform)
 void Camera::FirstCamera()
 {
 	// 自動で動かす予定
-	cameraPosition_ = look_.position_ + LOOK_HIEGHT; // 目線の高さに合わせてる
-	targetPosition_ = look_.position_ + LOOK_HIEGHT + VECTOR3(0, 0, 1) * FIRST_DISTANCE * MGetRotY(look_.rotation_.y);
+	cameraPosition_ = look_.position_ + LOOK_HEIGHT; // 目線の高さに合わせてる
+	targetPosition_ = look_.position_ + LOOK_HEIGHT + VECTOR3(0, 0, 1) * FIRST_DISTANCE * MGetRotY(look_.rotation_.y);
 }
 
 void Camera::ThirdCamera()
@@ -112,7 +112,7 @@ void Camera::ThirdCamera()
 
 	VECTOR3 camPos = THIRD_BASE_POSITION * MGetRotX(rot.x) * MGetRotY(rot.y);
 
-	cameraPosition_ = look_.position_ + camPos + LOOK_HIEGHT;
+	cameraPosition_ = look_.position_ + camPos + LOOK_HEIGHT;
 	targetPosition_ = look_.position_ + ADD_HEIGHT;
 
 	prevX = mouseX;

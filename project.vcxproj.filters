@@ -206,6 +206,7 @@
     <ClInclude Include="Source\PlayScene\Map\WayInfo.h">
       <Filter>PlayScene\Map</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Color.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">

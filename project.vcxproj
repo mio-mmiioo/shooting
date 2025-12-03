@@ -150,6 +150,7 @@
     <ClInclude Include="Library\Shadow.h" />
     <ClInclude Include="Library\Time.h" />
     <ClInclude Include="Source\BootScene.h" />
+    <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\PlayScene\Actor\Actor.h" />
     <ClInclude Include="Source\PlayScene\Actor\Enemy\Enemy.h" />
     <ClInclude Include="Source\PlayScene\Actor\Gun\Effect.h" />

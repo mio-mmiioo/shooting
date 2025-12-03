@@ -41,4 +41,5 @@ private:
 
 	// UŒ‚ŠÖ˜A
 	float attackTimer_; // UŒ‚‚ÌŠÔŠu
+	int attackPower_; // UŒ‚—Í
 };

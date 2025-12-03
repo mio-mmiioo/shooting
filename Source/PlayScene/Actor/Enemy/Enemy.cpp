@@ -5,6 +5,7 @@
 #include "../../../ResultScene/Observer.h"
 #include "../../GameMaster.h"
 #include "../../../Sound.h"
+#include "../../../Color.h"
 
 namespace ENEMY
 {
@@ -21,6 +22,13 @@ namespace ENEMY
 
 	// 攻撃関連
 	const float ATTACK_TIME = 6.0f;
+	const int ATTACK_POWER = 2;
+	const int ADD_POINT = 100;
+
+	// 開発時のみ使用
+	const float DIRECTION_LENGTH = 100.0f;
+	const float POS_LIST_R = 50.0f;
+	const int POS_LIST_DIV_NUM = 50;
 }
 
 Enemy::Enemy(const VECTOR3& position, float ang, int hp)
@@ -57,6 +65,9 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	
 	// 攻撃関連
 	attackTimer_ = ENEMY::ATTACK_TIME;
+	attackPower_ = ENEMY::ATTACK_POWER;
+
+	point_ = ENEMY::ADD_POINT;
 }
 
 Enemy::~Enemy()
@@ -77,7 +88,7 @@ void Enemy::Update()
 	{
 		PlaySoundMem(Sound::se["BreakEnemy"], DX_PLAYTYPE_BACK, TRUE);
 		Observer::EnemyKilled();
-		Observer::AddPoint(100);
+		Observer::AddPoint(point_);
 		DestroyMe();
 	}
 	
@@ -140,7 +151,7 @@ void Enemy::Update()
 		if (attackTimer_ <= 0)
 		{
 			state_ = E_STATE::ATTACK;
-			GameMaster::AttackPlayer(-2);
+			GameMaster::AttackPlayer(-attackPower_);
 			attackTimer_ += ENEMY::ATTACK_TIME;
 		}
 	}
@@ -162,8 +173,8 @@ void Enemy::Draw()
 	DrawPosList(); // 開発時のみ使用
 
 	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
-	VECTOR3 addPlayerHeight = { 0, 180, 0 };
-	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * MGetRotY(transform_.rotation_.y), GetColor(255, 255, 255));
+	DrawLine3D(transform_.position_ + LOOK_HEIGHT, 
+		transform_.position_ + LOOK_HEIGHT + VECTOR3(0, 0, 1) * ENEMY::DIRECTION_LENGTH * MGetRotY(transform_.rotation_.y), Color::WHITE);
 
 	VECTOR3 checkPos1 = VECTOR3(-ENEMY::size.x / 2, 0, -ENEMY::size.z / 2) + transform_.position_;
 	VECTOR3 checkPos2 = VECTOR3(ENEMY::size.x / 2, ENEMY::size.y, ENEMY::size.z / 2) + transform_.position_;
@@ -236,11 +247,11 @@ void Enemy::DrawPosList()
 		{
 			if (i == posList_.size() - 1)
 			{
-				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 0, 0), GetColor(255, 0, 0), TRUE);
+				DrawSphere3D(posList_[i], ENEMY::POS_LIST_R, ENEMY::POS_LIST_DIV_NUM, Color::RED, Color::RED, TRUE);
 			}
 			else
 			{
-				DrawSphere3D(posList_[i], 50, 50, GetColor(255, 255, 255), GetColor(255, 0, 0), TRUE);
+				DrawSphere3D(posList_[i], ENEMY::POS_LIST_R, ENEMY::POS_LIST_DIV_NUM, Color::WHITE, Color::WHITE, TRUE);
 			}
 		}
 
@@ -249,7 +260,7 @@ void Enemy::DrawPosList()
 			lineStartPos = posList_[i - 1];
 			lineEndPos = posList_[i];
 
-			DrawLine3D(lineStartPos, lineEndPos, GetColor(0, 0, 0));
+			DrawLine3D(lineStartPos, lineEndPos, Color::BLACK);
 		}
 	}
 }

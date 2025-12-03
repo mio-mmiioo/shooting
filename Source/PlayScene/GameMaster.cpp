@@ -20,6 +20,10 @@ namespace GameMaster {
 	bool IsBulletHitStageObject(VECTOR3& pos1, const VECTOR3& pos2);
 	bool IsBulletHitDestructibleObject(VECTOR3& pos1, const VECTOR3& pos2);
 
+	// 定数
+	const float CHECK_FRONT_LENGTH = 100.0f;
+	const float CHECK_BACK_LENGTH = 100.0f;
+
 	Player* player = nullptr;
 	Stage* stage = nullptr;
 	std::list<Enemy*> enemy;
@@ -37,7 +41,7 @@ void GameMaster::Init()
 {
 	WayInfo::Init();
 	//Area::SetStage(); // 最初のステージをセット
-	new Stage(5); // 建物邪魔な場合のステージ
+	new Stage(2); // 建物邪魔な場合のステージ
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
 	stage = FindGameObject<Stage>();
@@ -51,7 +55,7 @@ void GameMaster::Init()
 
 void GameMaster::Update()
 {
-	// 敵に銃弾を当てる処理
+	// 銃弾を当てる処理
 	{
 		if (hitEnemy.size() > 0)
 		{
@@ -168,12 +172,6 @@ void GameMaster::SetPlayerPos()
 		{
 			player->SetIsArrive(false);
 		}
-
-		//if (VSize(player->GetTransform().position_ - Area::GetCurrentPosition()) > 50.0f)
-		//{
-		//	player->SetToGo(Area::GetCurrentPosition());
-		//	player->SetIsArrive(false);
-		//}
 	}
 }
 
@@ -270,7 +268,7 @@ bool GameMaster::IsBulletHitStageObject(VECTOR3& pos1, const VECTOR3& pos2)
 	{
 		return true;
 	}
-	stageHit = VECTOR3(10000.0f, 10000.0f, 10000.0f); // ヒットするものが見つからなかった場合
+	stageHit = VECTOR3(10000.0f, 10000.0f, 10000.0f); // ヒットするものが見つからなかった場合 大きい値を代入する
 
 	return false;
 }
@@ -296,8 +294,8 @@ bool GameMaster::IsBulletHitDestructibleObject(VECTOR3& pos1, const VECTOR3& pos
 void GameMaster::CheckSetPosition(Transform& transform, float time, VECTOR3 gravity, float distanceR)
 {
 	stage->SetOnGround(transform.position_, time, gravity); // ステージの位置を確認し、空中に浮いていないか確認する 浮いていたら重力をかける
-	VECTOR3 front = transform.position_ + VECTOR3(0, 0, 1) *  100 * MGetRotY(transform.rotation_.y);
-	VECTOR3 back  = transform.position_ + VECTOR3(0, 0, 1) * -100 * MGetRotY(transform.rotation_.y);
+	VECTOR3 front = transform.position_ + VECTOR3(0, 0, 1) * CHECK_FRONT_LENGTH * MGetRotY(transform.rotation_.y);
+	VECTOR3 back  = transform.position_ + VECTOR3(0, 0, 1) * -CHECK_BACK_LENGTH * MGetRotY(transform.rotation_.y);
 	stage->CheckPush(transform.position_, front, distanceR); // ステージへのめり込みを確認する(前方)
 	stage->CheckPush(transform.position_, back, distanceR);  // ステージへのめり込みを確認する(後方)
 
@@ -307,8 +305,8 @@ void GameMaster::CheckSetPosition(Transform& transform, float time, VECTOR3 grav
 bool GameMaster::IsCanAttackPlayer(Enemy* enemy)
 {
 	float min = (*enemy).GetDistanceR() + player->GetDistanceR(); // ぶつかる距離
-	VECTOR3 aCap2 = (*enemy).GetTransform().position_ + VECTOR3(0, 1, 0) * 180 * (*enemy).GetTransform().GetRotationMatrix();
-	VECTOR3 pCap2 = player->GetTransform().position_ + VECTOR3(0, 1, 0) * 180 * player->GetTransform().GetRotationMatrix();
+	VECTOR3 aCap2 = (*enemy).GetTransform().position_ + LOOK_HEIGHT * (*enemy).GetTransform().GetRotationMatrix();
+	VECTOR3 pCap2 = player->GetTransform().position_ + LOOK_HEIGHT * player->GetTransform().GetRotationMatrix();
 	float checkDistance = Segment_Segment_MinLength(player->GetTransform().position_, pCap2, (*enemy).GetTransform().position_, aCap2); // 二つの線分の最近点間の距離を得る
 	if (checkDistance < min) // ぶつかっている
 	{

@@ -2,6 +2,7 @@
 #include "../../Library/Input.h"
 #include "Result.h"
 #include "Observer.h"
+#include "../Color.h"
 
 ResultScene::ResultScene()
 {
@@ -25,6 +26,6 @@ void ResultScene::Update()
 void ResultScene::Draw()
 {
 	Result::Draw();
-	DrawString(0, 0, "RESULT SCENE", GetColor(255, 255, 255));
-	DrawString(100, 400, "Push [T]Key To Title", GetColor(255, 255, 255));
+	DrawString(0, 0, "RESULT SCENE", Color::WHITE);
+	DrawString(100, 400, "Push [T]Key To Title", Color::WHITE);
 }

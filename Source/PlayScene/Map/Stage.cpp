@@ -7,6 +7,11 @@
 #include "DestructibleObject.h"
 #include "../Actor/Actor.h"
 
+namespace STAGE
+{
+	const float CHECK_GROUND_LENGTH = 500.0f;
+}
+
 Stage::Stage(int number)
 {
 	char filename[16];
@@ -82,7 +87,7 @@ bool Stage::CollideLineDestructibleObject(const VECTOR3& pos1, const VECTOR3& po
 void Stage::SetOnGround(VECTOR3& pos, float& time, VECTOR3 Gravity)
 {
 	VECTOR3 hit;
-	if (CollideLine(pos + VECTOR3(0, 500, 0), pos + VECTOR3(0, -500, 0), &hit))
+	if (CollideLine(pos + VECTOR3(0, STAGE::CHECK_GROUND_LENGTH, 0), pos + VECTOR3(0, -STAGE::CHECK_GROUND_LENGTH, 0), &hit))
 	{
 		pos = hit;
 		if (time != 0)

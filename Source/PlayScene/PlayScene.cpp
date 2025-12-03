@@ -4,11 +4,10 @@
 #include "../../Library/Light.h"
 #include "../../Library/Shadow.h"
 #include "GameMaster.h"
+#include "../Color.h"
 
 PlayScene::PlayScene()
 {
-	SetCameraPositionAndTarget_UpVecY(VECTOR3(50, 100, -300), VECTOR3(0, 0, 0));
-
 	//new Axis();
 	new Camera();
 	GameMaster::Init();
@@ -30,5 +29,5 @@ void PlayScene::Update()
 void PlayScene::Draw()
 {
 	GameMaster::Draw();
-	DrawString(0, 0, "PLAY SCENE", GetColor(255, 255, 255));
+	DrawString(0, 0, "PLAY SCENE", Color::WHITE);
 }

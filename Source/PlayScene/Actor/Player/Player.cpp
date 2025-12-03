@@ -34,17 +34,17 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	MV1SetMatrix(hModel_, transform_.GetLocalMatrix());
 	MV1RefreshCollInfo(hModel_);
 
-	// ポインター
-	// 標準時のポインター
+	// 照準
+	// 標準時の照準
 	hImagePointer_ = LoadGraph("data/image/pointer1.png");
 	assert(hImagePointer_ > 0);
 	GetGraphSize(hImagePointer_, &imagePointerX_, &imagePointerY_);
-	// 敵に当たるときのポインター
+	// 敵に当たるときの照準
 	hImagePointerHit_ = LoadGraph("data/image/pointer2.png");
 	assert(hImagePointer_ > 0);
 	GetGraphSize(hImagePointer_, &imagePointerHitX_, &imagePointerHitY_);
 
-	// リロードするときのポインター
+	// リロードするときの照準
 	hImageReload_ = LoadGraph("data/image/reload.png");
 	assert(hImageReload_ > 0);
 	GetGraphSize(hImageReload_, &imageReloadX_, &imageReloadY_);
@@ -178,7 +178,7 @@ void Player::Draw()
 		return; // 銃を切り替えるときは、ポインターを描画しない
 	}
 
-	// ポインターの描画
+	// 照準の描画
 	if (isHit_ == true)
 	{
 		DrawGraph(mouseX_ - imagePointerHitX_ / 2, mouseY_ - imagePointerHitY_ / 2, hImagePointerHit_, TRUE); // Actorに当たる
@@ -211,7 +211,7 @@ void Player::Attacked(int atackPower)
 
 void Player::DevelopmentInput()
 {
-	// 手動回転 開発時のみ　他の処理書くために、一時的にコメントアウト
+	// 手動回転 開発時のみ
 	{
 		if (Input::IsKeepKeyDown(KEY_INPUT_D))
 		{
@@ -231,7 +231,7 @@ void Player::DevelopmentInput()
 		}
 	}
 
-	// 手動移動 開発時のみ　他の処理書くために、一時的にコメントアウト
+	// 手動移動 開発時のみ
 	{
 		VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
 		velocity = VECTOR3(0, 0, 1) * moveSpeed_ * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列

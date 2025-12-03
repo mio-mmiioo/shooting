@@ -145,11 +145,11 @@ int WayInfo::CheckVertexNum(VECTOR3 position)
 {
 	position += ADD_WAY_INFO_POS;
 	point check = { (int)position.x / BOX_SIZE, (int)position.z / BOX_SIZE };
-	for (int i = 0; i < vertexList_.size(); i++)
+	for (vertex& v : vertexList_)
 	{
-		if (IsSameVertex(check, vertexList_[i].position) == true)
+		if (IsSameVertex(check, v.position) == true)
 		{
-			return i;
+			return v.number;
 		}
 	}
 	return -1;
@@ -159,25 +159,24 @@ bool WayInfo::IsVertexPosition(VECTOR3 position)
 {
 	position += ADD_WAY_INFO_POS;
 	point check = { (int)position.x / BOX_SIZE, (int)position.z / BOX_SIZE };
-	for (int i = 0; i < vertexList_.size(); i++)
+	for (vertex& v : vertexList_)
 	{
-		if (IsSameVertex(check, vertexList_[i].position) == true)
+		if (IsSameVertex(check, v.position) == true)
 		{
 			return true;
 		}
 	}
-
 	return false;
 }
 
 std::vector<VECTOR3> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos)
 {
 	// 道情報の初期化
-	for (int i = 0; i < vertexList_.size(); i++)
+	for (vertex& v : vertexList_)
 	{
-		vertexList_[i].distance = MAX_DISTANCE;
-		vertexList_[i].isDicision = false;
-		vertexList_[i].posList.clear();
+		v.distance = MAX_DISTANCE;
+		v.isDicision = false;
+		v.posList.clear();
 	}
 
 	// スタートの位置を代入
@@ -236,12 +235,14 @@ void WayInfo::InitVertexList()
 	}
 
 	// nextをセット
-	for (int i = 0; i < vertexList_.size(); i++)
+	for (vertex& v : vertexList_)
 	{
 		for (int direction = 0; direction < DIR::MAX_DIR; direction++)
 		{
-			point check = { vertexList_[i].position.x + dir_[direction].x, vertexList_[i].position.z + dir_[direction].z };
-			SetNext(check, i, direction);
+			int x = v.position.x + dir_[direction].x;
+			int z = v.position.z + dir_[direction].z;
+			point check = { x, z };
+			SetNext(check, v.number, direction);
 		}
 	}
 }
@@ -306,13 +307,13 @@ bool WayInfo::CheckVertex(point p)
 
 vertex WayInfo::FindStartVertex()
 {
-	for (int i = 0; i < vertexList_.size(); i++)
+	for (vertex& v : vertexList_)
 	{
-		if (IsSameVertex(startPos_, vertexList_[i].position) == true)
+		if (IsSameVertex(startPos_, v.position) == true)
 		{
-			vertexList_[i].distance = 0;
-			vertexList_[i].isDicision = true;
-			return vertexList_[i];
+			v.distance = 0;
+			v.isDicision = true;
+			return v;
 		}
 	}
 	return vertex();
@@ -332,12 +333,12 @@ void WayInfo::SetNext(point check, int vertexNum, int direction)
 		}
 
 		// 現在の頂点から行ける頂点をセットし、道情報もセット
-		for (int i = 0; i < vertexList_.size(); i++)
+		for (vertex& v : vertexList_)
 		{
-			if (IsSameVertex(check, vertexList_[i].position) == true)
+			if (IsSameVertex(check, v.position) == true)
 			{
-				vertexList_[vertexNum].next.push_back(vertexList_[i]);
-				wayList_.push_back(way{ vertexList_[vertexNum].position, vertexList_[i].position, distance });
+				vertexList_[vertexNum].next.push_back(v);
+				wayList_.push_back(way{ vertexList_[vertexNum].position, v.position, distance });
 				break;
 			}
 		}
@@ -347,32 +348,27 @@ void WayInfo::SetNext(point check, int vertexNum, int direction)
 void WayInfo::SetShortestWay(vertex start)
 {
 	// 今確認中の頂点を決定済みにする
-	for (int i = 0; i < vertexList_.size(); i++)
+	vertex& startV = vertexList_[start.number];
+	for (vertex& v : vertexList_)
 	{
-		if (IsSameVertex(vertexList_[i].position, start.position) == true)
+		if (IsSameVertex(v.position, start.position) == true)
 		{
-			vertexList_[i].isDicision = true;
-			vertexList_[i].posList.push_back(point{ start.position.x, start.position.z});
+			v.isDicision = true;
+			v.posList.push_back(start.position);
 		}
 	}
 
 	// 次の場所に距離(cost)を入れる
-	for (int i = 0; i < vertexList_[start.number].next.size(); i++)
+	for (vertex& checkV : startV.next)
 	{
-		int checkDistance = vertexList_[start.number].distance + GetCost(vertexList_[start.number].position, vertexList_[start.number].next[i].position);
-		if (vertexList_[start.number].next[i].distance > checkDistance)
+		for (vertex& v : vertexList_)
 		{
-			for (int j = 0; j < vertexList_.size(); j++)
-			{
-				if (vertexList_[j].isDicision == false)
-				{
-					if (IsSameVertex(vertexList_[j].position, vertexList_[start.number].next[i].position) == true)
-					{
-						vertexList_[j].distance = checkDistance;
-						vertexList_[j].posList.resize(vertexList_[start.number].posList.size());
-						vertexList_[j].posList.assign(vertexList_[start.number].posList.begin(), vertexList_[start.number].posList.end());
-					}
-				}
+			int checkDistance = startV.distance + GetCost(startV.position, checkV.position);
+			if (v.distance > checkDistance && v.isDicision == false && IsSameVertex(v.position, checkV.position) == true)
+			{				
+				v.distance = checkDistance;
+				v.posList.resize(startV.posList.size());
+				v.posList.assign(startV.posList.begin(), startV.posList.end());
 			}
 		}
 	}
@@ -380,11 +376,11 @@ void WayInfo::SetShortestWay(vertex start)
 	// 現時点で最も近い場所を探す
 	{
 		std::vector<vertex> sortMinDistance;
-		for (int i = 0; i < vertexList_[start.number].next.size(); i++)
+		for (int i = 0; i < startV.next.size(); i++)
 		{
-			if (vertexList_[vertexList_[start.number].next[i].number].isDicision == false)
+			if (vertexList_[startV.next[i].number].isDicision == false)
 			{
-				sortMinDistance.push_back(vertexList_[start.number].next[i]);
+				sortMinDistance.push_back(startV.next[i]);
 			}
 			// サイズが2以上ならソートする
 			for (int j = (int)sortMinDistance.size() - 2; j >= 0; j--)
@@ -413,13 +409,13 @@ void WayInfo::SetShortestWay(vertex start)
 
 int WayInfo::GetCost(point startPos, point endPos)
 {
-	for (int i = 0; i < wayList_.size(); i++)
+	for (way& w : wayList_)
 	{
-		if (IsSameVertex(wayList_[i].startPos, startPos) == true)
+		if (IsSameVertex(w.startPos, startPos) == true)
 		{
-			if (IsSameVertex(wayList_[i].endPos, endPos) == true)
+			if (IsSameVertex(w.endPos, endPos) == true)
 			{
-				return wayList_[i].cost;
+				return w.cost;
 			}
 		}
 	}
@@ -430,28 +426,29 @@ std::vector<VECTOR3> WayInfo::GetShortestWay(point pos)
 {
 	std::vector<VECTOR3> ret;
 	// 最終的な経路を探す
-	for (int i = 0; i < vertexList_.size(); i++)
+	for (vertex& v : vertexList_)
 	{
-		if (IsSameVertex(vertexList_[i].position, pos) == true)
+		if (IsSameVertex(v.position, pos) == true)
 		{
-			int checkNum = (int)vertexList_[i].posList.size() - 1;
+			int checkNum = (int)v.posList.size() - 1;
 			if (checkNum > 1)
 			{
-				while (IsSameVertex(vertexList_[i].posList[checkNum], vertexList_[i].posList[checkNum - 1]) == true)
+				while (IsSameVertex(v.posList[checkNum], v.posList[checkNum - 1]) == true)
 				{
-					vertexList_[i].posList.pop_back();
+					v.posList.pop_back();
 					checkNum -= 1;
 				}
 			}
 
-			for (int j = 0; j < vertexList_[i].posList.size(); j++)
+			for (int j = 0; j < v.posList.size(); j++)
 			{
-				VECTOR3 v = { (float)(vertexList_[i].posList[j].x * BOX_SIZE), 0.0f, (float)(vertexList_[i].posList[j].z * BOX_SIZE) };
-				v -= ADD_WAY_INFO_POS - ADD_HALF_BOX_POS;
-				ret.push_back(v);
+				VECTOR3 pos = { (float)(v.posList[j].x * BOX_SIZE), 0.0f, (float)(v.posList[j].z * BOX_SIZE) };
+				pos -= ADD_WAY_INFO_POS - ADD_HALF_BOX_POS;
+				ret.push_back(pos);
 			}
 			break;
 		}
+
 	}
 	return ret;
 }

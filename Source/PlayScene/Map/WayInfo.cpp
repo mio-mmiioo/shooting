@@ -1,5 +1,6 @@
 #include "WayInfo.h"
 #include "../../../Library/CsvReader.h"
+#include "../../Color.h"
 
 struct point {
 	int x;
@@ -90,19 +91,19 @@ void WayInfo::WayDraw()
 
 			if (wayInfo_[x][y] == MAP_NUM::EMPTY)
 			{
-				color = GetColor(100, 255, 100);
+				color = Color::EMPTY;
 			}
 			else if (wayInfo_[x][y] == MAP_NUM::WALL)
 			{
-				color = GetColor(0, 0, 0);
+				color = Color::WALL;
 			}
 			else if (wayInfo_[x][y] == MAP_NUM::BRANCH)
 			{
-				color = GetColor(0, 0, 255);
+				color = Color::BRANCH;
 			}
 			else
 			{
-				color = GetColor(100, 100, 100);
+				color = Color::OTHER;
 			}
 			DrawTriangle3D(topLeft, topRight, downRight, color, TRUE);
 			DrawTriangle3D(downRight, downLeft, topLeft, color, TRUE);
@@ -112,7 +113,7 @@ void WayInfo::WayDraw()
 
 void WayInfo::DrawVertex()
 {
-	DrawSphere3D(ADD_WAY_INFO_POS * -1.0f, 40, 20, GetColor(255,255,255), GetColor(255, 255, 255), TRUE);
+	DrawSphere3D(ADD_WAY_INFO_POS * -1.0f, 40, 20, Color::WHITE, Color::WHITE, TRUE);
 	VECTOR3 pos;
 	int color = 0;
 	for (int i = 0; i < vertexList_.size(); i++)
@@ -120,11 +121,11 @@ void WayInfo::DrawVertex()
 		pos = VECTOR3((float)(vertexList_[i].position.x * BOX_SIZE), 0.0f, (float)(vertexList_[i].position.z * BOX_SIZE));
 		if (i == 0)
 		{
-			color = GetColor(255, 255, 255);
+			color = Color::WHITE;
 		}
 		else
 		{
-			color = GetColor(0, 0, 0);
+			color = Color::BLACK;
 		}
 
 		DrawSphere3D(pos - ADD_WAY_INFO_POS + ADD_HALF_BOX_POS, 40, 20, color, color, TRUE);
@@ -248,7 +249,7 @@ void WayInfo::InitVertexList()
 bool WayInfo::CheckVertex(point p)
 {
 	bool ret = false;
-	if (p.x == 0 || p.z == 0 || p.x == 100 - 1 || p.z == 100 - 1)
+	if (p.x == 0 || p.z == 0 || p.x == vertexList_.size() - 1 || p.z == vertexList_.size() - 1)
 	{
 		return ret;
 	}

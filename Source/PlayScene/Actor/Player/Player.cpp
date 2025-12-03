@@ -8,6 +8,7 @@
 #include "../Gun/Effect.h"
 #include "../../GameMaster.h"
 #include "../../../Sound.h"
+#include "../../../Color.h"
 
 namespace PLAYER
 {
@@ -18,6 +19,9 @@ namespace PLAYER
 	const VECTOR3 CAPSULE_POS1 = { 0.0f,  50.0f, 0.0f };
 	const VECTOR3 CAPSULE_POS2 = { 0.0f, 150.0f, 0.0f };
 	const float DISTANCE_R = 50.0f;
+
+	// 開発時のみ
+	const float DIRECTION_LENGTH = 100.0f;
 }
 
 Player::Player(const VECTOR3& position, float ang, int hp)
@@ -161,7 +165,7 @@ void Player::Draw()
 
 	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
 	VECTOR3 addPlayerHeight = LOOK_HEIGHT * transform_.GetRotationMatrix();
-	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * 100 * transform_.GetRotationMatrix(), GetColor(255, 255, 255));
+	DrawLine3D(transform_.position_ + addPlayerHeight, transform_.position_ + addPlayerHeight + VECTOR3(0, 0, 1) * PLAYER::DIRECTION_LENGTH * transform_.GetRotationMatrix(), Color::WHITE);
 
 	// 2Dの描画
 

@@ -10,7 +10,7 @@
 namespace ENEMY
 {
 	VECTOR3 G = { 0.0f, 9.8f, 0.0f };
-	VECTOR3 size = { 50.0f, 200.0f, 50.0f }; // hitModelのサイズ
+	VECTOR3 SIZE = { 50.0f, 200.0f, 50.0f }; // hitModelのサイズ
 
 	const float MOVE_SPEED = 3.0f;
 	const float ROTATE_SPEED = 3.0f;
@@ -92,7 +92,7 @@ void Enemy::Update()
 		DestroyMe();
 	}
 	
-	switch (state_) // ステートベースで敵AI
+	switch (state_) // ステートベースAI
 	{
 	case E_STATE::WALK:
 		UpdateWalk();
@@ -126,8 +126,8 @@ void Enemy::Draw()
 	DrawLine3D(transform_.position_ + LOOK_HEIGHT, 
 		transform_.position_ + LOOK_HEIGHT + VECTOR3(0, 0, 1) * ENEMY::DIRECTION_LENGTH * MGetRotY(transform_.rotation_.y), Color::WHITE);
 
-	VECTOR3 checkPos1 = VECTOR3(-ENEMY::size.x / 2, 0, -ENEMY::size.z / 2) + transform_.position_;
-	VECTOR3 checkPos2 = VECTOR3(ENEMY::size.x / 2, ENEMY::size.y, ENEMY::size.z / 2) + transform_.position_;
+	VECTOR3 checkPos1 = VECTOR3(-ENEMY::SIZE.x / 2, 0, -ENEMY::SIZE.z / 2) + transform_.position_;
+	VECTOR3 checkPos2 = VECTOR3(ENEMY::SIZE.x / 2, ENEMY::SIZE.y, ENEMY::SIZE.z / 2) + transform_.position_;
 	// 視界に入っている時は描画する 
 	// ※CheckCameraViewClip_Box→視界に入っている:false
 	if (CheckCameraViewClip_Box(checkPos1, checkPos2) == false)

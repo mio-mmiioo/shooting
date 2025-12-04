@@ -7,6 +7,7 @@
 #include "Map/DestructibleObject.h"
 #include "Map/WayInfo.h"
 #include "../Sound.h"
+#include "../Color.h"
 #include "../../Library/Input.h"
 
 #include <algorithm>
@@ -19,6 +20,9 @@ namespace GameMaster {
 	bool IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos); // 銃弾が敵に当たるか あたるならtrue 今プレイヤーで呼び出してるのは消す
 	bool IsBulletHitStageObject(VECTOR3& pos1, const VECTOR3& pos2);
 	bool IsBulletHitDestructibleObject(VECTOR3& pos1, const VECTOR3& pos2);
+
+	// 描画フラグのセット
+	void SetIsDraw();
 
 	// 定数
 	const float CHECK_FRONT_LENGTH = 100.0f;
@@ -128,7 +132,8 @@ void GameMaster::Update()
 	
 	SetPlayerPos(); // 条件を満たさなきゃセットされない
 	SetEnemyPos();
-	
+	//SetIsDraw();
+
 	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
 		SceneManager::ChangeScene("RESULT");
 	}
@@ -295,6 +300,16 @@ bool GameMaster::IsBulletHitDestructibleObject(VECTOR3& pos1, const VECTOR3& pos
 		return true;
 	}
 	return false;
+}
+
+void GameMaster::SetIsDraw()
+{
+	// 描画するか否かの判定をセットする 途中
+	VECTOR3 base = player->GetTransform().position_;
+	base = base + VECTOR3(0, 0, -100) * MGetRotY(player->GetTransform().rotation_.y);
+
+	DrawSphere3D(base, 100.0f, 20, Color::WHITE, Color::WHITE, TRUE);
+
 }
 
 // 現在地がめり込んでないか、地面に足がついているか

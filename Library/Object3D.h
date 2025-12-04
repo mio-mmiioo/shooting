@@ -55,6 +55,7 @@ public:
 protected:
 	int hModel_; // 本当に描画するモデル
 	int hitModel_; // 当たり判定用のモデル
+	bool isDraw_; // 描画するかどうか true→描画する
 	Transform transform_;
 	Object3D* parent_;
 };

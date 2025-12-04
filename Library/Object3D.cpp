@@ -1,7 +1,7 @@
 #include "Object3D.h"
 
 Object3D::Object3D()
-	:hModel_(-1),hitModel_(-1), parent_(nullptr)
+	:hModel_(-1),hitModel_(-1), parent_(nullptr), isDraw_(true)
 {
 }
 
@@ -15,7 +15,7 @@ void Object3D::Update()
 
 void Object3D::Draw()
 {
-	if (hModel_ > 0)
+	if (hModel_ > 0 && isDraw_ == true)
 	{
 		const MATRIX& m = transform_.MakeLocalMatrix();
 		if (parent_ != nullptr)

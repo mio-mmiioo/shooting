@@ -34,20 +34,10 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	MV1SetMatrix(hModel_, transform_.GetLocalMatrix());
 	MV1RefreshCollInfo(hModel_);
 
-	// Æ€
-	// •W€Žž‚ÌÆ€
-	hImagePointer_ = LoadGraph("data/image/pointer1.png");
-	assert(hImagePointer_ > 0);
-	GetGraphSize(hImagePointer_, &imagePointerX_, &imagePointerY_);
-	// “G‚É“–‚½‚é‚Æ‚«‚ÌÆ€
-	hImagePointerHit_ = LoadGraph("data/image/pointer2.png");
-	assert(hImagePointer_ > 0);
-	GetGraphSize(hImagePointer_, &imagePointerHitX_, &imagePointerHitY_);
-
-	// ƒŠƒ[ƒh‚·‚é‚Æ‚«‚ÌÆ€
-	hImageReload_ = LoadGraph("data/image/reload.png");
-	assert(hImageReload_ > 0);
-	GetGraphSize(hImageReload_, &imageReloadX_, &imageReloadY_);
+	// Æ€( aiming )
+	SetImage(aiming_, "data/image/pointer1.png");	 // •W€Žž‚ÌÆ€
+	SetImage(hitAiming_, "data/image/pointer2.png"); // “G‚É“–‚½‚é‚Æ‚«‚ÌÆ€
+	SetImage(reload_, "data/image/reload.png");		 // ƒŠƒ[ƒh‚·‚é‚Æ‚«‚ÌÆ€
 
 	// e‚ðØ‚è‘Ö‚¦‚é‚Æ‚«‚Ì‰æ‘œ
 	hImageGunCircle_ = LoadGraph("data/image/gunCircle.png");
@@ -181,17 +171,17 @@ void Player::Draw()
 	// Æ€‚Ì•`‰æ
 	if (isHit_ == true)
 	{
-		DrawGraph(mouseX_ - imagePointerHitX_ / 2, mouseY_ - imagePointerHitY_ / 2, hImagePointerHit_, TRUE); // Actor‚É“–‚½‚é
+		DrawGraph(mouseX_ - hitAiming_.halfWidth, mouseY_ - hitAiming_.halfHeight, hitAiming_.hImage, TRUE); // Actor‚É“–‚½‚é
 	}
 	else
 	{
-		DrawGraph(mouseX_ - imagePointerX_ / 2, mouseY_ - imagePointerY_ / 2, hImagePointer_, TRUE); // •W€
+		DrawGraph(mouseX_ - aiming_.halfWidth, mouseY_ - aiming_.halfHeight, aiming_.hImage, TRUE); // •W€
 	}
 
 	if (gun_->GetReloadTimer() > 0)
 	{
 		float rate = (gun_->GetReloadTime() - gun_->GetReloadTimer()) / gun_->GetReloadTime() * 100; // (max‚ÌŽžŠÔ - Žc‚èŽžŠÔ) / max‚ÌŽžŠÔ * 100 = ZZ%
-		DrawCircleGauge(mouseX_, mouseY_, 100.0, hImageReload_, rate);
+		DrawCircleGauge(mouseX_, mouseY_, 100.0, reload_.hImage, rate);
 	}
 }
 
@@ -207,6 +197,15 @@ int Player::Attack()
 void Player::Attacked(int atackPower)
 {
 	HP_->AddHP(atackPower);
+}
+
+void Player::SetImage(image& i, std::string path)
+{
+	i.hImage = LoadGraph(path.c_str());
+	assert(i.hImage > 0);
+	GetGraphSize(i.hImage, &i.halfWidth, &i.halfHeight);
+	i.halfWidth = i.halfWidth / 2;
+	i.halfHeight = i.halfHeight / 2;
 }
 
 void Player::DevelopmentInput()

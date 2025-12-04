@@ -7,6 +7,13 @@ class Camera;
 class Stage;
 class HP;
 
+struct image
+{
+	int hImage;
+	int halfWidth;
+	int halfHeight;
+};
+
 class Player : public Actor
 {
 public:
@@ -25,6 +32,7 @@ public:
 	void Attacked(int atackPower);
 
 private:
+	void SetImage(image& i, std::string path);		 // 画像のセット
 	void DevelopmentInput(); // 開発時のみ使用する、キー入力の処理
 	Camera* camera_;
 	Stage* stage_;
@@ -44,13 +52,10 @@ private:
 	VECTOR3 endPosition_; // プレイヤーの目的地
 	bool isArrive_;		 // 一度到着したことを確認する
 
-	// ポインターの画像
-	int hImagePointer_;							// 標準時のポインター
-	int imagePointerX_, imagePointerY_;			// 画像のサイズを代入する変数
-	int hImagePointerHit_;						// 敵に銃弾が当たる場合のポインター
-	int imagePointerHitX_, imagePointerHitY_;	// 画像のサイズを代入する変数
-	int hImageReload_;							// リロードするときのポインター
-	int imageReloadX_, imageReloadY_;			// 画像のサイズを代入する変数
+	// 照準の画像関連
+	image aiming_;		// 照準の画像
+	image hitAiming_;	// 照準が何かに当たるときの画像
+	image reload_;		// リロードの画像
 
 	// 銃の切り替え関連
 	void ChangeGun(int currentMouseX, int currentMouseY); // 銃を切り替える処理

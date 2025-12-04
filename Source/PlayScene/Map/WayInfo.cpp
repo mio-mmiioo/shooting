@@ -48,7 +48,7 @@ namespace WayInfo{
 	vertex FindStartVertex();						// 頂点リストの最初の頂点を求める
 	void SetShortestWay(vertex start);				// 最短経路を求める
 	int GetCost(point startPos, point endPos);		// 距離(cost)を求める
-	std::vector<VECTOR3> GetShortestWay(point pos); // startPosからの最短経路をかえす
+	VECTOR3 GetShortestWay(point pos); // startPosからの最短経路をかえす
 	bool IsSameVertex(point point1, point point2);	// point1とpoint2が同じ頂点か調べる 同じ→true
 	point VectorToPoint(VECTOR3 position);
 
@@ -169,7 +169,7 @@ bool WayInfo::IsVertexPosition(VECTOR3 position)
 	return false;
 }
 
-std::vector<VECTOR3> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos)
+VECTOR3 WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos)
 {
 	// 道情報の初期化
 	for (vertex& v : vertexList_)
@@ -193,7 +193,7 @@ std::vector<VECTOR3> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 
 	// goalPosに一番近い頂点をvertexListから探す
 	goalPos_ = VectorToPoint(goalPos);
-	std::vector<VECTOR3> ret = GetShortestWay(goalPos_);
+	VECTOR3 ret = GetShortestWay(goalPos_);
 
 	return ret;
 }
@@ -422,7 +422,7 @@ int WayInfo::GetCost(point startPos, point endPos)
 	return MAX_DISTANCE;
 }
 
-std::vector<VECTOR3> WayInfo::GetShortestWay(point pos)
+VECTOR3 WayInfo::GetShortestWay(point pos)
 {
 	std::vector<VECTOR3> ret;
 	// 最終的な経路を探す
@@ -450,7 +450,15 @@ std::vector<VECTOR3> WayInfo::GetShortestWay(point pos)
 		}
 
 	}
-	return ret;
+	
+	if (ret.size() > 1)
+	{
+		return ret[1];
+	}
+	else
+	{
+		return ret[0];
+	}
 }
 
 bool WayInfo::IsSameVertex(point point1, point point2)

@@ -1,6 +1,5 @@
 #pragma once
 #include "../Actor.h"
-#include <vector>
 
 class Enemy : public Actor
 {
@@ -13,7 +12,8 @@ public:
 	void SetIsArrive(bool isArrive) { isArrive_ = isArrive; }
 	bool GetIsArrive() { return isArrive_; }
 	void SetIsSetNextPos(bool isSetNextPos) { IsSetNextPos_ = isSetNextPos; }
-	void SetPosList(std::vector<VECTOR3> posList);
+	void SetGoPosition(VECTOR3 goPosition);
+	VECTOR3 GetGoPosition() { return goPosition_; }
 	bool GetIsSetNextPos() { return IsSetNextPos_; }
 
 private:
@@ -23,8 +23,6 @@ private:
 
 	void AutoMove(); // 経路探索をもとに自動移動する
 
-	void DrawPosList(); // 開発時のみ使用
-
 	enum E_STATE {
 		STAY,
 		WALK,
@@ -32,7 +30,6 @@ private:
 		MAX_STATE
 	};
 
-	std::vector<VECTOR3> posList_; // プレイヤーまでの距離
 	VECTOR3 goPosition_;  // 次に向かう場所
 	bool isArrive_;
 	bool IsSetNextPos_;

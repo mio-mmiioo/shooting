@@ -107,9 +107,10 @@ void Enemy::Update()
 
 	// 移動 経路探索を使用
 	{
+		//AutoMove();
 		if (isArrive_ == false)
 		{
-			AutoMove();
+			
 		}
 		// 手動
 		{
@@ -170,8 +171,6 @@ void Enemy::Update()
 
 void Enemy::Draw()
 {
-	DrawPosList(); // 開発時のみ使用
-
 	// 向いてる方向を示す　これカメラ変更しなくなったら消すこと
 	DrawLine3D(transform_.position_ + LOOK_HEIGHT, 
 		transform_.position_ + LOOK_HEIGHT + VECTOR3(0, 0, 1) * ENEMY::DIRECTION_LENGTH * MGetRotY(transform_.rotation_.y), Color::WHITE);
@@ -189,11 +188,9 @@ void Enemy::Draw()
 	}
 }
 
-void Enemy::SetPosList(std::vector<VECTOR3> posList)
+void Enemy::SetGoPosition(VECTOR3 goPosition)
 {
-	posList_.resize(posList.size() - 1);
-	posList_ = posList;
-	goPosition_ = posList_[0];
+	goPosition_ = goPosition;
 }
 
 void Enemy::UpdateWalk()
@@ -210,18 +207,9 @@ void Enemy::UpdateAttack()
 
 void Enemy::AutoMove()
 {
-	if (posList_.size() > 0)
+	if (VSize(transform_.position_ - goPosition_) > 50.0f/*GameMaster::GetDistanceToPlayer(distanceR_)*/)
 	{
-		// 今いる場所はposList_の位置？
-		if (VSize(transform_.position_ - goPosition_) > distanceR_) // 中継地に到達していない
-		{
-			SetMove(goPosition_);
-		}
-		else // 中継地に到達したので、次の中継地をセット
-		{
-			goPosition_ = posList_[0];
-			posList_.erase(posList_.begin());
-		}
+		SetMove(goPosition_);
 	}
 	else
 	{
@@ -232,35 +220,6 @@ void Enemy::AutoMove()
 		else
 		{
 			isArrive_ = true;
-		}
-	}
-}
-
-void Enemy::DrawPosList()
-{
-	if (!posList_.empty())
-	{
-		VECTOR3 lineStartPos;
-		VECTOR3 lineEndPos;
-
-		for (int i = 0; i < posList_.size(); i++)
-		{
-			if (i == posList_.size() - 1)
-			{
-				DrawSphere3D(posList_[i], ENEMY::POS_LIST_R, ENEMY::POS_LIST_DIV_NUM, Color::RED, Color::RED, TRUE);
-			}
-			else
-			{
-				DrawSphere3D(posList_[i], ENEMY::POS_LIST_R, ENEMY::POS_LIST_DIV_NUM, Color::WHITE, Color::WHITE, TRUE);
-			}
-		}
-
-		for (int i = 1; i < posList_.size(); i++)
-		{
-			lineStartPos = posList_[i - 1];
-			lineEndPos = posList_[i];
-
-			DrawLine3D(lineStartPos, lineEndPos, Color::BLACK);
 		}
 	}
 }

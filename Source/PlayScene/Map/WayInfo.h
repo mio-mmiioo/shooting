@@ -12,6 +12,6 @@ namespace WayInfo {
 	VECTOR3 SetVertexPosition(VECTOR3 position, int num);
 	int CheckVertexNum(VECTOR3 position); // 場所から、頂点番号をわりだす 開発時のみ使用予定
 	bool IsVertexPosition(VECTOR3 position);
-	std::vector<VECTOR3> GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos); // ( 現在地、目的地 )
+	VECTOR3 GetShortestWayPosition(VECTOR3 currentPos, VECTOR3 goalPos); // ( 現在地、目的地 )
 }
 

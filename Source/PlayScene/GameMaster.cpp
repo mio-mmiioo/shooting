@@ -46,6 +46,7 @@ void GameMaster::Init()
 	enemy = FindGameObjects<Enemy>();
 	stage = FindGameObject<Stage>();
 	player->SetPosition(WayInfo::SetVertexPosition(player->GetTransform().position_, 1));
+	player->SetPrevVretexPosition(player->GetTransform().position_);
 
 	for (auto e : enemy)
 	{
@@ -124,9 +125,10 @@ void GameMaster::Update()
 	enemy = FindGameObjects<Enemy>();
 	destructibleObject = FindGameObjects<DestructibleObject>();
 
-	SetEnemyPos();
+	
 	SetPlayerPos(); // ðŒ‚ð–ž‚½‚³‚È‚«‚áƒZƒbƒg‚³‚ê‚È‚¢
-
+	SetEnemyPos();
+	
 	if (Input::IsKeyDown(KEY_INPUT_R) || Input::IsJoypadDown(XINPUT_BUTTON_Y)) {
 		SceneManager::ChangeScene("RESULT");
 	}
@@ -160,9 +162,8 @@ void GameMaster::SetPlayerPos()
 			{
 				for (auto e : enemy)
 				{
-					e->SetIsSetNextPos(true);
+					e->SetIsArrive(false);
 				}
-			
 				player->SetPrevVretexPosition(player->GetTransform().position_);
 				player->SetIsArrive(true);
 			}
@@ -177,25 +178,35 @@ void GameMaster::SetPlayerPos()
 
 void GameMaster::SetEnemyPos()
 {
+	VECTOR3 goPosition;
+	VECTOR3 ePosition;
+	VECTOR3 pPosition = player->GetPrevVertexPosition();
 	for (auto e : enemy)
 	{
-		if (WayInfo::IsVertexPosition(e->GetTransform().position_) == true)
+		if (e->GetIsArrive() == false)
 		{
-			if (e->GetIsSetNextPos() == true)
+			if (WayInfo::IsVertexPosition(e->GetTransform().position_))
 			{
-				e->SetPosList(WayInfo::GetShortestWayPosition(e->GetTransform().position_, player->GetPrevVertexPosition()));
-				e->SetIsArrive(false);
-				e->SetIsSetNextPos(false);
-				return;
+				goPosition = WayInfo::GetShortestWayPosition(e->GetTransform().position_, pPosition);
+				e->SetGoPosition(goPosition);
 			}
-		}
-		// ’Ç‚¢‚©‚¯‚éˆ—
-		{
-			//float d = player->GetDistanceR() + e->GetDistanceR();
-			//if (e->GetIsArrive() == true && VSize(player->GetTransform().position_ - e->GetTransform().position_) > d)
-			//{
-			//	e->SetMove(player->GetTransform().position_);
-			//}
+			goPosition = e->GetGoPosition();
+			ePosition = e->GetTransform().position_;
+			if (VSize(ePosition - goPosition) > 50.0f)
+			{
+				e->SetMove(goPosition);
+			}
+			else
+			{
+				if (VSize(ePosition - pPosition) > GetDistanceToPlayer(e->GetDistanceR()))
+				{
+					e->SetMove(pPosition);
+				}
+				else
+				{
+					e->SetIsArrive(true);
+				}
+			}
 		}
 	}
 }

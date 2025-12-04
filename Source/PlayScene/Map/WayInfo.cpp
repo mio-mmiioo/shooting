@@ -442,9 +442,8 @@ VECTOR3 WayInfo::GetShortestWay(point pos)
 
 			for (int j = 0; j < v.posList.size(); j++)
 			{
-				VECTOR3 pos = { (float)(v.posList[j].x * BOX_SIZE), 0.0f, (float)(v.posList[j].z * BOX_SIZE) };
-				pos -= ADD_WAY_INFO_POS - ADD_HALF_BOX_POS;
-				ret.push_back(pos);
+				num = v.posList.size() - 2;
+				pos = VECTOR3((float)(v.posList[num].x * BOX_SIZE), 0.0f, (float)(v.posList[num].z * BOX_SIZE));
 			}
 			break;
 		}

@@ -50,6 +50,7 @@ namespace WayInfo{
 	int GetCost(point startPos, point endPos);		// 距離(cost)を求める
 	std::vector<VECTOR3> GetShortestWay(point pos); // startPosからの最短経路をかえす
 	bool IsSameVertex(point point1, point point2);	// point1とpoint2が同じ頂点か調べる 同じ→true
+	point VectorToPoint(VECTOR3 position);
 
 	const int MAX_DISTANCE = 5000; // 各頂点のコストの初期化に使用
 	const VECTOR3 ADD_WAY_INFO_POS = { 5000.0f, 0.0f, 5000.0f };
@@ -116,10 +117,10 @@ void WayInfo::DrawVertex()
 	DrawSphere3D(ADD_WAY_INFO_POS * -1.0f, 40, 20, Color::WHITE, Color::WHITE, TRUE);
 	VECTOR3 pos;
 	int color = 0;
-	for (int i = 0; i < vertexList_.size(); i++)
+	for (vertex& v : vertexList_)
 	{
-		pos = VECTOR3((float)(vertexList_[i].position.x * BOX_SIZE), 0.0f, (float)(vertexList_[i].position.z * BOX_SIZE));
-		if (i == 0)
+		pos = VECTOR3((float)(v.position.x * BOX_SIZE), 0.0f, (float)(v.position.z * BOX_SIZE));
+		if (v.number == 0)
 		{
 			color = Color::WHITE;
 		}
@@ -129,6 +130,7 @@ void WayInfo::DrawVertex()
 		}
 
 		DrawSphere3D(pos - ADD_WAY_INFO_POS + ADD_HALF_BOX_POS, 40, 20, color, color, TRUE);
+
 	}
 }
 
@@ -143,8 +145,7 @@ VECTOR3 WayInfo::SetVertexPosition(VECTOR3 position, int num)
 
 int WayInfo::CheckVertexNum(VECTOR3 position)
 {
-	position += ADD_WAY_INFO_POS;
-	point check = { (int)position.x / BOX_SIZE, (int)position.z / BOX_SIZE };
+	point check = VectorToPoint(position);
 	for (vertex& v : vertexList_)
 	{
 		if (IsSameVertex(check, v.position) == true)
@@ -157,8 +158,7 @@ int WayInfo::CheckVertexNum(VECTOR3 position)
 
 bool WayInfo::IsVertexPosition(VECTOR3 position)
 {
-	position += ADD_WAY_INFO_POS;
-	point check = { (int)position.x / BOX_SIZE, (int)position.z / BOX_SIZE };
+	point check = VectorToPoint(position);
 	for (vertex& v : vertexList_)
 	{
 		if (IsSameVertex(check, v.position) == true)
@@ -180,7 +180,7 @@ std::vector<VECTOR3> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 	}
 
 	// スタートの位置を代入
-	startPos_ = point{ (int)(currentPos.x / BOX_SIZE + wayInfo_.size() / 2), (int)(currentPos.z / BOX_SIZE + wayInfo_.size() / 2) };
+	startPos_ = VectorToPoint(currentPos);
 	vertex start = FindStartVertex(); // 最初の位置を distance = 0 にする
 	SetShortestWay(start);
 
@@ -192,7 +192,7 @@ std::vector<VECTOR3> WayInfo::GetShortestWayPosition(VECTOR3 currentPos, VECTOR3
 	}
 
 	// goalPosに一番近い頂点をvertexListから探す
-	goalPos_ = point{ (int)(goalPos.x / BOX_SIZE + wayInfo_.size() / 2), (int)(goalPos.z / BOX_SIZE + wayInfo_.size() / 2) };
+	goalPos_ = VectorToPoint(goalPos);
 	std::vector<VECTOR3> ret = GetShortestWay(goalPos_);
 
 	return ret;
@@ -460,4 +460,12 @@ bool WayInfo::IsSameVertex(point point1, point point2)
 		return true;
 	}
 	return false;
+}
+
+point WayInfo::VectorToPoint(VECTOR3 position)
+{
+	point ret;
+	ret.x = position.x / BOX_SIZE + wayInfo_.size() / 2;
+	ret.z = position.z / BOX_SIZE + wayInfo_.size() / 2;
+	return ret;
 }

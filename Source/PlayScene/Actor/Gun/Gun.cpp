@@ -1,11 +1,15 @@
 #include "Gun.h"
 #include <assert.h>
 #include "../../../Sound.h"
+#include "../../../Color.h"
 
 namespace GUN
 {
 	int gaugePosX = 80;
 	int gaugePosY = 140;
+
+	const float START_PERCENT = 35.0f;
+	const float END_PERCENT = 115.0f;
 }
 
 Gun::Gun()
@@ -75,19 +79,20 @@ void Gun::Draw()
 
 void Gun::DrawRemainingSetting()
 {
-	float remaining = 115.0 - (current.remainingSetting * 5);
+	float p = 100.0f / (current.maxSetting * 1.25f);
+	float remaining = GUN::END_PERCENT - (current.remainingSetting * p);
 
-	DrawCircleGauge(GUN::gaugePosX, GUN::gaugePosY, 115.0, current.hImageGauge, 35.0, 1.0, 0, 0);
-	DrawCircleGauge(GUN::gaugePosX, GUN::gaugePosY, 115.0, current.hImageGaugeRemaining, remaining, 1.0, 0, 0);
+	DrawCircleGauge(GUN::gaugePosX, GUN::gaugePosY, GUN::END_PERCENT, current.hImageGauge, GUN::START_PERCENT, 1.0, 0, 0);
+	DrawCircleGauge(GUN::gaugePosX, GUN::gaugePosY, GUN::END_PERCENT, current.hImageGaugeRemaining, remaining, 1.0, 0, 0);
 
 	// écíeêîÇÃï\é¶
 	if (current.remainingAll <= 0 && current.remainingSetting == 0)
 	{
-		DrawFormatString(GUN::gaugePosX, GUN::gaugePosY, GetColor(255, 0, 0), "EMPTY");
+		DrawFormatString(GUN::gaugePosX, GUN::gaugePosY, Color::RED, "EMPTY");
 	}
 	else
 	{
-		DrawFormatString(GUN::gaugePosX, GUN::gaugePosY, GetColor(0, 0, 0), "%04d", current.remainingAll);
+		DrawFormatString(GUN::gaugePosX, GUN::gaugePosY, Color::BLACK, "%04d", current.remainingAll);
 	}
 }
 

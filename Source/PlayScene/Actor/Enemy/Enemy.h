@@ -21,7 +21,7 @@ private:
 	void UpdateStay();
 	void UpdateAttack();
 
-	void AutoMove(); // 経路探索をもとに自動移動する
+	void DevelopmentInput(); // 開発時のみ使用する、キー入力の処理
 
 	enum E_STATE {
 		STAY,

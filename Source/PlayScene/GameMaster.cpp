@@ -190,17 +190,13 @@ void GameMaster::SetEnemyPos()
 				goPosition = WayInfo::GetShortestWayPosition(e->GetTransform().position_, pPosition);
 				e->SetGoPosition(goPosition);
 			}
-			goPosition = e->GetGoPosition();
+			
 			ePosition = e->GetTransform().position_;
-			if (VSize(ePosition - goPosition) > 50.0f)
-			{
-				e->SetMove(goPosition);
-			}
-			else
+			if (VSize(ePosition - goPosition) < 50.0f)
 			{
 				if (VSize(ePosition - pPosition) > GetDistanceToPlayer(e->GetDistanceR()))
 				{
-					e->SetMove(pPosition);
+					e->SetGoPosition(pPosition);
 				}
 				else
 				{

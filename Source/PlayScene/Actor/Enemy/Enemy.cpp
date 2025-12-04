@@ -92,73 +92,24 @@ void Enemy::Update()
 		DestroyMe();
 	}
 	
-	//switch (state_) // ステートベースで敵AI
-	//{
-	//case E_STATE::WALK:
-	//	UpdateWalk();
-	//	break;
-	//case E_STATE::STAY:
-	//	UpdateStay();
-	//	break;
-	//case E_STATE::ATTACK:
-	//	UpdateAttack();
-	//	break;
-	//}
-
-	// 移動 経路探索を使用
+	switch (state_) // ステートベースで敵AI
 	{
-		//AutoMove();
-		if (isArrive_ == false)
-		{
-			
-		}
-		// 手動
-		{
-			// 移動
-			//VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
-			//velocity = VECTOR3(0, 0, 1) * ENEMY::MOVE_SPEED * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
-
-			//if (Input::IsKeepKeyDown(KEY_INPUT_W))
-			//{
-			//	transform_.position_ += velocity;
-			//}
-			//else if (Input::IsKeepKeyDown(KEY_INPUT_S))
-			//{
-			//	transform_.position_ -= velocity;
-			//}
-			// 
-			
-			// 回転
-			//if (Input::IsKeepKeyDown(KEY_INPUT_D))
-			//{
-			//	transform_.rotation_.y += ENEMY::ROTATE_SPEED * DegToRad;
-			//}
-			//if (Input::IsKeepKeyDown(KEY_INPUT_A))
-			//{
-			//	transform_.rotation_.y -= ENEMY::ROTATE_SPEED * DegToRad;
-			//}
-		}
+	case E_STATE::WALK:
+		UpdateWalk();
+		break;
+	case E_STATE::STAY:
+		UpdateStay();
+		break;
+	case E_STATE::ATTACK:
+		UpdateAttack();
+		break;
 	}
+
+	DevelopmentInput(); // 手動
 
 	if (hp_ <= 0)
 	{
 		isAlive_ = false;
-	}
-
-	// 攻撃する
-	if (GameMaster::IsCanAttackPlayer(this) == true)
-	{
-		attackTimer_ -= Time::DeltaTime();
-		if (attackTimer_ <= 0)
-		{
-			state_ = E_STATE::ATTACK;
-			GameMaster::AttackPlayer(-attackPower_);
-			attackTimer_ += ENEMY::ATTACK_TIME;
-		}
-	}
-	else
-	{
-		attackTimer_ = ENEMY::ATTACK_TIME;
 	}
 
 	// 位置情報の修正
@@ -195,6 +146,10 @@ void Enemy::SetGoPosition(VECTOR3 goPosition)
 
 void Enemy::UpdateWalk()
 {
+	if (isArrive_ == false)
+	{
+		SetMove(goPosition_);
+	}
 }
 
 void Enemy::UpdateStay()
@@ -203,23 +158,59 @@ void Enemy::UpdateStay()
 
 void Enemy::UpdateAttack()
 {
-}
-
-void Enemy::AutoMove()
-{
-	if (VSize(transform_.position_ - goPosition_) > 50.0f/*GameMaster::GetDistanceToPlayer(distanceR_)*/)
+	// 攻撃する
+	if (GameMaster::IsCanAttackPlayer(this) == true)
 	{
-		SetMove(goPosition_);
+		attackTimer_ -= Time::DeltaTime();
+		if (attackTimer_ <= 0)
+		{
+			GameMaster::AttackPlayer(-attackPower_);
+			attackTimer_ += ENEMY::ATTACK_TIME;
+		}
 	}
 	else
 	{
-		if (VSize(transform_.position_ - goPosition_) > GameMaster::GetDistanceToPlayer(distanceR_))
-		{
-			SetMove(goPosition_);
-		}
-		else
-		{
-			isArrive_ = true;
-		}
+		attackTimer_ = ENEMY::ATTACK_TIME;
 	}
 }
+
+void Enemy::DevelopmentInput()
+{
+	// 移動
+	//VECTOR3 velocity;// 移動ベクトル　velocity→進行方向
+	//velocity = VECTOR3(0, 0, 1) * ENEMY::MOVE_SPEED * MGetRotY(transform_.rotation_.y);//移動方向書いた後、移動距離、回転行列
+
+	//if (Input::IsKeepKeyDown(KEY_INPUT_W))
+	//{
+	//	transform_.position_ += velocity;
+	//}
+	//else if (Input::IsKeepKeyDown(KEY_INPUT_S))
+	//{
+	//	transform_.position_ -= velocity;
+	//}
+	 
+	// 回転
+	//if (Input::IsKeepKeyDown(KEY_INPUT_D))
+	//{
+	//	transform_.rotation_.y += ENEMY::ROTATE_SPEED * DegToRad;
+	//}
+	//if (Input::IsKeepKeyDown(KEY_INPUT_A))
+	//{
+	//	transform_.rotation_.y -= ENEMY::ROTATE_SPEED * DegToRad;
+	//}
+
+	// 状態遷移
+	if (Input::IsKeyDown(KEY_INPUT_6))
+	{
+		state_ = E_STATE::WALK;
+	}
+	else if (Input::IsKeyDown(KEY_INPUT_7))
+	{
+		state_ = E_STATE::STAY;
+	}
+	else if (Input::IsKeyDown(KEY_INPUT_8))
+	{
+		state_ = E_STATE::ATTACK;
+	}
+}
+

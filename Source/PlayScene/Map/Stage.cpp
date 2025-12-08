@@ -10,6 +10,15 @@
 namespace STAGE
 {
 	const float CHECK_GROUND_LENGTH = 500.0f;
+
+	enum SORT_NUM
+	{
+		PLAYER,
+		CHARA,
+		OBJ,
+		OBJ_D,
+		MAX_OBJ
+	};
 }
 
 Stage::Stage(int number)
@@ -122,13 +131,13 @@ void Stage::ReadMappingData(std::string filename)
 	const std::string folder = "data/stage/";
 	CsvReader* csv = new CsvReader(folder+filename+".csv");
 	for (int line = 0; line < csv->GetLines(); line++) {
-		std::string com = csv->GetString(line, 0);
-		if (com == "PLAYER") {
+		int sortNumber = csv->GetInt(line, 0);
+		if (sortNumber == STAGE::SORT_NUM::PLAYER) {
 			VECTOR pos = VECTOR3(csv->GetFloat(line, 2), csv->GetFloat(line, 3), csv->GetFloat(line, 4));
 			float ang = csv->GetFloat(line, 5);
 			int hp = csv->GetInt(line, 6);
 			new Player(pos, ang, hp);
-		} else if (com == "CHARA") {
+		} else if (sortNumber == STAGE::SORT_NUM::CHARA) {
 			VECTOR pos = VECTOR3(csv->GetFloat(line, 2), csv->GetFloat(line, 3), csv->GetFloat(line, 4));
 			float ang = csv->GetFloat(line, 5);
 			int hp = csv->GetInt(line, 6);
@@ -140,7 +149,7 @@ void Stage::ReadMappingData(std::string filename)
 				new Enemy(pos, ang, hp);
 				break;
 			}
-		} else if (com == "OBJ") {
+		} else if (sortNumber == STAGE::SORT_NUM::OBJ) {
 			VECTOR pos = VECTOR3(csv->GetFloat(line, 2), csv->GetFloat(line, 3), csv->GetFloat(line, 4));
 			VECTOR rot = VECTOR3(csv->GetFloat(line, 5), csv->GetFloat(line, 6), csv->GetFloat(line, 7));
 			VECTOR sca = VECTOR3(csv->GetFloat(line, 8), csv->GetFloat(line, 9), csv->GetFloat(line, 10));
@@ -148,7 +157,7 @@ void Stage::ReadMappingData(std::string filename)
 			sprintf_s<16>(file, "Stage_Obj%03d", csv->GetInt(line, 1));
 			StageObject* obj = new StageObject(file, pos, rot, sca);
 		}
-		else if (com == "OBJ-D") {
+		else if (sortNumber == STAGE::SORT_NUM::OBJ_D) {
 			VECTOR pos = VECTOR3(csv->GetFloat(line, 2), csv->GetFloat(line, 3), csv->GetFloat(line, 4));
 			VECTOR rot = VECTOR3(csv->GetFloat(line, 5), csv->GetFloat(line, 6), csv->GetFloat(line, 7));
 			VECTOR sca = VECTOR3(csv->GetFloat(line, 8), csv->GetFloat(line, 9), csv->GetFloat(line, 10));

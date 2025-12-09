@@ -144,6 +144,11 @@ void Enemy::SetGoPosition(VECTOR3 goPosition)
 	goPosition_ = goPosition;
 }
 
+void Enemy::AddEnemy(Enemy* e)
+{
+	enemyList_.push_back(e);
+}
+
 void Enemy::UpdateWalk()
 {
 	if (isArrive_ == false)

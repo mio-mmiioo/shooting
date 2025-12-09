@@ -99,6 +99,9 @@
     <ClCompile Include="Source\PlayScene\Map\WayInfo.cpp">
       <Filter>PlayScene\Map</Filter>
     </ClCompile>
+    <ClCompile Include="Source\PlayScene\Actor\Enemy\Soldiers.cpp">
+      <Filter>PlayScene\Actor\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Screen.h" />
@@ -207,6 +210,9 @@
       <Filter>PlayScene\Map</Filter>
     </ClInclude>
     <ClInclude Include="Source\Color.h" />
+    <ClInclude Include="Source\PlayScene\Actor\Enemy\Soldiers.h">
+      <Filter>PlayScene\Actor\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Library">

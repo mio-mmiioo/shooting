@@ -5,6 +5,7 @@ class Enemy : public Actor
 {
 public:
 	Enemy(const VECTOR3& position, float ang, int hp);
+	Enemy() {};
 	~Enemy() override;
 	void Update() override;
 	void Draw() override;
@@ -16,13 +17,26 @@ public:
 	VECTOR3 GetGoPosition() { return goPosition_; }
 	bool GetIsSetNextPos() { return IsSetNextPos_; }
 
-private:
+	void AddEnemy(Enemy* e);
+
+// Œp³æ‚Å‚àg—p‚µ‚½‚¢ŠÖ”
+protected:
 	void UpdateWalk();
 	void UpdateStay();
 	void UpdateAttack();
 
 	void DevelopmentInput(); // ŠJ”­‚Ì‚İg—p‚·‚éAƒL[“ü—Í‚Ìˆ—
 
+	// ˆÚ“®ŠÖ˜A
+	VECTOR3 goPosition_;  // Ÿ‚ÉŒü‚©‚¤êŠ
+	bool isArrive_;
+	bool IsSetNextPos_;
+
+	// UŒ‚ŠÖ˜A
+	float attackTimer_; // UŒ‚‚ÌŠÔŠu
+	int attackPower_; // UŒ‚—Í
+
+private:
 	enum E_STATE {
 		STAY,
 		WALK,
@@ -30,13 +44,8 @@ private:
 		MAX_STATE
 	};
 
-	VECTOR3 goPosition_;  // Ÿ‚ÉŒü‚©‚¤êŠ
-	bool isArrive_;
-	bool IsSetNextPos_;
 	E_STATE state_;
 	float timer_;
 
-	// UŒ‚ŠÖ˜A
-	float attackTimer_; // UŒ‚‚ÌŠÔŠu
-	int attackPower_; // UŒ‚—Í
+	std::list<Enemy*> enemyList_;
 };

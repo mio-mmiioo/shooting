@@ -51,11 +51,22 @@ public:
 	Transform GetTransform() { return transform_; }
 	void SetParent(Object3D* _parent) { parent_ = _parent; }
 	virtual bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const;
-	
+	VECTOR3 GetGravity() { return gravity_; }
+	void SetPosition(VECTOR3 newPosition) { transform_.position_ = newPosition; }
+	float GetDistanceR() { return distanceR_; }
+	void SetMove(VECTOR3 toPosition);
+
 protected:
 	int hModel_; // 本当に描画するモデル
 	int hitModel_; // 当たり判定用のモデル
 	bool isDraw_; // 描画するかどうか true→描画する
 	Transform transform_;
 	Object3D* parent_;
+
+	VECTOR3 gravity_; // 重力
+
+	// 当たり判定関連
+	float distanceR_; // 当たり判定に使用する半径
+	float moveSpeed_;
+	float rotateSpeed_; // 回転速度
 };

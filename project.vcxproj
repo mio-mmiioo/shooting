@@ -153,7 +153,6 @@
     <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\PlayScene\Actor\Actor.h" />
     <ClInclude Include="Source\PlayScene\Actor\Enemy\Enemy.h" />
-    <ClInclude Include="Source\PlayScene\Actor\Enemy\Soldiers.h" />
     <ClInclude Include="Source\PlayScene\Actor\Gun\Effect.h" />
     <ClInclude Include="Source\PlayScene\Actor\Gun\Gun.h" />
     <ClInclude Include="Source\PlayScene\Actor\HP.h" />
@@ -191,7 +190,6 @@
     <ClCompile Include="Source\BootScene.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Actor.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Enemy\Enemy.cpp" />
-    <ClCompile Include="Source\PlayScene\Actor\Enemy\Soldiers.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Gun\Effect.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Gun\Gun.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\HP.cpp" />

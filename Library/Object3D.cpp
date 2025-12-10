@@ -45,4 +45,27 @@ bool Object3D::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
 }
 
 
+void Object3D::SetMove(VECTOR3 toPosition)
+{
+	VECTOR3 toGo = toPosition - transform_.position_;
+
+	VECTOR3 front = VECTOR3(0, 0, 1) * MGetRotY(transform_.rotation_.y); // ³–Ê
+	VECTOR3 right = VECTOR3(1, 0, 0) * MGetRotY(transform_.rotation_.y); // ‰E ‰ñ“]‚ðŒ©‚é‚Ì‚ÉŽg‚Á‚Ä‚é
+
+	if (VDot(front, toGo.Normalize()) >= cos(rotateSpeed_))
+	{
+		transform_.rotation_.y = atan2f(toGo.x, toGo.z);
+	}
+	else if (VDot(right, toGo) > 0)
+	{
+		transform_.rotation_.y += rotateSpeed_;
+	}
+	else
+	{
+		transform_.rotation_.y -= rotateSpeed_;
+	}
+
+	transform_.position_ += VECTOR3(0, 0, moveSpeed_) * MGetRotY(transform_.rotation_.y);
+}
+
 

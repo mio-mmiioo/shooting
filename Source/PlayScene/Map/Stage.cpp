@@ -65,34 +65,6 @@ bool Stage::CollideLineStageObject(const VECTOR3& pos1, const VECTOR3& pos2, VEC
 	return found;
 }
 
-bool Stage::CollideLineDestructibleObject(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit) const
-{
-	bool found = false;
-	VECTOR3 now;
-	float nowVal = ((VECTOR3)(pos2 - pos1)).Size();
-	std::list<DestructibleObject*> objs = FindGameObjects<DestructibleObject>();
-	for (DestructibleObject* ob : objs)
-	{
-		VECTOR3 ret;
-		if (ob->Object3D::CollideLine(pos1, pos2, &ret))
-		{
-			found = true;
-			VECTOR3 v = pos1 - ret;
-			float len = v.Size();
-			if (len < nowVal)
-			{
-				nowVal = len;
-				now = ret;
-			}
-		}
-	}
-	if (hit != nullptr)
-	{
-		*hit = now;
-	}
-	return found;
-}
-
 void Stage::SetOnGround(VECTOR3& pos, float& time, VECTOR3 Gravity)
 {
 	VECTOR3 hit;

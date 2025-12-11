@@ -55,7 +55,6 @@ Enemy::Enemy(const VECTOR3& position, float ang, int hp)
 	MV1SetMatrix(hitModel_, transform_.GetLocalMatrix());
 	MV1RefreshCollInfo(hitModel_);
 
-	stage_ = FindGameObject<Stage>();
 	time_ = 0.0f;
 	gravity_ = ENEMY::G;
 	distanceR_ = ENEMY::DISTANCE_R;

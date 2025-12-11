@@ -20,13 +20,12 @@ public:
 	Destructible* CheckHitDestructible(VECTOR3* hit);
 
 	void AddDestructibleList(Destructible* dest);
-	std::list<Destructible*> GetDestructibleObject() { return destructibleList_; }
-
+	
 protected:
 	void SetPlayer(Destructible* player) { player_ = player; }
-	std::list<Destructible*> destructibleList_;
 
 	int hp_;		// 体力
+	int point_;		// ポイント　倒された時のポイント
 	bool isAlive_;	// 生きてる？　生きていたらtrue 死んでいたらfalse
 	float time_;	// 空中にいる時間
 	VECTOR3 gravity_; // 重力

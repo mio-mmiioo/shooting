@@ -59,7 +59,6 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	isAttack_ = false;
 
 	camera_ = FindGameObject<Camera>();
-	stage_ = FindGameObject<Stage>();
 	time_ = 0;
 
 	gravity_ = PLAYER::G;

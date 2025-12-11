@@ -13,7 +13,6 @@ public:
 	};
 
 	bool CollideLineStageObject(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit = nullptr) const; // 線でステージオブジェクトの当たり判定
-	bool CollideLineDestructibleObject(const VECTOR3& pos1, const VECTOR3& pos2, VECTOR3* hit) const; // 線で破壊可能なオブジェクトの当たり判定
 	void SetOnGround(VECTOR3& pos, float& time, VECTOR3 Gravity); // 線で当たり判定後、にposをステージに合わせてセットする
 	void CheckPush(VECTOR3& pos1, VECTOR3 pos2, float minDistance);
 

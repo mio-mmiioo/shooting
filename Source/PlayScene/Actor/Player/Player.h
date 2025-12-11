@@ -36,7 +36,6 @@ private:
 	void SetImage(image& i, std::string path);		 // 画像のセット
 	void DevelopmentInput(); // 開発時のみ使用する、キー入力の処理
 	Camera* camera_;
-	Stage* stage_;
 	Gun* gun_;
 	HP* HP_;
 

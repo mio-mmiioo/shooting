@@ -134,8 +134,3 @@ Destructible* Destructible::CheckHitDestructible(VECTOR3* hit)
 	}
 	return retDestructible;
 }
-
-void Destructible::AddDestructibleList(Destructible* dest)
-{
-	destructibleList_.push_back(dest);
-}

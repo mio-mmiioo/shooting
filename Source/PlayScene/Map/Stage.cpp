@@ -25,7 +25,7 @@ Stage::Stage(int number)
 {
 	char filename[16];
 	sprintf_s<16>(filename, "Stage%02d", number);
-	new StageObject(filename, VGet(0,0,0), VGet(0,0,0), VGet(1,1,1));
+	//new StageObject(filename, VGet(0,0,0), VGet(0,0,0), VGet(1,1,1));
 	ReadMappingData(filename);
 }
 

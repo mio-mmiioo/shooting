@@ -1,12 +1,11 @@
 #pragma once
-//#include "../Actor/Actor.h"
-#include "../Destructible.h"
+#include "../CanShoot.h"
 
-class DestructibleObject : public Destructible {
+class DestructibleObject : public CanShoot {
 public:
 	DestructibleObject(const std::string& fileName, const VECTOR3& position, const VECTOR3& rotation, const VECTOR3& scale, const int& hp);
 	~DestructibleObject();
-	void Update() override;
+	void Update();
 
 private:
 

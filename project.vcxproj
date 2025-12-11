@@ -153,7 +153,7 @@
     <ClInclude Include="Source\Color.h" />
     <ClInclude Include="Source\PlayScene\Actor\Actor.h" />
     <ClInclude Include="Source\PlayScene\Actor\Enemy\Enemy.h" />
-    <ClInclude Include="Source\PlayScene\Destructible.h" />
+    <ClInclude Include="Source\PlayScene\CanShoot.h" />
     <ClInclude Include="Source\PlayScene\Development\Axis.h" />
     <ClInclude Include="Source\PlayScene\GameMaster.h" />
     <ClInclude Include="Source\PlayScene\Gun\Effect.h" />
@@ -191,7 +191,7 @@
     <ClCompile Include="Source\BootScene.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Actor.cpp" />
     <ClCompile Include="Source\PlayScene\Actor\Enemy\Enemy.cpp" />
-    <ClCompile Include="Source\PlayScene\Destructible.cpp" />
+    <ClCompile Include="Source\PlayScene\CanShoot.cpp" />
     <ClCompile Include="Source\PlayScene\Development\Axis.cpp" />
     <ClCompile Include="Source\PlayScene\GameMaster.cpp" />
     <ClCompile Include="Source\PlayScene\Gun\Effect.cpp" />

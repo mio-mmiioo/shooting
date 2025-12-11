@@ -1,7 +1,7 @@
 #pragma once
-#include "../Destructible.h"
+#include "../CanShoot.h"
 
-class Actor : public Destructible
+class Actor : public CanShoot
 {
 public:
 	Actor();

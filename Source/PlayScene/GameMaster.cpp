@@ -9,7 +9,7 @@
 #include "../Sound.h"
 #include "../Color.h"
 #include "../../Library/Input.h"
-#include "Destructible.h"
+#include "CanShoot.h"
 #include <algorithm>
 
 namespace GameMaster {
@@ -27,17 +27,11 @@ namespace GameMaster {
 	Player* player = nullptr;
 	Stage* stage = nullptr;
 	std::list<Enemy*> enemy;
-	//std::list<Enemy*> hitEnemy;
 
-	//std::list<DestructibleObject*> destructibleObject;
-	//std::list<DestructibleObject*> hitDestructibleObject;
-
-	VECTOR3 enemyHit;
 	VECTOR3 stageHit;
-	VECTOR3 destructibleHit;
-
+	
 	// ¡‰ñ’Ç‰Á‚·‚é•”•ª
-	Destructible* destructible = nullptr;
+	CanShoot* canShoot = nullptr;
 
 }
 
@@ -65,7 +59,7 @@ void GameMaster::Update()
 		VECTOR3 hit;
 		if (player->Attack() > 0)
 		{
-			Destructible* attackedDestructibleObject = player->CheckHitDestructible(&hit);
+			CanShoot* attackedDestructibleObject = player->CheckHitCanShoot(&hit);
 			if (attackedDestructibleObject != nullptr)
 			{
 				PlaySoundMem(Sound::se["AttackEnemy"], DX_PLAYTYPE_BACK, TRUE);
@@ -182,7 +176,6 @@ bool GameMaster::IsBulletHit(VECTOR3 startPos, VECTOR3 endPos)
 		ret = false;
 	}
 
-
 	return ret;
 }
 
@@ -203,7 +196,6 @@ void GameMaster::SetIsDraw()
 	base = base + VECTOR3(0, 0, -100) * MGetRotY(player->GetTransform().rotation_.y);
 
 	DrawSphere3D(base, 100.0f, 20, Color::WHITE, Color::WHITE, TRUE);
-
 }
 
 // Œ»İ’n‚ª‚ß‚è‚ñ‚Å‚È‚¢‚©A’n–Ê‚É‘«‚ª‚Â‚¢‚Ä‚¢‚é‚©

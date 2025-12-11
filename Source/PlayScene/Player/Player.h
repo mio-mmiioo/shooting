@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../Library/Object3D.h"
 #include "../Gun/Gun.h"
-#include "../Destructible.h"
+#include "../CanShoot.h"
 
 class Camera;
 class Stage;
@@ -14,7 +14,7 @@ struct image
 	int halfHeight;
 };
 
-class Player : public Destructible
+class Player : public CanShoot
 {
 public:
 	Player(const VECTOR3& position, float ang, int hp);

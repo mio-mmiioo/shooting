@@ -29,6 +29,8 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	transform_.position_ = position;
 	hModel_ = MV1LoadModel("data/model/player02.mv1");
 	assert(hModel_ > 0);
+	hitModel_ = MV1LoadModel("data/model/player02_c.mv1");
+	assert(hitModel_ > 0);
 
 	MV1SetupCollInfo(hModel_);
 	MV1SetMatrix(hModel_, transform_.GetLocalMatrix());

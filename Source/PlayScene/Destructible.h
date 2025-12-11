@@ -10,17 +10,20 @@ public:
 	virtual void Update() override;
 	virtual void addHp(int num) { hp_ += num; } // ëÃóÕÇÃëùå∏ÇÕÇ±ÇÍÇ≈ä«óù
 
-	bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const override;
+	bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr);
 	void CheckLinePush(VECTOR3& pos1, VECTOR3 pos2, float minDistance);
 	VECTOR3 GetGravity() { return gravity_; }
 	void SetPosition(VECTOR3 newPosition) { transform_.position_ = newPosition; }
 	float GetDistanceR() { return distanceR_; }
 	void SetMove(VECTOR3 toPosition);
 
+	Destructible* CheckHitDestructible(VECTOR3* hit);
+
 	void AddDestructibleList(Destructible* dest);
 	std::list<Destructible*> GetDestructibleObject() { return destructibleList_; }
 
 protected:
+	void SetPlayer(Destructible* player) { player_ = player; }
 	std::list<Destructible*> destructibleList_;
 
 	int hp_;		// ëÃóÕ
@@ -32,4 +35,9 @@ protected:
 	float distanceR_; // ìñÇΩÇËîªíËÇ…égópÇ∑ÇÈîºåa
 	float moveSpeed_;
 	float rotateSpeed_; // âÒì]ë¨ìx
+
+private:
+	Destructible* player_;
+	VECTOR3 prevBulletStartPos_;
+	VECTOR3 prevBulletEndPos_;
 };

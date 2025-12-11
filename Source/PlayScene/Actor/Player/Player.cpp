@@ -67,6 +67,7 @@ Player::Player(const VECTOR3& position, float ang, int hp)
 	moveSpeed_ = PLAYER::MOVE_SPEED;
 	rotateSpeed_ = PLAYER::ROTATE_SPEED;
 
+	SetPlayer(this);
 	SetDrawOrder(-1);
 }
 

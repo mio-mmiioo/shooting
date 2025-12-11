@@ -32,24 +32,29 @@ void Destructible::Update()
 	}
 }
 
-bool Destructible::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit) const
+bool Destructible::CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit)
 {
+	prevBulletStartPos_ = pos1;
+	prevBulletEndPos_ = pos2;
 	bool found = false;
 	VECTOR3 now;
 	float nowVal = ((VECTOR3)(pos2 - pos1)).Size();
 	std::list<Destructible*> destructible = FindGameObjects<Destructible>();
 	for (Destructible* dest : destructible)
 	{
-		VECTOR3 ret;
-		if (dest->Object3D::CollideLine(pos1, pos2, &ret))
+		if (dest != player_)
 		{
-			found = true;
-			VECTOR3 v = pos1 - ret;
-			float len = v.Size();
-			if (len < nowVal)
+			VECTOR3 ret;
+			if (dest->Object3D::CollideLine(pos1, pos2, &ret))
 			{
-				nowVal = len;
-				now = ret;
+				found = true;
+				VECTOR3 v = pos1 - ret;
+				float len = v.Size();
+				if (len < nowVal)
+				{
+					nowVal = len;
+					now = ret;
+				}
 			}
 		}
 	}
@@ -95,6 +100,39 @@ void Destructible::SetMove(VECTOR3 toPosition)
 	}
 
 	transform_.position_ += VECTOR3(0, 0, moveSpeed_) * MGetRotY(transform_.rotation_.y);
+}
+
+Destructible* Destructible::CheckHitDestructible(VECTOR3* hit)
+{
+	Destructible* retDestructible = nullptr;
+	bool found = false;
+	VECTOR3 now;
+	float nowVal = ((VECTOR3)(prevBulletEndPos_ - prevBulletStartPos_)).Size();
+	std::list<Destructible*> destructible = FindGameObjects<Destructible>();
+	for (Destructible* dest : destructible)
+	{
+		if (dest != player_)
+		{
+			VECTOR3 ret;
+			if (dest->Object3D::CollideLine(prevBulletStartPos_, prevBulletEndPos_, &ret))
+			{
+				found = true;
+				VECTOR3 v = prevBulletStartPos_ - ret;
+				float len = v.Size();
+				if (len < nowVal)
+				{
+					nowVal = len;
+					now = ret;
+					retDestructible = dest;
+				}
+			}
+		}
+	}
+	if (hit != nullptr)
+	{
+		*hit = now;
+	}
+	return retDestructible;
 }
 
 void Destructible::AddDestructibleList(Destructible* dest)

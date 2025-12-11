@@ -9,20 +9,16 @@
 #include "../Sound.h"
 #include "../Color.h"
 #include "../../Library/Input.h"
-
+#include "Destructible.h"
 #include <algorithm>
 
 namespace GameMaster {
 	void SetPlayerPos();
 	void SetEnemyPos();
 
-	// 銃弾の当たり判定関連
-	bool IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos); // 銃弾が敵に当たるか あたるならtrue 今プレイヤーで呼び出してるのは消す
-	bool IsBulletHitStageObject(VECTOR3& pos1, const VECTOR3& pos2);
-	bool IsBulletHitDestructibleObject(VECTOR3& pos1, const VECTOR3& pos2);
-
-	// 描画フラグのセット
-	void SetIsDraw();
+	bool IsBulletHitStageObject(VECTOR3& pos1, const VECTOR3& pos2); // 銃弾の当たり判定
+	
+	void SetIsDraw(); // 描画フラグのセット
 
 	// 定数
 	const float CHECK_FRONT_LENGTH = 100.0f;
@@ -33,12 +29,16 @@ namespace GameMaster {
 	std::list<Enemy*> enemy;
 	std::list<Enemy*> hitEnemy;
 
-	std::list<DestructibleObject*> destructibleObject;
-	std::list<DestructibleObject*> hitDestructibleObject;
+	//std::list<DestructibleObject*> destructibleObject;
+	//std::list<DestructibleObject*> hitDestructibleObject;
 
 	VECTOR3 enemyHit;
 	VECTOR3 stageHit;
 	VECTOR3 destructibleHit;
+
+	// 今回追加する部分
+	Destructible* destructible = nullptr;
+
 }
 
 void GameMaster::Init()
@@ -62,73 +62,20 @@ void GameMaster::Update()
 {
 	// 銃弾を当てる処理
 	{
-		if (hitEnemy.size() > 0)
+		VECTOR3 hit;
+		if (player->Attack() > 0)
 		{
-			float distance = ((VECTOR3)(player->GetTransform().position_ - stageHit)).Size();
-			Enemy* attackedEnemy = nullptr;
-			for (Enemy* enemy : hitEnemy)
+			Destructible* attackedDestructibleObject = player->CheckHitDestructible(&hit);
+			if (attackedDestructibleObject != nullptr)
 			{
-				VECTOR3 ePos = enemy->GetTransform().position_;
-				float d = ((VECTOR3)(player->GetTransform().position_ - ePos)).Size();
-
-				if (player->Attack() > 0) // 攻撃が0より大きい→攻撃してる場合
-				{
-					if (distance > d)
-					{
-						distance = d;
-						attackedEnemy = enemy;
-					}
-				}
+				PlaySoundMem(Sound::se["AttackEnemy"], DX_PLAYTYPE_BACK, TRUE);
+				attackedDestructibleObject->addHp(-player->Attack());
 			}
-
-			if (player->Attack() > 0)
-			{
-				if (attackedEnemy != nullptr) // ポインターが敵にあっていない場合、attackedEnemyがnullptrになっている
-				{
-					PlaySoundMem(Sound::se["AttackEnemy"], DX_PLAYTYPE_BACK, TRUE);
-					attackedEnemy->addHp(-player->Attack());
-				}
-			}
-
-			hitEnemy.clear();
-		}
-
-		if (hitDestructibleObject.size() > 0)
-		{
-			float distance = ((VECTOR3)(player->GetTransform().position_ - stageHit)).Size();
-			DestructibleObject* attackedDestructibleObject = nullptr;
-			for (DestructibleObject* dObj : hitDestructibleObject)
-			{
-				VECTOR3 ePos = dObj->GetTransform().position_;
-				float d = ((VECTOR3)(player->GetTransform().position_ - ePos)).Size();
-
-				if (player->Attack() > 0) // 攻撃が0より大きい→攻撃してる場合
-				{
-					if (distance > d)
-					{
-						distance = d;
-						attackedDestructibleObject = dObj;
-					}
-				}
-			}
-
-			if (player->Attack() > 0)
-			{
-				if (attackedDestructibleObject != nullptr)
-				{
-					PlaySoundMem(Sound::se["AttackEnemy"], DX_PLAYTYPE_BACK, TRUE);
-					attackedDestructibleObject->addHp(-player->Attack());
-				}
-			}
-
-			hitDestructibleObject.clear();
 		}
 	}
 
 	player = FindGameObject<Player>();
 	enemy = FindGameObjects<Enemy>();
-	destructibleObject = FindGameObjects<DestructibleObject>();
-
 	
 	SetPlayerPos(); // 条件を満たさなきゃセットされない
 	SetEnemyPos();
@@ -220,58 +167,23 @@ void GameMaster::PlayerDeath()
 bool GameMaster::IsBulletHit(VECTOR3 startPos, VECTOR3 endPos)
 {
 	bool ret = false;
-	IsBulletHitStageObject(startPos, endPos);
-	if (IsBulletHitEnemy(startPos, endPos) == true)
-	{
-		ret = true;
-	}
-
-	if (IsBulletHitDestructibleObject(startPos, endPos) == true)
+	VECTOR3 hit;
+	IsBulletHitStageObject(startPos, endPos); // 破壊できないオブジェクトの当たり判定
+	if (player->CollideLine(startPos, endPos, &hit) == true) // 破壊可能オブジェクトの当たり判定
 	{
 		ret = true;
 	}
 	
 	// 一番プレイヤーに近いオブジェクトを探す
+	float stageDistance = VSize(player->GetTransform().position_ - stageHit);
+	float destructibleDistance = VSize(player->GetTransform().position_ - hit);
+	if (destructibleDistance > stageDistance)
 	{
-		float enemyDistance = VSize(player->GetTransform().position_ - enemyHit);
-		float stageDistance = VSize(player->GetTransform().position_ - stageHit);
-		float destructibleDistance = VSize(player->GetTransform().position_ - destructibleHit);
-		float minDistance = min(enemyDistance, destructibleDistance);
-		if (minDistance == enemyDistance)
-		{
-			hitDestructibleObject.clear();
-		}
-		else if (minDistance == destructibleDistance)
-		{
-			hitEnemy.clear();
-		}
-		minDistance = min(minDistance, stageDistance);
-		if (minDistance == stageDistance)
-		{
-			hitDestructibleObject.clear();
-			hitEnemy.clear();
-			ret = false;
-		}
+		ret = false;
 	}
+
 
 	return ret;
-}
-
-bool GameMaster::IsBulletHitEnemy(VECTOR3 startPos, VECTOR3 endPos)
-{
-	for (Enemy* e : enemy) // 銃弾が当たる場所にいる敵のリストを作成する
-	{
-		if (e->Object3D::CollideLine(startPos, endPos, &enemyHit))
-		{
-			hitEnemy.push_back(e);
-		}
-	}
-
-	if (hitEnemy.size() > 0) // 1以上なら当たる
-	{
-		return true;
-	}
-	return false;
 }
 
 bool GameMaster::IsBulletHitStageObject(VECTOR3& pos1, const VECTOR3& pos2)
@@ -281,24 +193,6 @@ bool GameMaster::IsBulletHitStageObject(VECTOR3& pos1, const VECTOR3& pos2)
 		return true;
 	}
 	stageHit = VECTOR3(10000.0f, 10000.0f, 10000.0f); // ヒットするものが見つからなかった場合 大きい値を代入する
-
-	return false;
-}
-
-bool GameMaster::IsBulletHitDestructibleObject(VECTOR3& pos1, const VECTOR3& pos2)
-{
-	for (DestructibleObject* dObj : destructibleObject) // 銃弾が当たる場所にいる敵のリストを作成する
-	{
-		if (dObj->Object3D::CollideLine(pos1, pos2, &destructibleHit))
-		{
-			hitDestructibleObject.push_back(dObj);
-		}
-	}
-
-	if (hitDestructibleObject.size() > 0) // 1以上なら当たる
-	{
-		return true;
-	}
 	return false;
 }
 

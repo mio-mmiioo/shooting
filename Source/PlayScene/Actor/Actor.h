@@ -1,9 +1,10 @@
 #pragma once
-#include "../../../Library/Object3D.h"
+//#include "../../../Library/Object3D.h"
+#include "../Destructible.h"
 
 class Stage;
 
-class Actor : public Object3D
+class Actor : public Destructible
 {
 public:
 	Actor();
@@ -13,8 +14,8 @@ public:
 	virtual int Attack() { return 0; }			// çUåÇÇÇ∑ÇÈ
 	virtual void addHp(int num) { hp_ += num; } // ëÃóÕÇÃëùå∏ÇÕÇ±ÇÍÇ≈ä«óù
 
-	bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const override;
-	void CheckLinePush(VECTOR3& pos1, VECTOR3 pos2, float minDistance);
+	//bool CollideLine(VECTOR3 pos1, VECTOR3 pos2, VECTOR3* hit = nullptr) const override;
+	//void CheckLinePush(VECTOR3& pos1, VECTOR3 pos2, float minDistance);
 
 
 

@@ -2,6 +2,7 @@
 #include "../../../../Library/Object3D.h"
 #include "../Actor.h"
 #include "../Gun/Gun.h"
+#include "../../Destructible.h"
 
 class Camera;
 class Stage;
@@ -14,7 +15,7 @@ struct image
 	int halfHeight;
 };
 
-class Player : public Object3D
+class Player : public Destructible
 {
 public:
 	Player(const VECTOR3& position, float ang, int hp);

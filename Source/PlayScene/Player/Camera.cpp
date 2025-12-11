@@ -1,6 +1,6 @@
 #include "Camera.h"
-#include "../../../../Library/Input.h"
-#include "../../GameMaster.h"
+#include "../../../Library/Input.h"
+#include "../GameMaster.h"
 
 namespace {
 	const float CAMERA_MOVE_SPEED = 5.0f;

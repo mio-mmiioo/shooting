@@ -1,7 +1,7 @@
 #include "Stage.h"
 #include <assert.h>
 #include "../../../Library/CsvReader.h"
-#include "../Actor/Player/Player.h"
+#include "../Player/Player.h"
 #include "../Actor/Enemy/Enemy.h"
 #include "StageObject.h"
 #include "DestructibleObject.h"

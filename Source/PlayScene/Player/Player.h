@@ -1,8 +1,7 @@
 #pragma once
-#include "../../../../Library/Object3D.h"
-#include "../Actor.h"
+#include "../../../Library/Object3D.h"
 #include "../Gun/Gun.h"
-#include "../../Destructible.h"
+#include "../Destructible.h"
 
 class Camera;
 class Stage;

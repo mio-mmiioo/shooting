@@ -1,5 +1,5 @@
 #pragma once
-#include "../../../../Library/Object3D.h"
+#include "../../../Library/Object3D.h"
 
 enum CAM_STATE {
 	FIRST,		// ˆêlÌ‹“_

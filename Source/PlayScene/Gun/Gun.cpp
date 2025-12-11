@@ -1,7 +1,7 @@
 #include "Gun.h"
 #include <assert.h>
-#include "../../../Sound.h"
-#include "../../../Color.h"
+#include "../../Sound.h"
+#include "../../Color.h"
 
 namespace GUN
 {

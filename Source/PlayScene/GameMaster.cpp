@@ -1,7 +1,7 @@
 #include "GameMaster.h"
 #include "../../Library/Object3D.h"
 #include "Actor/Enemy/Enemy.h"
-#include "Actor/Player/Player.h"
+#include "Player/Player.h"
 #include "Map/Area.h"
 #include "Map/Stage.h"
 #include "Map/DestructibleObject.h"
@@ -27,7 +27,7 @@ namespace GameMaster {
 	Player* player = nullptr;
 	Stage* stage = nullptr;
 	std::list<Enemy*> enemy;
-	std::list<Enemy*> hitEnemy;
+	//std::list<Enemy*> hitEnemy;
 
 	//std::list<DestructibleObject*> destructibleObject;
 	//std::list<DestructibleObject*> hitDestructibleObject;

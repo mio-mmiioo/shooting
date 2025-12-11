@@ -1,5 +1,5 @@
 #include "Effect.h"
-#include "../../../Color.h"
+#include "../../Color.h"
 
 Effect::Effect(VECTOR3 effectPos, GUN::TYPE type)
 {

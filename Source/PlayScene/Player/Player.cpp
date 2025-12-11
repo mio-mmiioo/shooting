@@ -1,14 +1,14 @@
 #include "Player.h"
 #include "Camera.h"
 #include <assert.h>
-#include "../../Map/Stage.h"
-#include "../../../../Library/Input.h"
+#include "../Map/Stage.h"
+#include "../../../Library/Input.h"
 #include "../Gun/Gun.h"
-#include "../HP.h"
+#include "HP.h"
 #include "../Gun/Effect.h"
-#include "../../GameMaster.h"
-#include "../../../Sound.h"
-#include "../../../Color.h"
+#include "../GameMaster.h"
+#include "../../Sound.h"
+#include "../../Color.h"
 
 namespace PLAYER
 {
